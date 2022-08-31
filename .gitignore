@@ -31,11 +31,10 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-ios*
-.metadata
-analysis_options.yaml
-android*
-pubspec.lock
+
+
+
+
 
 
 # Web related
@@ -53,4 +52,3 @@ app.*.map.json
 /android/app/release
 
 
-imagens*
