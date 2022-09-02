@@ -216,7 +216,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
       phoneNumber: //_controllerPhoneNumber.text.toString(),
       //"+55 ${_controllerPhoneNumber.text.toString()}",
       //
-      '+55 48 9 8830-2492',
+      "+55 48 9 8830-2492",
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _signInWithCredential(credential);
       },
