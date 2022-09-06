@@ -3,6 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 mixin ErrorFirebaseAuth {
   code(FirebaseAuthException e) {
     switch (e.code) {
+      case "quotaExceeded":
+        print('quotaExceeded.');
+        break;
       case "invalid-phone-number":
         print('The provided phone number is not valid.');
         break;
@@ -23,6 +26,9 @@ mixin ErrorFirebaseAuth {
         break;
       case 'email-already-in-use':
         print("E-mail já cadastrado!");
+        break;
+      case 'invalid-verification-id':
+        print("invalid-verification-id");
         break;
       default:
         print("Falha ao logar! Code: \"${e.code}\" - Menssage: \"${e.message}\"");

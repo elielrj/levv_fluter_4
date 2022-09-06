@@ -4,16 +4,12 @@ import 'package:intl/intl.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/carro.dart';
-import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/usuario/perfil/enviar/entregar/entregar.dart';
-import 'package:levv4/model/dao/meio_de_transporte/a_pe_dao.dart';
-import 'package:levv4/model/dao/meio_de_transporte/bike_dao.dart';
-import 'package:levv4/model/dao/meio_de_transporte/carro_dao.dart';
-import 'package:levv4/model/dao/meio_de_transporte/moto_dao.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 import 'package:levv4/model/frontend/colors_levv.dart';
 import 'package:levv4/model/frontend/image_levv.dart';
+import 'package:levv4/model/frontend/mask/masks_levv.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 
 import '../../../model/bo/arquivo/arquivo.dart';
@@ -36,8 +32,8 @@ class TelaCadastrarEntregador extends StatefulWidget {
 class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
   final controllerNome = TextEditingController();
   final controllerSobrenome = TextEditingController();
-  final controllerCpf = TextEditingController();
-  final controllerNascimento = TextEditingController();
+  final controllerMaskCpf = MasksLevv.cpfMask;
+  final controllerMaskNascimento = MasksLevv.dateMask;
   final documentoDeIdentificacao = Arquivo();
 
   int valueMeioDeTransporte = 0;
@@ -51,7 +47,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
   final logradouro = TextEditingController();
   final numero = TextEditingController();
   final complemento = TextEditingController();
-  final cep = TextEditingController();
+  final cepMask = MasksLevv.cepMask;
   final bairro = TextEditingController();
   final cidade = TextEditingController();
   final estado = TextEditingController();
@@ -64,8 +60,9 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     super.initState();
     controllerNome.addListener(() => setState(() {}));
     controllerSobrenome.addListener(() => setState(() {}));
-    controllerCpf.addListener(() => setState(() {}));
-    controllerNascimento.addListener(() => setState(() {}));
+    controllerMaskCpf.textEditingController.addListener(() => setState(() {}));
+    controllerMaskNascimento.textEditingController
+        .addListener(() => setState(() {}));
 
     controllerModelo.addListener(() => setState(() {}));
     controllerMarca.addListener(() => setState(() {}));
@@ -76,7 +73,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     logradouro.addListener(() => setState(() {}));
     numero.addListener(() => setState(() {}));
     complemento.addListener(() => setState(() {}));
-    cep.addListener(() => setState(() {}));
+    cepMask.textEditingController.addListener(() => setState(() {}));
     cidade.addListener(() => setState(() {}));
     estado.addListener(() => setState(() {}));
     latitude.addListener(() => setState(() {}));
@@ -188,12 +185,16 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                     ),
                     TextField(
                       onTap: () {},
-                      controller: controllerCpf,
+                      controller: controllerMaskCpf.textEditingController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        counterText: controllerCpf.text.length <= 1
-                            ? "${controllerCpf.text.length} caracter"
-                            : "${controllerCpf.text.length} caracteres",
+                        //todo resolver contagem
+                        counterText: controllerMaskCpf.formatter
+                                    .getUnmaskedText()
+                                    .length <=
+                                1
+                            ? "${controllerMaskCpf.formatter.getUnmaskedText().length} caracter"
+                            : "${controllerMaskCpf.formatter.getUnmaskedText().length} caracteres",
                         labelText: "CPF",
                         labelStyle: const TextStyle(
                             backgroundColor: Colors.white, color: Colors.black),
@@ -207,33 +208,45 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                                 color: Colors.green, width: 2)),
                         prefixIcon: Icon(
                           Icons.account_circle,
-                          color: (controllerCpf.text.length < 3
+                          color: (controllerMaskCpf.formatter
+                                      .getUnmaskedText()
+                                      .length <
+                                  3
                               ? Colors.black
                               : Colors.green),
                         ),
-                        suffixIcon: controllerCpf.text.isEmpty
+                        suffixIcon: controllerMaskCpf.formatter
+                                .getUnmaskedText()
+                                .isEmpty
                             ? Container(
                                 width: 0,
                               )
                             : IconButton(
                                 icon:
                                     const Icon(Icons.close, color: Colors.red),
-                                onPressed: () => controllerCpf.clear(),
+                                onPressed: () => controllerMaskCpf
+                                    .textEditingController
+                                    .clear(),
                               ),
                         fillColor: Colors.white,
                         filled: true,
                       ),
-                      maxLength: 12,
+                      inputFormatters: [controllerMaskCpf.formatter],
+                      maxLength: 14,
                       style: const TextStyle(fontSize: 18),
                     ),
                     TextField(
                       onTap: () {},
-                      controller: controllerNascimento,
+                      controller:
+                          controllerMaskNascimento.textEditingController,
                       keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
-                        counterText: controllerNascimento.text.length <= 1
-                            ? "${controllerNascimento.text.length} caracter"
-                            : "${controllerNascimento.text.length} caracteres",
+                        counterText: controllerMaskNascimento.formatter
+                                    .getUnmaskedText()
+                                    .length <=
+                                1
+                            ? "${controllerMaskNascimento.formatter.getUnmaskedText().length} caracter"
+                            : "${controllerMaskNascimento.formatter.getUnmaskedText().length} caracteres",
                         labelText: "Data de nascimento",
                         labelStyle: const TextStyle(
                             backgroundColor: Colors.white, color: Colors.black),
@@ -247,22 +260,30 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                                 color: Colors.green, width: 2)),
                         prefixIcon: Icon(
                           Icons.account_circle,
-                          color: (controllerNascimento.text.length < 3
+                          color: (controllerMaskNascimento.formatter
+                                      .getUnmaskedText()
+                                      .length <
+                                  3
                               ? Colors.black
                               : Colors.green),
                         ),
-                        suffixIcon: controllerNascimento.text.isEmpty
+                        suffixIcon: controllerMaskNascimento.formatter
+                                .getUnmaskedText()
+                                .isEmpty
                             ? Container(
                                 width: 0,
                               )
                             : IconButton(
                                 icon:
                                     const Icon(Icons.close, color: Colors.red),
-                                onPressed: () => controllerNascimento.clear(),
+                                onPressed: () => controllerMaskNascimento
+                                    .textEditingController
+                                    .clear(),
                               ),
                         fillColor: Colors.white,
                         filled: true,
                       ),
+                      inputFormatters: [controllerMaskNascimento.formatter],
                       maxLength: 10,
                       style: const TextStyle(fontSize: 18),
                     ),
@@ -894,12 +915,15 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                     ),
                     TextField(
                       onTap: () {},
-                      controller: cep,
+                      controller: cepMask.textEditingController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        counterText: cep.text.length <= 1
-                            ? "${cep.text.length} caracter"
-                            : "${cep.text.length} caracteres",
+                        counterText: cepMask.formatter
+                                    .getUnmaskedText()
+                                    .length <=
+                                1
+                            ? "${cepMask.formatter.getUnmaskedText().length} caracter"
+                            : "${cepMask.formatter.getUnmaskedText().length} caracteres",
                         labelText: "CEP",
                         labelStyle: const TextStyle(
                             backgroundColor: Colors.white, color: Colors.black),
@@ -913,22 +937,24 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                                 color: Colors.green, width: 2)),
                         prefixIcon: Icon(
                           Icons.account_circle,
-                          color: (cep.text.length < 9
+                          color: (cepMask.formatter.getUnmaskedText().length == 9
                               ? Colors.black
                               : Colors.green),
                         ),
-                        suffixIcon: cep.text.isEmpty
+                        suffixIcon: cepMask.formatter.getUnmaskedText().isEmpty
                             ? Container(
                                 width: 0,
                               )
                             : IconButton(
                                 icon:
                                     const Icon(Icons.close, color: Colors.red),
-                                onPressed: () => cep.clear(),
+                                onPressed: () =>
+                                    cepMask.textEditingController.clear(),
                               ),
                         fillColor: Colors.white,
                         filled: true,
                       ),
+                      inputFormatters: [cepMask.formatter],
                       maxLength: 9,
                       style: const TextStyle(fontSize: 18),
                     ),
@@ -1271,8 +1297,8 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
   _limparCampos() {
     controllerNome.clear();
     controllerSobrenome.clear();
-    controllerCpf.clear();
-    controllerNascimento.clear();
+    controllerMaskCpf.textEditingController.clear();
+    controllerMaskNascimento.textEditingController.clear();
 
     documentoDeIdentificacao.image = null;
 
@@ -1289,7 +1315,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     logradouro.clear();
     numero.clear();
     complemento.clear();
-    cep.clear();
+    cepMask.textEditingController.clear();
     bairro.clear();
     cidade.clear();
     estado.clear();
@@ -1318,8 +1344,9 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
       Entregar entregar = Entregar(
         nome: controllerNome.text,
         sobrenome: controllerSobrenome.text,
-        cpf: controllerCpf.text,
-        nascimento: DateFormat('dd/MM/yyyy').parse(controllerNascimento.text),
+        cpf: controllerMaskCpf.textEditingController.text,
+        nascimento: DateFormat('dd/MM/yyyy')
+            .parse(controllerMaskNascimento.textEditingController.text),
         enderecosFavoritos: listaDeEnderecos,
         casa: casa,
         trabalho: Endereco(),
@@ -1367,7 +1394,6 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
 
         //6 - navegar para tela Entregar
         _navegarParaTelaEntregar();
-
       } catch (onError) {
         _exibirMensagemDeErroAoCadastrar();
       }
@@ -1404,7 +1430,6 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     } else {
       _exibirMensagemDeCampoVazio();
       return false;
-      print("erro em verificar nome");
     }
   }
 
@@ -1413,13 +1438,12 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
       return _verificarCpf();
     } else {
       _exibirMensagemDeCampoVazio();
-      print("erro em verificar sobrenome");
       return false;
     }
   }
 
   bool _verificarCpf() {
-    if (controllerCpf.text.length == 12) {
+    if (controllerMaskCpf.formatter.getUnmaskedText().length == 11) {
       return _verificarNascimento();
     } else {
       _exibirMensagemDeCampoVazio();
@@ -1429,11 +1453,10 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
   }
 
   bool _verificarNascimento() {
-    if (controllerNascimento.text.length == 10) {
+    if (controllerMaskNascimento.formatter.getUnmaskedText().length == 8) {
       return _verificarDocumentoDeIdentificacao();
     } else {
       _exibirMensagemDeCampoVazio();
-      print("erro em verificar `nascimento`");
       return false;
     }
   }
@@ -1443,7 +1466,6 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
       return _verificarMeioDeTransporte();
     } else {
       _exibirMensagemDeFaltaDeUploadDeDocumento();
-      print("erro em verificar doc de idt");
       return false;
     }
   }
@@ -1475,7 +1497,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     if (logradouro.text.length > 3 &&
         numero.text.length > 3 &&
         complemento.text.length > 3 &&
-        cep.text.length == 9 &&
+        cepMask.formatter.getUnmaskedText().length == 8 &&
         latitude.text.length > 1 &&
         longitude.text.length > 1 &&
         bairro.text.length > 3 &&

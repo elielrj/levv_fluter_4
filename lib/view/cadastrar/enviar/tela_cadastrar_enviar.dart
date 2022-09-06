@@ -3,8 +3,8 @@ import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
 import 'package:levv4/model/dao/usuario/enviar_dao.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
+import 'package:levv4/model/frontend/mask/masks_levv.dart';
 
-import 'package:levv4/view/cadastrar/enviar/cadastro_de_perfil_enviar.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 
 import '../../../model/bo/arquivo/arquivo.dart';
@@ -24,18 +24,16 @@ class TelaCadastrarCliente extends StatefulWidget {
 }
 
 class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
-
   final controllerNome = TextEditingController();
   final controllerSobrenome = TextEditingController();
-  final controllerCpf = TextEditingController();
-  final controllerNascimento = TextEditingController();
+  final controllerMaskCpf = MasksLevv.cpfMask;
+  final controllerMaskNascimento = MasksLevv.dateMask;
   final documentoDeIdentificacao = Arquivo();
 
   String labelTextNome = "Nome";
   String labelTextSobrenome = "Sobrenome";
   String labelTextCpf = "Cpf";
   String labelTextNascimento = "Data de Nascimento";
-
   bool documento = false;
 
   @override
@@ -43,39 +41,41 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
     super.initState();
     controllerNome.addListener(() => setState(() {}));
     controllerSobrenome.addListener(() => setState(() {}));
-    controllerCpf.addListener(() => setState(() {}));
-    controllerNascimento.addListener(() => setState(() {}));
+    controllerMaskCpf.textEditingController.addListener(() => setState(() {}));
+    controllerMaskNascimento.textEditingController.addListener(() => setState(() {}));
+    documento;
+    widget.usuario;
   }
 
   _limparCampos() {
     controllerNome.clear();
     controllerSobrenome.clear();
-    controllerCpf.clear();
-    controllerNascimento.clear();
+    controllerMaskCpf.textEditingController.clear();
+    controllerMaskNascimento.textEditingController.clear();
 
     documento = false;
+
   }
 
   _cadastrarPerfilEnviar() async {
     if (controllerNome.text.isNotEmpty &&
         controllerSobrenome.text.isNotEmpty &&
-        controllerCpf.text.isNotEmpty &&
-        controllerNascimento.text.isNotEmpty) {
+        controllerMaskCpf.textEditingController.text.isNotEmpty &&
+        controllerMaskNascimento.textEditingController.text.isNotEmpty) {
       if (!documento) {
         _exibirMensagemDeFaltaDeUploadDeDocumento();
       } else {
-
         Enviar enviar = Enviar(
           nome: controllerNome.text,
           sobrenome: controllerSobrenome.text,
-          cpf: controllerCpf.text.toString(),
-          nascimento: DateFormat('dd/MM/yyyy').parse(controllerNascimento.text).toLocal(),
+          cpf: controllerMaskCpf.textEditingController.text.toString(),
+          nascimento: DateFormat('dd/MM/yyyy')
+              .parse(controllerMaskNascimento.textEditingController.text)
+              .toLocal(),
           documentoDeIdentificacao: true,
         );
 
         try {
-
-
           final arquivoDAO = ArquivoDAO();
           arquivoDAO.upload(documentoDeIdentificacao);
 
@@ -98,7 +98,8 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
   }
 
   _navegarParaTelaEnviar(Usuario usuario) {
-    Navigator.push(context, //pushReplacement?? ou só push?
+    Navigator.pushReplacement(
+        context, //pushReplacement?? ou só push?
         MaterialPageRoute(builder: (context) => TelaEnviar(usuario: usuario)));
   }
 
@@ -145,6 +146,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cadastrar perfil: Enviar"),
@@ -158,22 +160,161 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CadastroDePerfilEnviar(
-                    controller: controllerNome,
+                TextField(
+                  onTap: () {},
+                  controller: controllerNome,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(
+                    counterText: controllerNome.text.length <= 1
+                        ? "${controllerNome.text.length} caracter"
+                        : "${controllerNome.text.length} caracteres",
                     labelText: labelTextNome,
-                    keyboardType: TextInputType.name),
-                CadastroDePerfilEnviar(
-                    controller: controllerSobrenome,
+                    labelStyle: const TextStyle(
+                        backgroundColor: Colors.white, color: Colors.black),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.black12, width: 2)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.green, width: 2)),
+                    prefixIcon: const Icon(
+                      Icons.account_circle,
+                      color: Colors.black,
+                    ),
+                    suffixIcon: controllerNome.text.isEmpty
+                        ? Container(
+                            width: 0,
+                          )
+                        : IconButton(
+                            icon: const Icon(Icons.close, color: Colors.red),
+                            onPressed: () => controllerNome.clear(),
+                          ),
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  maxLength: 100,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                TextField(
+                  onTap: () {},
+                  controller: controllerSobrenome,
+                  keyboardType: TextInputType.name,
+                  decoration: InputDecoration(
+                    counterText: controllerSobrenome.text.length <= 1
+                        ? "${controllerSobrenome.text.length} caracter"
+                        : "${controllerSobrenome.text.length} caracteres",
                     labelText: labelTextSobrenome,
-                    keyboardType: TextInputType.name),
-                CadastroDePerfilEnviar(
-                    controller: controllerCpf,
+                    labelStyle: const TextStyle(
+                        backgroundColor: Colors.white, color: Colors.black),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.black12, width: 2)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.green, width: 2)),
+                    prefixIcon: const Icon(
+                      Icons.account_circle,
+                      color: Colors.black,
+                    ),
+                    suffixIcon: controllerSobrenome.text.isEmpty
+                        ? Container(
+                            width: 0,
+                          )
+                        : IconButton(
+                            icon: const Icon(Icons.close, color: Colors.red),
+                            onPressed: () => controllerSobrenome.clear(),
+                          ),
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  maxLength: 100,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                TextField(
+                  onTap: () {},
+                  controller: controllerMaskCpf.textEditingController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    counterText: controllerMaskCpf
+                                .formatter.getUnmaskedText().length <=
+                            1
+                        ? "${controllerMaskCpf.formatter.getUnmaskedText().length} caracter"
+                        : "${controllerMaskCpf.formatter.getUnmaskedText().length} caracteres",
                     labelText: labelTextCpf,
-                    keyboardType: TextInputType.number),
-                CadastroDePerfilEnviar(
-                    controller: controllerNascimento,
+                    labelStyle: const TextStyle(
+                        backgroundColor: Colors.white, color: Colors.black),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.black12, width: 2)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.green, width: 2)),
+                    prefixIcon: const Icon(
+                      Icons.account_circle,
+                      color: Colors.black,
+                    ),
+                    suffixIcon: controllerMaskCpf
+                            .textEditingController.text.isEmpty
+                        ? Container(
+                            width: 0,
+                          )
+                        : IconButton(
+                            icon: const Icon(Icons.close, color: Colors.red),
+                            onPressed: () =>
+                                controllerMaskCpf.textEditingController.clear(),
+                          ),
+
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  inputFormatters: [controllerMaskCpf.formatter],
+                  maxLength: 100,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                TextField(
+                  onTap: () {},
+                  controller: controllerMaskNascimento.textEditingController,
+                  keyboardType: TextInputType.datetime,
+                  decoration: InputDecoration(
+                    counterText: controllerMaskNascimento.formatter.getUnmaskedText().length <= 1
+                        ? "${controllerMaskNascimento.formatter.getUnmaskedText().length} caracter"
+                        : "${controllerMaskNascimento.formatter.getUnmaskedText().length} caracteres",
                     labelText: labelTextNascimento,
-                    keyboardType: TextInputType.datetime),
+                    labelStyle: const TextStyle(
+                        backgroundColor: Colors.white, color: Colors.black),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.black12, width: 2)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.green, width: 2)),
+                    prefixIcon: const Icon(
+                      Icons.account_circle,
+                      color: Colors.black,
+                    ),
+                    suffixIcon: controllerMaskNascimento.textEditingController.text.isEmpty
+                        ? Container(
+                            width: 0,
+                          )
+                        : IconButton(
+                            icon: const Icon(Icons.close, color: Colors.red),
+                            onPressed: () => controllerMaskNascimento.textEditingController.clear(),
+                          ),
+                    fillColor: Colors.white,
+                    filled: true,
+                  ),
+                  inputFormatters: [controllerMaskNascimento.formatter],
+                  maxLength: 100,
+                  style: const TextStyle(fontSize: 18),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8),
                   child: Row(
@@ -195,18 +336,18 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                             GestureDetector(
                               onTap: () {
                                 documentoDeIdentificacao.getImageCamera();
-                                documentoDeIdentificacao.descricao = "documentoDeIdentificacao";
-
-                                if (documentoDeIdentificacao.image != null) {
-                                  setState(() {
-                                    documento = true;
-                                  });
+                                documentoDeIdentificacao.descricao =
+                                    "documentoDeIdentificacao";
+                                if(documentoDeIdentificacao.image != null){
+                                  documento = true;
                                 }
                               },
                               child: Icon(Icons.add_a_photo,
                                   size: 30,
                                   color:
-                                      (documento ? Colors.green : Colors.red)),
+                                      (documento
+                                          ? Colors.green
+                                          : Colors.red)),
                             ),
                             const SizedBox(
                               width: 20,
@@ -214,12 +355,10 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                             GestureDetector(
                                 onTap: () {
                                   documentoDeIdentificacao.getImageGallery();
-                                  documentoDeIdentificacao.descricao = "documentoDeIdentificacao";
-
-                                  if (documentoDeIdentificacao.image != null) {
-                                    setState(() {
-                                      documento = true;
-                                    });
+                                  documentoDeIdentificacao.descricao =
+                                      "documentoDeIdentificacao";
+                                  if(documentoDeIdentificacao.image != null){
+                                    documento = true;
                                   }
                                 },
                                 child: Icon(Icons.file_upload,

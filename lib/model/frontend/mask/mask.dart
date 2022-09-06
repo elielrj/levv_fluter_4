@@ -14,4 +14,6 @@ class Mask {
         this.validator,
         required this.hint,
         required this.textInputType});
+
+
 }
