@@ -2,6 +2,7 @@ import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/bo/meio_de_transporte/motorizado.dart';
 
 class Moto extends Motorizado implements MeioDeTransporte{
+  static const int VALUE = 2;
   String? nome= "Moto";
   double? peso= 20;
   double? volume= 1600;

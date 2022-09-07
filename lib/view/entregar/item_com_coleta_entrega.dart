@@ -4,10 +4,14 @@ import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import '../../model/frontend/text_levv.dart';
 
 class ItemComColetaEntrega extends StatefulWidget {
-  ItemComColetaEntrega({Key? key, required this.itemDoPedido})
-      : super(key: key);
+  ItemComColetaEntrega({
+    Key? key,
+    required this.itemDoPedido,
+    required this.limparControllers
+  }): super(key: key);
 
   ItemDoPedido itemDoPedido;
+  bool limparControllers;
 
   @override
   State<ItemComColetaEntrega> createState() => _ItemComColetaEntregaState();
@@ -16,6 +20,17 @@ class ItemComColetaEntrega extends StatefulWidget {
 class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
   final _controllerColeta = TextEditingController();
   final _controllerEntrega = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    //todo resolver atualização
+    if(widget.limparControllers){
+      _controllerEntrega.clear();
+      _controllerColeta.clear();
+      widget.limparControllers = false;
+    }
+  }
 
 
   @override

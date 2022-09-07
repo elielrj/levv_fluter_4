@@ -1,3 +1,5 @@
+import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
+import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 
 import 'item_do_pedido/item_do_pedido.dart';
@@ -13,7 +15,7 @@ class Pedido {
   List<ItemDoPedido>? itensDoPedido;
   Usuario? transportadorDoPedido;
   Usuario? usuarioDonoDoPedido;
-  MeioDeTransporte? transporte;
+  int? transporte;
   int? volume;
   int? peso;
 
@@ -30,18 +32,27 @@ class Pedido {
       this.transporte,
       this.volume,
       this.peso}) {
-    itensDoPedido ??= [];
+    itensDoPedido ??= [ItemDoPedido(ordem: 1)];
+    peso ??= 1;
+    volume ??= 20;
+    transporte ??= Moto.VALUE;
   }
 
   limparPedido() {
     numero = "";
-    valor = 0.0;
+    valor = 0.00;
     pedidoEstaDisponivelParaEntrega = false;
     pedidoFoiEntregue = false;
     pedidoFoiPago = false;
     dataHoraDeCriacaoDoPedido = DateTime.now();
-    itensDoPedido = [];
-    volume = 0;
-    peso = 0;
+    itensDoPedido = [ItemDoPedido(ordem: 1)];
+    transporte = Moto.VALUE;
+    volume = 20;
+    peso = 1;
+  }
+
+  calcularValor() {
+    //todo Fórmula p/ calcular
+    valor = 1.00;
   }
 }

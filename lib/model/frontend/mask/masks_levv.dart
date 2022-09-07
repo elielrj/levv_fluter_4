@@ -52,4 +52,9 @@ class MasksLevv {
       hint: "00000-000",
       textInputType: TextInputType.number);
 
+  static Mask get moedaRealMask => Mask(
+      formatter: MaskTextInputFormatter(mask: "# ###,##"),
+      hint: "0,00",
+      textInputType: TextInputType.number);
+
 }
