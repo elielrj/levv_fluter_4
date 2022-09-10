@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:levv4/view/maps/camera.dart';
 import 'package:levv4/view/maps/marcadores.dart';
 import 'package:levv4/view/maps/poligonos.dart';
 import 'package:levv4/view/maps/polylines.dart';
+
+import 'localizar.dart';
 
 class Mapa extends StatefulWidget {
   const Mapa({Key? key}) : super(key: key);
@@ -18,6 +21,8 @@ class Mapa extends StatefulWidget {
 class _MapaState extends State<Mapa>
     with Marcadores, Poligonos, Polylines, Camera {
   Completer<GoogleMapController> _controller = Completer();
+
+  LatLng localizacaoAtual = Localizar.LATLNG_TUBARAO;
 
   _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -31,18 +36,26 @@ class _MapaState extends State<Mapa>
     ));
   }
 
-  _initialCameraPosition() {
-    return const CameraPosition(
-      //todo buscar localização atual
-      target: LatLng(-28.467, -49.0075),
-      zoom: 13,
-    );
+  Future<void> _buscarLocalizacaoAtual() async {
+    final localizar = Localizar();
+
+    await localizar.localizacaoAtual().then((value) {
+      localizacaoAtual = LatLng(value.latitude, value.longitude);
+    });
+
+    carregarMarcador(
+        tituloDoMarcador: "Atual", marcadoDeLatLng: localizacaoAtual);
+
+    setState(() {
+      localizacaoAtual;
+      marcadores;
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    //todo carregar Makers
+    _buscarLocalizacaoAtual();
   }
 
   @override
@@ -54,7 +67,10 @@ class _MapaState extends State<Mapa>
       body: Container(
         child: GoogleMap(
           mapType: MapType.normal,
-          initialCameraPosition: _initialCameraPosition(),
+          initialCameraPosition: CameraPosition(
+            target: localizacaoAtual,
+            zoom: 13,
+          ),
           onMapCreated: _onMapCreated,
           markers: marcadores,
           polygons: listaDePoligonos,
