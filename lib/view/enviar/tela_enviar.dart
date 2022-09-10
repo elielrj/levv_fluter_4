@@ -4,7 +4,7 @@ import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/frontend/mask/masks_levv.dart';
 import 'package:levv4/model/frontend/text_levv.dart';
-import 'package:levv4/view/entregar/item_com_coleta_entrega.dart';
+import 'package:levv4/view/enviar/item_com_coleta_entrega.dart';
 
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/meio_de_transporte/carro.dart';

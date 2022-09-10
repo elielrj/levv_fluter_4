@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/view/maps/mapa.dart';
 
 import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import '../../model/frontend/text_levv.dart';
@@ -154,7 +155,11 @@ class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
   }
 
   _exibirMapa() {
-    //todo exibir mapa
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Mapa())
+    );
   }
 
   _buscarSugestaoDeEndereco(String texto) {
