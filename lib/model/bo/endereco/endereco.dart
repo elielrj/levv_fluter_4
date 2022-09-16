@@ -30,4 +30,17 @@ class Endereco{
     cidade??=  "";
     estado ??=  "";
   }
+
+  @override
+  String toString() {
+    return "$logradouro, $numero${complementoToString()}\n$bairro, $cidade/$estado\nCEP $cep";
+  }
+
+  String complementoToString(){
+    if(complemento == "" || complemento == null){
+      return "";
+    }  else{
+      return ", Compl $complemento";
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
 import 'package:levv4/model/dao/usuario/enviar_dao.dart';
@@ -100,7 +101,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
   _navegarParaTelaEnviar(Usuario usuario) {
     Navigator.pushReplacement(
         context, //pushReplacement?? ou só push?
-        MaterialPageRoute(builder: (context) => TelaEnviar(usuario: usuario)));
+        MaterialPageRoute(builder: (context) => TelaEnviar(usuario: usuario, pedido: Pedido(),)));
   }
 
   _exibirMensagemDeFaltaDeUploadDeDocumento() {
@@ -449,7 +450,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
           ),
         ),
       ),
-      backgroundColor: ColorsLevv.FUNDO,
+      backgroundColor: ColorsLevv.FUNDO_400,
     );
   }
 }

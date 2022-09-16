@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/view/maps/mapa.dart';
-
+import 'package:levv4/view/mapa/localizar.dart';
+import 'package:levv4/view/mapa/mapa.dart';
 import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import '../../model/frontend/text_levv.dart';
 
 class ItemComColetaEntrega extends StatefulWidget {
-  ItemComColetaEntrega({
-    Key? key,
-    required this.itemDoPedido,
-    required this.limparControllers
-  }): super(key: key);
+  ItemComColetaEntrega(
+      {Key? key,
+        required this.itemDoPedido,
+        required this.limparControllers})
+      : super(key: key);
 
   ItemDoPedido itemDoPedido;
   bool limparControllers;
@@ -21,18 +21,19 @@ class ItemComColetaEntrega extends StatefulWidget {
 class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
   final _controllerColeta = TextEditingController();
   final _controllerEntrega = TextEditingController();
+  bool mapaParaEnderecodeColeta = false;
+  bool mapaParaEnderecodeEntrega = false;
 
   @override
   void initState() {
     super.initState();
     //todo resolver atualização
-    if(widget.limparControllers){
+    if (widget.limparControllers) {
       _controllerEntrega.clear();
       _controllerColeta.clear();
       widget.limparControllers = false;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +47,7 @@ class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
               backgroundColor: Colors.white70,
             ),
           ),
+          //endereço colea
           Row(
             children: [
               Expanded(
@@ -90,11 +92,18 @@ class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
                     size: 20,
                   ),
                   color: Colors.black,
-                  onPressed: () => _exibirMapa(),
+                  onPressed: () {
+                    setState(() {
+                      mapaParaEnderecodeColeta = !mapaParaEnderecodeColeta;
+                    });
+                  },
                 )
               ])
             ],
           ),
+          //exibir mapa
+          _exibirMapaDeColeta(),
+          //endereço de entrega
           Row(
             children: [
               Expanded(
@@ -140,27 +149,46 @@ class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
                     size: 20,
                   ),
                   color: Colors.black,
-                  onPressed: () => _exibirMapa(),
+                  onPressed: () {
+                    setState(() {
+                      mapaParaEnderecodeEntrega = !mapaParaEnderecodeEntrega;
+                    });
+                  },
                 )
               ])
             ],
-          )
+          ),
+          //exibir mapa
+          _exibirMapaDeEntrega(),
         ],
       ),
     );
   }
 
-  _buscarLocalizacao() {
-    //todo exibir mapa
+  _buscarLocalizacao() async {
+    final localizar = Localizar();
+    //await localizar.localizacaoAtual();
   }
 
-  _exibirMapa() {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Mapa())
-    );
-  }
+  _exibirMapaDeColeta() => mapaParaEnderecodeColeta
+      ? _exibirMapa()
+      : Container(
+          width: 0,
+        );
+
+  _exibirMapaDeEntrega() => mapaParaEnderecodeEntrega
+      ? _exibirMapa()
+      : Container(
+          width: 0,
+        );
+
+  Widget _exibirMapa() => Container(
+      color: Colors.white,
+      width: double.infinity,
+      height: 300,
+      child: Mapa(
+        itemDoPedido: widget.itemDoPedido,
+      ));
 
   _buscarSugestaoDeEndereco(String texto) {
     //todo buscar sugestão

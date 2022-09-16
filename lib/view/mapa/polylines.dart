@@ -14,6 +14,6 @@ mixin Polylines {
   }
 
   limparPolylines(){
-    listaDePolylines = {};
+    listaDePolylines.clear();
   }
 }

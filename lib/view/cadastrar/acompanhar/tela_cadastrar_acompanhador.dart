@@ -44,7 +44,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsLevv.FUNDO,
+      backgroundColor: ColorsLevv.FUNDO_400,
       body: Center(
         child: SingleChildScrollView(
           child: Container(

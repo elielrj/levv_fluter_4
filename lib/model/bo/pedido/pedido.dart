@@ -55,4 +55,9 @@ class Pedido {
     //todo Fórmula p/ calcular
     valor = 1.00;
   }
+
+  double calcularDistancia(){
+    //todo fazer
+    return 10.0;
+  }
 }

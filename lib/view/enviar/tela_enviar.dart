@@ -16,16 +16,17 @@ import '../../model/frontend/colors_levv.dart';
 import '../../model/frontend/image_levv.dart';
 
 class TelaEnviar extends StatefulWidget {
-  const TelaEnviar({Key? key, required this.usuario}) : super(key: key);
+    const TelaEnviar({Key? key, required this.usuario, required this.pedido}) : super(key: key);
 
   final Usuario usuario;
+  final Pedido pedido;
 
   @override
   State<TelaEnviar> createState() => _TelaEnviarState();
 }
 
 class _TelaEnviarState extends State<TelaEnviar> {
-  final pedido = Pedido();
+  //final pedido = Pedido();
   final controllerValor = MasksLevv.moedaRealMask;
   bool limparControllers = false;
 
@@ -39,7 +40,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsLevv.FUNDO,
+      backgroundColor: ColorsLevv.FUNDO_400,
       appBar: AppBar(
         title: const Text(TextLevv.ENVIAR_UM_PRODUTO),
       ),
@@ -72,7 +73,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                             color: Colors.brown,
                           ),
                           isExpanded: true,
-                          value: pedido.peso,
+                          value: widget.pedido.peso,
                           items: const [
                             DropdownMenuItem(
                               value: 1,
@@ -107,7 +108,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                           ],
                           onChanged: (value) {
                             setState(() {
-                              pedido.peso = int.parse(value.toString());
+                              widget.pedido.peso = int.parse(value.toString());
                             });
                           },
                         ),
@@ -128,7 +129,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                         color: Colors.brown,
                       ),
                       isExpanded: true,
-                      value: pedido.volume,
+                      value: widget.pedido.volume,
                       items: const [
                         DropdownMenuItem(
                           value: 20,
@@ -148,7 +149,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                       ],
                       onChanged: (value) {
                         setState(() {
-                          pedido.volume = int.parse(value.toString());
+                          widget.pedido.volume = int.parse(value.toString());
                         });
                       },
                     ),
@@ -170,7 +171,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                         color: Colors.brown,
                       ),
                       isExpanded: true,
-                      value: pedido.transporte,
+                      value: widget.pedido.transporte,
                       items: const [
                         DropdownMenuItem(
                           value: APe.VALUE,
@@ -191,7 +192,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                       ],
                       onChanged: (value) {
                         setState(() {
-                          pedido.transporte = int.parse(value.toString());
+                          widget.pedido.transporte = int.parse(value.toString());
                         });
                       },
                     ),
@@ -209,7 +210,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    for (int index = 0; index < pedido.itensDoPedido!.length; index++)
+                    for (int index = 0; index < widget.pedido.itensDoPedido!.length; index++)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0, bottom: 4),
                         child: Column(
@@ -217,7 +218,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ItemComColetaEntrega(
-                              itemDoPedido: pedido.itensDoPedido![index],
+                              itemDoPedido: widget.pedido.itensDoPedido![index],
                               limparControllers: limparControllers,
                             ),
                             Row(
@@ -229,23 +230,23 @@ class _TelaEnviarState extends State<TelaEnviar> {
                                   icon: const Icon(Icons.add),
                                   color: Colors.white,
                                   onPressed: () {
-                                    if (pedido.itensDoPedido!.length < 10) {
+                                    if (widget.pedido.itensDoPedido!.length < 10) {
                                       setState(() {
 
                                         ItemDoPedido itemDoPedido =
                                             ItemDoPedido(
-                                                ordem: (pedido.itensDoPedido!.length + 1),
+                                                ordem: (widget.pedido.itensDoPedido!.length + 1),
                                                 coleta: Endereco(),
                                                 entrega: Endereco());
 
 
 
-                                        pedido.itensDoPedido!.insert(index + 1,itemDoPedido);
+                                        widget.pedido.itensDoPedido!.insert(index + 1,itemDoPedido);
                                         print("indice add: $index");
 
                                         int reordenar = 0;
 
-                                        pedido
+                                        widget.pedido
                                             .itensDoPedido!
                                             .forEach(
                                                 (itemDoPedido) {
@@ -285,15 +286,15 @@ class _TelaEnviarState extends State<TelaEnviar> {
                                   icon: const Icon(Icons.remove),
                                   color: Colors.red,
                                   onPressed: () {
-                                    if (pedido.itensDoPedido!.length > 1) {
+                                    if (widget.pedido.itensDoPedido!.length > 1) {
                                       setState(() {
-                                        pedido.itensDoPedido!.removeAt(index);
+                                        widget.pedido.itensDoPedido!.removeAt(index);
 
                                         print("indice add: $index");
 
                                         int reordenar = 0;
 
-                                        pedido
+                                        widget.pedido
                                             .itensDoPedido!
                                             .forEach(
                                                 (itemDoPedido) {
@@ -360,7 +361,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
             Padding(
               padding: const EdgeInsets.only(top: 16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TextButton(
@@ -410,7 +411,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
                     ),
                     onPressed: () {
                       setState(() {
-                        pedido.limparPedido();
+                        widget.pedido.limparPedido();
                         limparControllers = true;
                       });
                     },
@@ -455,7 +456,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
   Future<bool> _criarPedido() async {
     try {
       final pedidoDAO = PedidoDAO();
-      pedidoDAO.create(pedido);
+      pedidoDAO.create(widget.pedido);
       return true;
     } catch (e) {
       return false;

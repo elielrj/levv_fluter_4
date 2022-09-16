@@ -1,8 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/backend/firebase/auth/document_name_current_user.dart';
+import '../../model/backend/firebase/auth/firebase_auth.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/usuario/usuario.dart';
+import '../../model/dao/pedido/pedido_dao.dart';
 import '../../model/frontend/colors_levv.dart';
+import '../componentes/pedidos/lista/listagem_de_pedidos.dart';
+import '../componentes/botoes/menu_dos_botoes.dart';
 
 class TelaEntregar extends StatefulWidget {
   const TelaEntregar({Key? key, required this.usuario}) : super(key: key);
@@ -13,62 +19,60 @@ class TelaEntregar extends StatefulWidget {
   State<TelaEntregar> createState() => _TelaEntregarState();
 }
 
-class _TelaEntregarState extends State<TelaEntregar> {
+class _TelaEntregarState extends State<TelaEntregar> with DocumentNameCurrentUser{
 
-  List<Endereco> listaDeEnderecos = [];
-  String valorSelecionado = "";
+  final pedidoDAO = PedidoDAO();
+
+  var listaDePedidosDoUsuario;
+
+  final autenticacao = Autenticacao(FirebaseAuth.instance);
+
+  //4 - quarto
+  Future<User> _buscarUsuarioCorrente() async {
+    return await autenticacao.auth.currentUser!;
+  }
+
+
+  //3 - terceiro
+  _buscarNumeroDeTelefoneDoUsuario() async {
+    return name(await _buscarUsuarioCorrente());
+  }
+
+  //2 - segundo
+  _buscarListaDePedidosDoUsuario() async {
+    listaDePedidosDoUsuario = await pedidoDAO
+        .buscarPedidosDoUsuario(_buscarNumeroDeTelefoneDoUsuario());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 1- primeiro
+    _buscarListaDePedidosDoUsuario();
+  }
+
+  final List<bool> listaDeStatusDosBotoes = [true, false, false];
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: ColorsLevv.FUNDO_400,
         appBar: AppBar(
           title: const Text("Entregar um produto"),
         ),
-        backgroundColor: ColorsLevv.FUNDO,
         body: Container(
-          padding: const EdgeInsets.all(10),
-          child: ListView.builder(
-              itemCount: listaDeEnderecos.length,
-              itemBuilder: (contex, indice) {
-                return ListTile(
-                    title: const Text("número do pedido e valor"),
-                    subtitle: Column(
-                      children: const [
-                        Text("endereço coleta"),
-                        Text("endereço entrega"),
-                      ],
-                    ),
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const AlertDialog(
-                              title: Text("titulo"),
-                              titlePadding: EdgeInsets.all(20),
-                              titleTextStyle:
-                              TextStyle(fontSize: 20, color: Colors.green),
-                              content: Text("conteudo"),
-                              actions: [
-                                /*
-                                FlatButton(
-
-                                    onPressed: ()  {
-                                      valorSelecionado = "";
-                                    },
-
-                                    child: Text("Sim")),
-                                FlatButton(
-
-                                    onPressed: ()  {
-                                      valorSelecionado = "";
-                                    },
-
-                                    child: Text("Não")), */
-                              ],
-                            );
-                          });
-                    });
-              }),
-        ));
+            padding: const EdgeInsets.all(8),
+            child: Column(children: [
+              //botões
+              MenuDosBotoes(listaDeStatusDosBotoes: listaDeStatusDosBotoes),
+              //lista de pedidos
+              ListagemDePedidos(
+                usuario: widget.usuario,
+                listaDePedidosDoUsuario: listaDePedidosDoUsuario,
+                listaDeStatusDosBotoes: listaDeStatusDosBotoes,
+              )
+            ])));
   }
 }

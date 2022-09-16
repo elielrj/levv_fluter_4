@@ -71,6 +71,22 @@ class PedidoDAO implements CrudFirebaseFirestore<Pedido> {
     );
   }
 
+  Future<List<Pedido>?> buscarPedidoPorCidade(String cidade) async {
+    await bancoDeDados.db.collection(collectionPath)
+        .where("cidade", isEqualTo: cidade)
+        .orderBy("dataHoraDeCriacaoDoPedido", descending:  true)
+        .limit(10)
+        .get()
+        .then((res) async {
+          final data = res as Map<String,dynamic>;
+
+          return fromListMaps(data);
+
+    }, onError: (e) => print("Error getting documents: $e"),
+    );
+
+  }
+
   @override
   Future<void> delete(Pedido object) async {
     await bancoDeDados.db

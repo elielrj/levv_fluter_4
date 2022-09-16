@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/perfil/enviar/entregar/entregar.dart';
 import 'package:levv4/model/bo/usuario/perfil/enviar/enviar.dart';
 import 'package:levv4/view/acompanhar/tela_acompanhar.dart';
@@ -28,7 +29,7 @@ class _TelaHomeState extends State<TelaHome> {
       widget.usuario;
     });
     return Scaffold(
-      backgroundColor: ColorsLevv.FUNDO,
+      backgroundColor: ColorsLevv.FUNDO_400,
       appBar: AppBar(
         title: Row(
           children: [
@@ -211,7 +212,10 @@ class _TelaHomeState extends State<TelaHome> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TelaEnviar(usuario: widget.usuario)));
+              builder: (context) => TelaEnviar(
+                    usuario: widget.usuario,
+                    pedido: Pedido(),
+                  )));
     } else {
       _displayErrorMenssageToAcessSendScreen();
     }
@@ -286,8 +290,9 @@ class _TelaHomeState extends State<TelaHome> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                TelaCadastrarEntregador(usuario: widget.usuario,)));
+                            builder: (context) => TelaCadastrarEntregador(
+                                  usuario: widget.usuario,
+                                )));
                   },
                   child: const Text("Sim")),
               TextButton(

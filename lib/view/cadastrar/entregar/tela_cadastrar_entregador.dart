@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
@@ -7,16 +8,19 @@ import 'package:levv4/model/bo/meio_de_transporte/carro.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/usuario/perfil/enviar/entregar/entregar.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
-import 'package:levv4/model/frontend/colors_levv.dart';
-import 'package:levv4/model/frontend/image_levv.dart';
-import 'package:levv4/model/frontend/mask/masks_levv.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
+import 'package:levv4/view/mapa/localizar.dart';
 
 import '../../../model/bo/arquivo/arquivo.dart';
 import '../../../model/bo/meio_de_transporte/bike.dart';
+import '../../../model/bo/pedido/pedido.dart';
 import '../../../model/bo/usuario/usuario.dart';
 import '../../../model/dao/arquivo/arquivo_dao.dart';
 import '../../../model/dao/usuario/entregar_dao.dart';
+import '../../../model/frontend/colors_levv.dart';
+import '../../../model/frontend/image_levv.dart';
+import '../../../model/frontend/mask/masks_levv.dart';
+import '../../entregar/tela_entregar.dart';
 
 class TelaCadastrarEntregador extends StatefulWidget {
   const TelaCadastrarEntregador({Key? key, required this.usuario})
@@ -51,9 +55,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
   final bairro = TextEditingController();
   final cidade = TextEditingController();
   final estado = TextEditingController();
-  final latitude = TextEditingController();
-  final longitude = TextEditingController();
-  GeoPoint geoPoit = GeoPoint(0, 0);
+  GeoPoint geoPoit = GeoPoint(0.0, 0.0);
 
   @override
   void initState() {
@@ -76,10 +78,6 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     cepMask.textEditingController.addListener(() => setState(() {}));
     cidade.addListener(() => setState(() {}));
     estado.addListener(() => setState(() {}));
-    latitude.addListener(() => setState(() {}));
-    longitude.addListener(() => setState(() {}));
-    latitude.text = "1.2";
-    longitude.text = "1.2";
   }
 
   @override
@@ -336,7 +334,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                                   onTap: () {
                                     documentoDeIdentificacao.getImageCamera();
                                     setState(() {
-                                      documentoDoVeiculo.image;
+                                      documentoDeIdentificacao.image;
                                     });
                                     documentoDeIdentificacao.descricao =
                                         "documentoDeIdentificacao";
@@ -352,7 +350,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                                       documentoDeIdentificacao
                                           .getImageGallery();
                                       setState(() {
-                                        documentoDoVeiculo.image;
+                                        documentoDeIdentificacao.image;
                                       });
                                       documentoDeIdentificacao.descricao =
                                           "documentoDeIdentificacao";
@@ -937,9 +935,10 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                                 color: Colors.green, width: 2)),
                         prefixIcon: Icon(
                           Icons.account_circle,
-                          color: (cepMask.formatter.getUnmaskedText().length == 9
-                              ? Colors.black
-                              : Colors.green),
+                          color:
+                              (cepMask.formatter.getUnmaskedText().length == 9
+                                  ? Colors.black
+                                  : Colors.green),
                         ),
                         suffixIcon: cepMask.formatter.getUnmaskedText().isEmpty
                             ? Container(
@@ -1078,90 +1077,41 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                       maxLength: 100,
                       style: const TextStyle(fontSize: 18),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          color:
-                              ((geoPoit.longitude == 0 && geoPoit.latitude == 0)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              final localizar = Localizar();
+                              Position position =
+                                  await localizar.localizacaoAtual();
+                              geoPoit = GeoPoint(
+                                  position.latitude, position.longitude);
+                              setState(() {
+                                geoPoit;
+                              });
+                            },
+                            child: Icon(
+                              Icons.location_on,
+                              color: ((geoPoit.longitude == 0 &&
+                                      geoPoit.latitude == 0)
                                   ? Colors.black
                                   : Colors.green),
-                          size: 30,
-                        ),
-                        Container(
-                          width: 160,
-                          child: TextField(
-                              onTap: () {},
-                              controller: latitude,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                labelText: "Latitude",
-                                labelStyle: const TextStyle(
-                                    backgroundColor: Colors.white,
-                                    color: Colors.black),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: Colors.black12, width: 2)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: Colors.green, width: 2)),
-                                suffixIcon: latitude.text.isEmpty
-                                    ? Container(
-                                        width: 0,
-                                      )
-                                    : IconButton(
-                                        icon: const Icon(Icons.close,
-                                            color: Colors.red),
-                                        onPressed: () => latitude.clear(),
-                                      ),
-                                fillColor: Colors.white,
-                                filled: true,
-                              ),
-                              maxLength: 100,
-                              style: const TextStyle(fontSize: 18),
-                              enabled: false),
-                        ),
-                        Container(
-                          width: 160,
-                          child: TextField(
-                            onTap: () {},
-                            controller: longitude,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              labelText: "Longitude",
-                              labelStyle: const TextStyle(
-                                  backgroundColor: Colors.white,
-                                  color: Colors.black),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                      color: Colors.black12, width: 2)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                      color: Colors.green, width: 2)),
-                              suffixIcon: longitude.text.isEmpty
-                                  ? Container(
-                                      width: 0,
-                                    )
-                                  : IconButton(
-                                      icon: const Icon(Icons.close,
-                                          color: Colors.red),
-                                      onPressed: () => longitude.clear(),
-                                    ),
-                              fillColor: Colors.white,
-                              filled: true,
+                              size: 30,
                             ),
-                            maxLength: 100,
-                            style: const TextStyle(fontSize: 18),
-                            enabled: false,
                           ),
-                        ),
-                      ],
+                          Container(
+                            width: 160,
+                            child: Text("Latitude: ${geoPoit.latitude}"),
+                          ),
+                          Container(
+                              width: 160,
+                              child: Text("Longitude ${geoPoit.longitude}")),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -1241,7 +1191,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
           ),
         ),
       ),
-      backgroundColor: ColorsLevv.FUNDO,
+      backgroundColor: ColorsLevv.FUNDO_400,
     );
   }
 
@@ -1319,10 +1269,8 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     bairro.clear();
     cidade.clear();
     estado.clear();
-    latitude.clear();
-    longitude.clear();
 
-    geoPoit = GeoPoint(0, 0);
+    geoPoit = const GeoPoint(0, 0);
   }
 
   _cadastrarPerfilEntregador() async {
@@ -1336,8 +1284,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
           bairro: numero.text,
           cidade: numero.text,
           estado: estado.text,
-          geolocalizacao: GeoPoint(double.parse(latitude.text.toString()),
-              double.parse(longitude.text.toString())));
+          geolocalizacao: geoPoit);
 
       List<Endereco> listaDeEnderecos = [];
       //monta objeto entregar
@@ -1498,8 +1445,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
         numero.text.length > 3 &&
         complemento.text.length > 3 &&
         cepMask.formatter.getUnmaskedText().length == 8 &&
-        latitude.text.length > 1 &&
-        longitude.text.length > 1 &&
+        (geoPoit.latitude != 0.0 && geoPoit.longitude != 0.0) &&
         bairro.text.length > 3 &&
         cidade.text.length > 3 &&
         estado.text.length > 3) {
@@ -1515,7 +1461,9 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => TelaEnviar(usuario: widget.usuario)));
+            builder: (context) => TelaEntregar(
+                  usuario: widget.usuario,
+                )));
   }
 
   _exibirMensagemDeFaltaDeUploadDeDocumento() {

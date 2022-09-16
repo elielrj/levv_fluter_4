@@ -50,7 +50,7 @@ dependencies:
   mask_text_input_formatter: ^2.4.0
 
   google_maps_flutter: ^2.2.0
-  geolocator: ^7.0.0
+  geolocator: ^7.0.0 #^5.1.1+1 to Udemy
 
 
 dev_dependencies:
@@ -87,6 +87,9 @@ flutter:
     - imagens/icon_send_product.png
     - imagens/icon_motocycle_delivery.png
     - imagens/icon_trash.png
+    - imagens/icon_active.png
+    - imagens/icon_finished.png
+    - imagens/icon_pending.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

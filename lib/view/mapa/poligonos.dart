@@ -14,6 +14,6 @@ mixin Poligonos {
   }
 
   limparPoligonos() {
-    listaDePoligonos = {};
+    listaDePoligonos.clear();
   }
 }
