@@ -9,7 +9,7 @@ import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/usuario/perfil/enviar/entregar/entregar.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
-import 'package:levv4/view/mapa/localizar.dart';
+import 'package:levv4/view/mapa/localizar/localizar.dart';
 
 import '../../../model/bo/arquivo/arquivo.dart';
 import '../../../model/bo/meio_de_transporte/bike.dart';
@@ -20,6 +20,7 @@ import '../../../model/dao/usuario/entregar_dao.dart';
 import '../../../model/frontend/colors_levv.dart';
 import '../../../model/frontend/image_levv.dart';
 import '../../../model/frontend/mask/masks_levv.dart';
+import '../../componentes/erro/show_dialog_erro.dart';
 import '../../entregar/tela_entregar.dart';
 
 class TelaCadastrarEntregador extends StatefulWidget {
@@ -33,7 +34,8 @@ class TelaCadastrarEntregador extends StatefulWidget {
       _TelaCadastrarEntregadorState();
 }
 
-class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
+class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
+    with ShowDialogErro {
   final controllerNome = TextEditingController();
   final controllerSobrenome = TextEditingController();
   final controllerMaskCpf = MasksLevv.cpfMask;
@@ -1086,13 +1088,19 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                           GestureDetector(
                             onTap: () async {
                               final localizar = Localizar();
-                              Position position =
-                                  await localizar.localizacaoAtual();
-                              geoPoit = GeoPoint(
-                                  position.latitude, position.longitude);
-                              setState(() {
-                                geoPoit;
-                              });
+
+                              Position? position =
+                                  await localizar.ultimaPosicao();
+
+                              if (position != null) {
+                                geoPoit = GeoPoint(
+                                    position.latitude, position.longitude);
+                                setState(() {
+                                  geoPoit;
+                                });
+                              } else {
+                                erroAoBuscarLocalizacao(context);
+                              }
                             },
                             child: Icon(
                               Icons.location_on,

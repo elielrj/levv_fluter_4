@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/view/mapa/localizar.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:levv4/view/mapa/localizar/localizar.dart';
 import 'package:levv4/view/mapa/mapa.dart';
+import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import '../../model/frontend/text_levv.dart';
 
@@ -75,6 +77,18 @@ class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
                       fillColor: Colors.white,
                       filled: true),
                   onChanged: (texto) => _buscarSugestaoDeEndereco(texto),
+                  onSubmitted: (String value) async {
+                    if (value.length > 3) {
+                      widget.itemDoPedido.coleta = await _buscarEndereco(value);
+
+                      setState(() {
+                        _controllerColeta.text =
+                            widget.itemDoPedido.coleta.toString();
+                      });
+                    } else {
+                      //todo exibir msg de erro
+                    }
+                  },
                 ),
               ),
               Column(children: [
@@ -132,6 +146,19 @@ class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
                       fillColor: Colors.white,
                       filled: true),
                   onChanged: (texto) => _buscarSugestaoDeEndereco(texto),
+                  onSubmitted: (String value) async {
+                    if (value.length > 3) {
+                      widget.itemDoPedido.entrega =
+                          await _buscarEndereco(value);
+
+                      setState(() {
+                        _controllerColeta.text =
+                            widget.itemDoPedido.entrega.toString();
+                      });
+                    } else {
+                      //todo exibir msg de erro
+                    }
+                  },
                 ),
               ),
               Column(children: [
@@ -166,8 +193,21 @@ class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
   }
 
   _buscarLocalizacao() async {
+    /*
     final localizar = Localizar();
-    //await localizar.localizacaoAtual();
+    Position? position = await localizar.ultimaPosicao();
+
+    if (position != null) {
+      Endereco endereco = await localizar.converterLatitudeLongitudeEmEndereco(
+          latitude: position.latitude, longitude: position.longitude);
+
+      controller.text = endereco.toString();
+      //todo mudar isso. Criar um item de endereço
+
+    } else {
+      //todo msg erro
+    }
+    */
   }
 
   _exibirMapaDeColeta() => mapaParaEnderecodeColeta
@@ -192,5 +232,10 @@ class _ItemComColetaEntregaState extends State<ItemComColetaEntrega> {
 
   _buscarSugestaoDeEndereco(String texto) {
     //todo buscar sugestão
+  }
+
+  Future<Endereco> _buscarEndereco(String address) async {
+    Localizar localizar = Localizar();
+    return await localizar.converterEnderecoEmLatitudeLongitude(address);
   }
 }

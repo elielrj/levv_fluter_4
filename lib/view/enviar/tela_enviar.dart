@@ -4,7 +4,9 @@ import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/frontend/mask/masks_levv.dart';
 import 'package:levv4/model/frontend/text_levv.dart';
+import 'package:levv4/view/enviar/PedidoVeiculo.dart';
 import 'package:levv4/view/enviar/item_com_coleta_entrega.dart';
+import 'package:levv4/view/enviar/pedido_peso.dart';
 
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/meio_de_transporte/carro.dart';
@@ -14,9 +16,12 @@ import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
 import '../../model/frontend/colors_levv.dart';
 import '../../model/frontend/image_levv.dart';
+import '../componentes/logo/widget_logo_levv.dart';
+import 'PedidoVolume.dart';
 
 class TelaEnviar extends StatefulWidget {
-    const TelaEnviar({Key? key, required this.usuario, required this.pedido}) : super(key: key);
+  const TelaEnviar({Key? key, required this.usuario, required this.pedido})
+      : super(key: key);
 
   final Usuario usuario;
   final Pedido pedido;
@@ -37,6 +42,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
     limparControllers;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,156 +56,14 @@ class _TelaEnviarState extends State<TelaEnviar> {
           child: Column(children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 32),
-              child: Image.asset(
-                ImageLevv.LOGO_DO_APP_LEVV,
-                width: 90,
-              ),
+              child: logoLevv(),
             ),
             //1 Peso
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    TextLevv.PESO,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(
-                      width: 90,
-                      child: Card(
-                        child: DropdownButton(
-                          underline: Container(
-                            color: Colors.brown,
-                          ),
-                          isExpanded: true,
-                          value: widget.pedido.peso,
-                          items: const [
-                            DropdownMenuItem(
-                              value: 1,
-                              child:
-                                  Text("Até 1Kg", textAlign: TextAlign.center),
-                            ),
-                            DropdownMenuItem(
-                              value: 5,
-                              child:
-                                  Text("Até 5Kg", textAlign: TextAlign.center),
-                            ),
-                            DropdownMenuItem(
-                              value: 10,
-                              child:
-                                  Text("Até 10Kg", textAlign: TextAlign.center),
-                            ),
-                            DropdownMenuItem(
-                              value: 15,
-                              child:
-                                  Text("Até 15Kg", textAlign: TextAlign.center),
-                            ),
-                            DropdownMenuItem(
-                              value: 20,
-                              child:
-                                  Text("Até 20Kg", textAlign: TextAlign.center),
-                            ),
-                            DropdownMenuItem(
-                              value: 25,
-                              child:
-                                  Text("Até 25Kg", textAlign: TextAlign.center),
-                            ),
-                          ],
-                          onChanged: (value) {
-                            setState(() {
-                              widget.pedido.peso = int.parse(value.toString());
-                            });
-                          },
-                        ),
-                      ))
-                ],
-              ),
-            ),
+            PedidoPeso(pedido: widget.pedido),
             //2 Volume
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const Text(TextLevv.VOLUME, style: TextStyle(fontSize: 16)),
-                SizedBox(
-                  width: 90,
-                  child: Card(
-                    child: DropdownButton(
-                      underline: Container(
-                        color: Colors.brown,
-                      ),
-                      isExpanded: true,
-                      value: widget.pedido.volume,
-                      items: const [
-                        DropdownMenuItem(
-                          value: 20,
-                          child: Text(
-                            "20 x 20",
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        DropdownMenuItem(
-                          value: 40,
-                          child: Text("40 x 40", textAlign: TextAlign.center),
-                        ),
-                        DropdownMenuItem(
-                          value: 60,
-                          child: Text("60 x 60", textAlign: TextAlign.center),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          widget.pedido.volume = int.parse(value.toString());
-                        });
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            PedidoVolume(pedido: widget.pedido),
             //3 Meio de Transporte
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const Text(TextLevv.MEIO_DE_TRANSPORTE,
-                    style: TextStyle(fontSize: 16)),
-                SizedBox(
-                  width: 120,
-                  child: Card(
-                    child: DropdownButton(
-                      underline: Container(
-                        color: Colors.brown,
-                      ),
-                      isExpanded: true,
-                      value: widget.pedido.transporte,
-                      items: const [
-                        DropdownMenuItem(
-                          value: APe.VALUE,
-                          child: Text("A pé", textAlign: TextAlign.center),
-                        ),
-                        DropdownMenuItem(
-                          value: Bike.VALUE,
-                          child: Text("Bike", textAlign: TextAlign.center),
-                        ),
-                        DropdownMenuItem(
-                          value: Moto.VALUE,
-                          child: Text("Moto", textAlign: TextAlign.center),
-                        ),
-                        DropdownMenuItem(
-                          value: Carro.VALUE,
-                          child: Text("Carro", textAlign: TextAlign.center),
-                        ),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          widget.pedido.transporte = int.parse(value.toString());
-                        });
-                      },
-                    ),
-                  ),
-                )
-              ],
-            ),
+            PedidoVeiculo(pedido: widget.pedido),
 
             //4 Rota
             Column(
@@ -210,7 +74,9 @@ class _TelaEnviarState extends State<TelaEnviar> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    for (int index = 0; index < widget.pedido.itensDoPedido!.length; index++)
+                    for (int index = 0;
+                        index < widget.pedido.itensDoPedido!.length;
+                        index++)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0, bottom: 4),
                         child: Column(
@@ -230,51 +96,50 @@ class _TelaEnviarState extends State<TelaEnviar> {
                                   icon: const Icon(Icons.add),
                                   color: Colors.white,
                                   onPressed: () {
-                                    if (widget.pedido.itensDoPedido!.length < 10) {
+                                    if (widget.pedido.itensDoPedido!.length <
+                                        10) {
                                       setState(() {
-
                                         ItemDoPedido itemDoPedido =
                                             ItemDoPedido(
-                                                ordem: (widget.pedido.itensDoPedido!.length + 1),
+                                                ordem: (widget.pedido
+                                                        .itensDoPedido!.length +
+                                                    1),
                                                 coleta: Endereco(),
                                                 entrega: Endereco());
 
-
-
-                                        widget.pedido.itensDoPedido!.insert(index + 1,itemDoPedido);
+                                        widget.pedido.itensDoPedido!
+                                            .insert(index + 1, itemDoPedido);
                                         print("indice add: $index");
 
                                         int reordenar = 0;
 
-                                        widget.pedido
-                                            .itensDoPedido!
-                                            .forEach(
-                                                (itemDoPedido) {
-                                              itemDoPedido.ordem = ++reordenar;
-                                            });
-
-
+                                        widget.pedido.itensDoPedido!
+                                            .forEach((itemDoPedido) {
+                                          itemDoPedido.ordem = ++reordenar;
+                                        });
                                       });
-
                                     } else {
                                       showDialog(
                                           context: context,
-                                          builder: (context){
+                                          builder: (context) {
                                             return AlertDialog(
-                                              title: const Text("Erro ao adicionar item do pedido"),
-                                              titlePadding: const EdgeInsets.all(20),
-                                              titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+                                              title: const Text(
+                                                  "Erro ao adicionar item do pedido"),
+                                              titlePadding:
+                                                  const EdgeInsets.all(20),
+                                              titleTextStyle: const TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.red),
                                               content: const Text(
-                                                  "Não é possível adicionar mais de 10 itens no pedido"
-                                              ),
+                                                  "Não é possível adicionar mais de 10 itens no pedido"),
                                               actions: [
                                                 TextButton(
-                                                    onPressed: () => Navigator.pop(context),
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
                                                     child: const Text("Ok"))
                                               ],
                                             );
-                                          }
-                                      );
+                                          });
                                     }
                                   },
                                   padding:
@@ -286,42 +151,44 @@ class _TelaEnviarState extends State<TelaEnviar> {
                                   icon: const Icon(Icons.remove),
                                   color: Colors.red,
                                   onPressed: () {
-                                    if (widget.pedido.itensDoPedido!.length > 1) {
+                                    if (widget.pedido.itensDoPedido!.length >
+                                        1) {
                                       setState(() {
-                                        widget.pedido.itensDoPedido!.removeAt(index);
+                                        widget.pedido.itensDoPedido!
+                                            .removeAt(index);
 
                                         print("indice add: $index");
 
                                         int reordenar = 0;
 
-                                        widget.pedido
-                                            .itensDoPedido!
-                                            .forEach(
-                                                (itemDoPedido) {
-                                                  itemDoPedido.ordem = ++reordenar;
+                                        widget.pedido.itensDoPedido!
+                                            .forEach((itemDoPedido) {
+                                          itemDoPedido.ordem = ++reordenar;
                                         });
-
                                       });
                                     } else {
                                       showDialog(
                                           context: context,
-                                          builder: (context){
+                                          builder: (context) {
                                             return AlertDialog(
-                                              title: const Text("Erro ao excluir item do pedido"),
-                                              titlePadding: const EdgeInsets.all(20),
-                                              titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+                                              title: const Text(
+                                                  "Erro ao excluir item do pedido"),
+                                              titlePadding:
+                                                  const EdgeInsets.all(20),
+                                              titleTextStyle: const TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.red),
                                               content: const Text(
                                                   "Não é possível excluir o último item!\n"
-                                                  "É necessário ter pelo menos 1 item!\n"
-                                              ),
+                                                  "É necessário ter pelo menos 1 item!\n"),
                                               actions: [
                                                 TextButton(
-                                                    onPressed: () => Navigator.pop(context),
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
                                                     child: const Text("Ok"))
                                               ],
                                             );
-                                          }
-                                      );
+                                          });
                                     }
                                   },
                                   padding:

@@ -16,5 +16,27 @@ mixin ShowDialogErro{
         });
   }
 
+  erroAoBuscarLocalizacao(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Erro"),
+            titlePadding: EdgeInsets.all(20),
+            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
+            content:
+            const Text("Não foi possível obter localização!"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Ok"))
+            ],
+          );
+        });
+
+  }
+
 
 }

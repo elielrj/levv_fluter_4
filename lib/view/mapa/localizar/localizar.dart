@@ -2,8 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:levv4/view/mapa/localizar/converter_endereco.dart';
+import 'package:levv4/view/mapa/localizar/determinar_posicao.dart';
+import 'package:levv4/view/mapa/localizar/ultima_posicao.dart';
 
-class Localizar {
+import 'listen_to_location_updates.dart';
+
+class Localizar with DeterminarPosicao, UltimaPosicao , ListenToLocationUpdates, ConverterEnderecos{
 
   static get LATLNG_TUBARAO => const LatLng(-28.467, -49.0075);
   static get LATLNG_TUBARAO_TESTE_PRIMEIRA_ENTREGA => const GeoPoint(-28.4650, -49.0043);
@@ -13,8 +18,5 @@ class Localizar {
 
 
 
-  Future<Position> localizacaoAtual({LocationAccuracy? locationAccuracy}) async {
-    return await Geolocator.getCurrentPosition(
-        desiredAccuracy: locationAccuracy?? LocationAccuracy.high);
-  }
+
 }

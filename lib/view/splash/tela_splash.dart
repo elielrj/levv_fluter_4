@@ -8,7 +8,7 @@ import 'package:levv4/view/componentes/erro/show_dialog_erro.dart';
 import 'package:levv4/view/componentes/nevegacao/home/navegar_tela_home.dart';
 import '../../model/backend/firebase/auth/firebase_auth.dart';
 import '../../model/dao/usuario/usuario_dao.dart';
-import '../componentes/logo/logo.dart';
+import '../componentes/logo/widget_logo_levv.dart';
 import '../home/tela_home.dart';
 
 import '../../model/frontend/colors_levv.dart';

@@ -151,7 +151,8 @@ class EnderecoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestoreT
       if (object.geolocalizacao != null) "geolocalizacao": object.geolocalizacao,
       if (object.bairro != null) "bairro": object.bairro,
       if (object.cidade != null) "cidade": object.cidade,
-      if (object.estado != null) "estado": object.estado
+      if (object.estado != null) "estado": object.estado,
+      if (object.pais != null) "pais": object.pais
     };
   }
 
@@ -167,6 +168,8 @@ class EnderecoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestoreT
         geolocalizacao: map["geolocalizacao"],
         bairro: map["bairro"],
         cidade: map["cidade"],
-        estado: map["estado"]);
+        estado: map["estado"],
+        pais: map["pais"],
+    );
   }
 }

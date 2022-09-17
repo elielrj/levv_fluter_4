@@ -11,6 +11,7 @@ class Endereco{
   String? bairro;
   String? cidade;
   String? estado;
+  String? pais;
 
   Endereco(
       {this.logradouro,
@@ -20,20 +21,22 @@ class Endereco{
       this.geolocalizacao,
       this.bairro,
       this.cidade,
-      this.estado}){
+      this.estado,
+      this.pais}){
     logradouro??= "";
     numero ??=  "";
     complemento ??= "";
     cep ??= "";
-    geolocalizacao ??=  GeoPoint(0, 0);
+    geolocalizacao ??=  const GeoPoint(0.0, 0.0);
     bairro ??=  "";
     cidade??=  "";
     estado ??=  "";
+    pais ??=  "";
   }
 
   @override
   String toString() {
-    return "$logradouro, $numero${complementoToString()}\n$bairro, $cidade/$estado\nCEP $cep";
+    return "$logradouro, $numero${complementoToString()}\n$bairro, $cidade/$estado, $pais\nCEP $cep";
   }
 
   String complementoToString(){

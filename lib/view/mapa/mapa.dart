@@ -10,7 +10,7 @@ import 'package:levv4/view/mapa/poligonos.dart';
 import 'package:levv4/view/mapa/polylines.dart';
 
 import '../../model/bo/pedido/pedido.dart';
-import 'localizar.dart';
+import 'localizar/localizar.dart';
 
 class Mapa extends StatefulWidget {
   const Mapa({Key? key, this.itemDoPedido, this.pedido}) : super(key: key);
@@ -25,7 +25,19 @@ class Mapa extends StatefulWidget {
 class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
   Completer<GoogleMapController> _controller = Completer();
 
-  LatLng localizacaoAtual = Localizar.LATLNG_TUBARAO;
+  final localizar = Localizar();
+
+  CameraPosition _cameraPosition = CameraPosition(
+    target: Localizar.LATLNG_TUBARAO,
+    zoom: 13,
+  );
+
+  _reposicionarCamera({LatLng? latLng}) {
+    _cameraPosition = CameraPosition(
+      target: latLng ?? Localizar.LATLNG_TUBARAO,
+      zoom: 13,
+    );
+  }
 
   _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -39,32 +51,22 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
     ));
   }
 
-  Future<void> _buscarLocalizacaoAtual() async {
-    final localizar = Localizar();
 
-    await localizar.localizacaoAtual().then((value) {
-      localizacaoAtual = LatLng(value.latitude, value.longitude);
-    });
-
-    carregarMarcador(
-        tituloDoMarcador: "Atual", marcadoDeLatLng: localizacaoAtual);
-
-    setState(() {
-      localizacaoAtual;
-      marcadores;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    if(widget.pedido != null) {
+
+   localizar.listenToLocationUpdates();
+
+
+    if (widget.pedido != null) {
       carregarMarcadores(itensDoPedido: widget.pedido!.itensDoPedido!);
     }
-    if(widget.itemDoPedido != null){
+    if (widget.itemDoPedido != null) {
       //carregarMarcadores(itensDoPedido: [widget.itemDoPedido!]);
     }
-    _buscarLocalizacaoAtual();
+    //_buscarLocalizacaoAtual();
   }
 
   @override
@@ -73,13 +75,11 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
       width: double.infinity,
       child: GoogleMap(
         mapType: MapType.normal,
-        initialCameraPosition: CameraPosition(
-          target: localizacaoAtual,
-          zoom: 13,
-        ),
+        initialCameraPosition: _cameraPosition,
         onMapCreated: _onMapCreated,
         markers: marcadores,
         polygons: listaDePoligonos,
+        myLocationEnabled: true,
       ),
     );
   }

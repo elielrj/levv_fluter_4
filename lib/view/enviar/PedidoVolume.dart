@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+
+import '../../model/bo/pedido/pedido.dart';
+import '../../model/frontend/text_levv.dart';
+
+class PedidoVolume extends StatefulWidget {
+  const PedidoVolume({Key? key, required this.pedido}) : super(key: key);
+
+  final Pedido pedido;
+
+  @override
+  State<PedidoVolume> createState() => _PedidoVolumeState();
+}
+
+class _PedidoVolumeState extends State<PedidoVolume> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        const Text(TextLevv.VOLUME, style: TextStyle(fontSize: 16)),
+        SizedBox(
+          width: 90,
+          child: Card(
+            child: DropdownButton(
+              underline: Container(
+                color: Colors.brown,
+              ),
+              isExpanded: true,
+              value: widget.pedido.volume,
+              items: const [
+                DropdownMenuItem(
+                  value: 20,
+                  child: Text(
+                    "20 x 20",
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: 40,
+                  child: Text("40 x 40", textAlign: TextAlign.center),
+                ),
+                DropdownMenuItem(
+                  value: 60,
+                  child: Text("60 x 60", textAlign: TextAlign.center),
+                ),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  widget.pedido.volume = int.parse(value.toString());
+                });
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

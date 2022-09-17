@@ -39,6 +39,7 @@ class _BotaoState extends State<Botao> {
               widget.iconImage,
               width: 20,
               height: 20,
+              color: Colors.white,
             ),
             Text(
               widget.botao,
