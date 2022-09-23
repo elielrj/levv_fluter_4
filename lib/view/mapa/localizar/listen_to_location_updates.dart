@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
 mixin ListenToLocationUpdates {
-
+/*
   late StreamSubscription<Position> positionStream;
 
   listenToLocationUpdates() async {
@@ -18,4 +18,5 @@ mixin ListenToLocationUpdates {
 
     });
   }
+  */
 }

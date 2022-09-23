@@ -58,7 +58,7 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
   void initState() {
     super.initState();
 
-   localizar.listenToLocationUpdates();
+  // localizar.listenToLocationUpdates();
 
 
     if (widget.pedido != null) {
