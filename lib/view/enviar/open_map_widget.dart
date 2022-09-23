@@ -10,4 +10,5 @@ Widget openMapWidget(ItemDoPedido itemDoPedido) => Container(
     height: 300,
     child: Mapa(
       itemDoPedido: itemDoPedido,
+      isMyLocationEnabled: false,
     ));

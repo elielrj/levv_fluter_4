@@ -65,7 +65,7 @@ class _TelaMapaState extends State<TelaMapa> {
             ),
           ),
         ),
-        Mapa(pedido: widget.pedido),
+        Mapa(pedido: widget.pedido,isMyLocationEnabled: true),
       ]),
     );
   }

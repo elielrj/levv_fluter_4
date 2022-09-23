@@ -82,7 +82,7 @@ class _ListaComDetalhesDosPedidosState
         child: const Text("Acompanhar"),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Mapa(pedido: pedido)));
+              MaterialPageRoute(builder: (context) => Mapa(pedido: pedido, isMyLocationEnabled: true,)));
         },
       );
 
@@ -90,7 +90,7 @@ class _ListaComDetalhesDosPedidosState
         child: const Text("Visualizar"),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Mapa(pedido: pedido)));
+              MaterialPageRoute(builder: (context) => Mapa(pedido: pedido,isMyLocationEnabled: true,)));
         },
       );
 

@@ -13,10 +13,11 @@ import '../../model/bo/pedido/pedido.dart';
 import 'localizar/localizar.dart';
 
 class Mapa extends StatefulWidget {
-  const Mapa({Key? key, this.itemDoPedido, this.pedido}) : super(key: key);
+  const Mapa({Key? key, this.itemDoPedido, this.pedido, required this.isMyLocationEnabled}) : super(key: key);
 
   final ItemDoPedido? itemDoPedido;
   final Pedido? pedido;
+  final bool isMyLocationEnabled;
 
   @override
   State<Mapa> createState() => _MapaState();
@@ -79,7 +80,7 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
         onMapCreated: _onMapCreated,
         markers: marcadores,
         polygons: listaDePoligonos,
-        myLocationEnabled: true,
+        myLocationEnabled: widget.isMyLocationEnabled,
       ),
     );
   }

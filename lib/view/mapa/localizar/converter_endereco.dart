@@ -17,8 +17,16 @@ mixin ConverterEnderecos {
   Future<Endereco> converterLatitudeLongitudeEmEndereco(
       {required double latitude,
         required double longitude}) async {
+
+
+    //latitude  = double.parse(latitude.toString().replaceAll('.', ','));
+    //longitude  = double.parse(longitude.toString().replaceAll('.', ','));
+
     List<Placemark> placemarks =
-        await placemarkFromCoordinates(latitude, longitude);
+        await placemarkFromCoordinates(
+            latitude,
+            longitude
+    );
 
     return Endereco(
         logradouro: placemarks[0].thoroughfare,
