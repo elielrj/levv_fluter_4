@@ -113,7 +113,8 @@ class EntregarDAO with DocumentNameCurrentUser,
       if (object.nome != null) "nome": object.nome,
       if (object.sobrenome != null) "sobrenome": object.sobrenome,
       if (object.cpf != null) "cpf": object.cpf,
-      if (object.nascimento != null) "nascimento": Timestamp.fromMillisecondsSinceEpoch(object.nascimento!.millisecondsSinceEpoch),
+      if (object.nascimento != null) "nascimento": Timestamp.fromMillisecondsSinceEpoch(
+          object.nascimento!.millisecondsSinceEpoch),
       if (object.documentoDeIdentificacao != null) "documentoDeIdentificacao": object.documentoDeIdentificacao,
       if (object.meioDeTransporte != null) "meio_de_transporte": object.meioDeTransporte!.exibirMeioDeTransporte()
     };

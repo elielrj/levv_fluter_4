@@ -72,7 +72,7 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
+      //width: double.infinity,
       child: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _cameraPosition,

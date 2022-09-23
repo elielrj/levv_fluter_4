@@ -34,8 +34,16 @@ class _TelaAcompanharState extends State<TelaAcompanhar>
   }
 
   _buscarListaDePedidosDoUsuario() async {
-    listaDePedidosDoUsuario = await pedidoDAO
-        .buscarPedidosDoUsuario(_buscarNumeroDeTelefoneDoUsuario());
+
+    try{
+
+      listaDePedidosDoUsuario = await pedidoDAO
+          .buscarPedidosDoUsuario(await _buscarNumeroDeTelefoneDoUsuario());
+
+    }catch(error){
+      print("Erro ao buscar pedidos do usuário!");
+    }
+
   }
 
   @override

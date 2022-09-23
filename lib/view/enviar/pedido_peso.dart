@@ -50,32 +50,6 @@ class _PedidoPesoState extends State<PedidoPeso> {
                         child: Text(textosDosPesos[index],
                             textAlign: TextAlign.center),
                       ),
-                    /*
-                    DropdownMenuItem(
-                      value: 5,
-                      child:
-                      Text(, textAlign: TextAlign.center),
-                    ),
-                    DropdownMenuItem(
-                      value: 10,
-                      child:
-                      Text(, textAlign: TextAlign.center),
-                    ),
-                    DropdownMenuItem(
-                      value: 15,
-                      child:
-                      Text, textAlign: TextAlign.center),
-                    ),
-                    DropdownMenuItem(
-                      value: 20,
-                      child:
-                      Text(, textAlign: TextAlign.center),
-                    ),
-                    DropdownMenuItem(
-                      value: 25,
-                      child:
-                      Text(, textAlign: TextAlign.center),
-                    ),*/
                   ],
                   onChanged: (value) {
                     setState(() {

@@ -13,12 +13,21 @@ class PedidoVolume extends StatefulWidget {
 }
 
 class _PedidoVolumeState extends State<PedidoVolume> {
+
+
+  List<String> listaTamanhoDeVolumes = ["20 x 20","40 x 40","60 x 60"];
+  List<int> listaDeValoresDosTamanhosDosVolumes = [20,40,60];
+
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        const Text(TextLevv.VOLUME, style: TextStyle(fontSize: 16)),
+        const Text(
+            TextLevv.VOLUME,
+            style: TextStyle(
+                fontSize: 16
+            )),
         SizedBox(
           width: 90,
           child: Card(
@@ -28,21 +37,14 @@ class _PedidoVolumeState extends State<PedidoVolume> {
               ),
               isExpanded: true,
               value: widget.pedido.volume,
-              items: const [
+              items:  [
+                for(int index = 0; index < listaTamanhoDeVolumes.length; index++)
                 DropdownMenuItem(
-                  value: 20,
+                  value: listaDeValoresDosTamanhosDosVolumes[index],
                   child: Text(
-                    "20 x 20",
+                    listaTamanhoDeVolumes[index],
                     textAlign: TextAlign.center,
                   ),
-                ),
-                DropdownMenuItem(
-                  value: 40,
-                  child: Text("40 x 40", textAlign: TextAlign.center),
-                ),
-                DropdownMenuItem(
-                  value: 60,
-                  child: Text("60 x 60", textAlign: TextAlign.center),
                 ),
               ],
               onChanged: (value) {

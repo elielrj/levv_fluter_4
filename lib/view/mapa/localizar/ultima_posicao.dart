@@ -5,4 +5,5 @@ mixin UltimaPosicao{
   Future<Position?> ultimaPosicao() async {
     return await Geolocator.getLastKnownPosition();
   }
+
 }

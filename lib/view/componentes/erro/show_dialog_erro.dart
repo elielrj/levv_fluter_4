@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-mixin ShowDialogErro{
-
-  erroAoBuscarUsuario(BuildContext context){
+mixin ShowDialogErro {
+  erroAoBuscarUsuario(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) {
@@ -16,16 +15,15 @@ mixin ShowDialogErro{
         });
   }
 
-  erroAoBuscarLocalizacao(BuildContext context){
+  erroAoBuscarLocalizacao(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text("Erro"),
-            titlePadding: EdgeInsets.all(20),
+            titlePadding: const EdgeInsets.all(20),
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
-            content:
-            const Text("Não foi possível obter localização!"),
+            content: const Text("Não foi possível obter localização!"),
             actions: [
               TextButton(
                   onPressed: () {
@@ -35,8 +33,43 @@ mixin ShowDialogErro{
             ],
           );
         });
-
   }
 
+  erroAoAdicionarItem(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Erro ao adicionar item do pedido"),
+            titlePadding: const EdgeInsets.all(20),
+            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+            content: const Text(
+                "Não é possível adicionar mais de 10 itens no pedido"),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Ok"))
+            ],
+          );
+        });
+  }
 
+  erroAoRemoverItem(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Erro ao excluir item do pedido"),
+            titlePadding: const EdgeInsets.all(20),
+            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+            content: const Text("Não é possível excluir o último item!\n"
+                "É necessário ter pelo menos 1 item!\n"),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Ok"))
+            ],
+          );
+        });
+  }
 }

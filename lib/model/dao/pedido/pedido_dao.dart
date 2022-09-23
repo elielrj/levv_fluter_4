@@ -69,6 +69,9 @@ class PedidoDAO implements CrudFirebaseFirestore<Pedido> {
       },
       onError: (e) => print("Error getting document: $e"),
     );
+
+    //todo W/Firestore( 1800): (24.2.1) [Firestore]: Listen for Query(target=Query(pedidos where usuarioDonoDoPedido==+5548988302492 order by -dataHoraDeCriacaoDoPedido, -__name__);limitType=LIMIT_TO_FIRST) failed: Status{code=FAILED_PRECONDITION, description=The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/levv4-35095/firestore/indexes?create_composite=Cktwcm9qZWN0cy9sZXZ2NC0zNTA5NS9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvcGVkaWRvcy9pbmRleGVzL18QARoXChN1c3VhcmlvRG9ub0RvUGVkaWRvEAEaHQoZZGF0YUhvcmFEZUNyaWFjYW9Eb1BlZGlkbxACGgwKCF9fbmFtZV9fEAI, cause=null}
+    //todo I/flutter ( 1800): Error getting document: [cloud_firestore/failed-precondition] The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/levv4-35095/firestore/indexes?create_composite=Cktwcm9qZWN0cy9sZXZ2NC0zNTA5NS9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvcGVkaWRvcy9pbmRleGVzL18QARoXChN1c3VhcmlvRG9ub0RvUGVkaWRvEAEaHQoZZGF0YUhvcmFEZUNyaWFjYW9Eb1BlZGlkbxACGgwKCF9fbmFtZV9fEAI
   }
 
   Future<List<Pedido>?> buscarPedidoPorCidade(String cidade) async {

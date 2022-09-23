@@ -53,20 +53,6 @@ class _PedidoVeiculoState extends State<PedidoVeiculo> {
                     child: Text(textDosVeiculos[index],
                         textAlign: TextAlign.center),
                   ),
-                /*
-                        DropdownMenuItem(
-                          value: Bike.VALUE,
-                          child: Text("Bike", textAlign: TextAlign.center),
-                        ),
-                        DropdownMenuItem(
-                          value: Moto.VALUE,
-                          child: Text("Moto", textAlign: TextAlign.center),
-                        ),
-                        DropdownMenuItem(
-                          value: Carro.VALUE,
-                          child: Text("Carro", textAlign: TextAlign.center),
-                        ),
-                        */
               ],
               onChanged: (value) {
                 setState(() {
