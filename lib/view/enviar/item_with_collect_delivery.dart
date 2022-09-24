@@ -11,7 +11,9 @@ import 'open_map_widget.dart';
 
 class ItemWithCollectAndDelivery extends StatefulWidget {
   ItemWithCollectAndDelivery(
-      {Key? key, required this.itemDoPedido, required this.limparControllers})
+      {Key? key,
+      required this.itemDoPedido,
+      required this.limparControllers})
       : super(key: key);
 
   ItemDoPedido itemDoPedido;

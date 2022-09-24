@@ -64,13 +64,14 @@ class _TelaEnviarState extends State<TelaEnviar> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-              //1 Peso
-              PedidoPeso(pedido: widget.pedido),
-              //2 Volume
-              PedidoVolume(pedido: widget.pedido),
-              //3 Meio de Transporte
-              PedidoVeiculo(pedido: widget.pedido),
-            ],),
+                //1 Peso
+                PedidoPeso(pedido: widget.pedido),
+                //2 Volume
+                PedidoVolume(pedido: widget.pedido),
+                //3 Meio de Transporte
+                PedidoVeiculo(pedido: widget.pedido),
+              ],
+            ),
 
             //4 Rota
             PedidoRota(
@@ -81,9 +82,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
             PedidoValor(controllerValor: controllerValor),
             //Botão
             PedidoBotoes(
-                pedido: widget.pedido,
-                limparControllers: limparControllers
-            ),
+                pedido: widget.pedido, limparControllers: limparControllers),
           ]),
         ),
       ),

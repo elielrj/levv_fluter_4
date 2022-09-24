@@ -12,7 +12,8 @@ class ItemAddress extends StatefulWidget {
       {Key? key,
       required this.labelText,
       required this.itemDoPedido,
-      required this.limparControllers})
+      required this.limparControllers
+        })
       : super(key: key);
 
   final ItemDoPedido itemDoPedido;
@@ -108,7 +109,7 @@ class _ItemAddressState extends State<ItemAddress> {
           children: [
             Expanded(
               child: _isShowMap
-                  ? openMapWidget(widget.itemDoPedido)
+                  ? openMapWidget(widget.itemDoPedido, false)
                   : Container(
                       width: 0,
                     ),
@@ -119,6 +120,7 @@ class _ItemAddressState extends State<ItemAddress> {
     );
   }
 
+
   _buscarSugestaoDeEndereco(String texto) {
     //todo buscar sugestão
     print('aqui');
@@ -126,23 +128,50 @@ class _ItemAddressState extends State<ItemAddress> {
 
   Future<void> _buscarLocalizacao() async {
 
-    final localizar = Localizar();
+    try {
+      final localizar = Localizar();
 
 
-    Position position = await localizar.determinarPosicao();
+      Position position = await localizar.determinarPosicao();
 
-    Endereco? endereco =  await localizar.converterPositionEmEndereco(position);
+      Endereco? endereco = await localizar.converterPositionEmEndereco(
+          position);
 
-    if(widget.labelText == TextLevv.ENDERECO_ENTREGA){
-      setState(() {
-        widget.itemDoPedido.entrega =   endereco;
-      });
-    }else{
-      setState(() {
-        widget.itemDoPedido.coleta =   endereco;
-      });
+
+      if (widget.labelText == TextLevv.ENDERECO_ENTREGA) {
+        setState(() {
+          widget.itemDoPedido.entrega = endereco;
+        });
+      } else {
+        setState(() {
+          widget.itemDoPedido.coleta = endereco;
+        });
+      }
+    }catch(error){
+      print('erro: ${error.toString()}');
+      _erro();
     }
+  }
 
+  _erro(){
+    _erro(){
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text("Erro"),
+              titlePadding: const EdgeInsets.all(20),
+              titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+              content: const Text(
+                  "Não é possível buscar local do endereço!"),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Ok"))
+              ],
+            );
+          });
+    }
   }
 
   Future<Endereco> _buscarEndereco(String address) async {

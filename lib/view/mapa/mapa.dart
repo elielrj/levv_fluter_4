@@ -13,18 +13,25 @@ import '../../model/bo/pedido/pedido.dart';
 import 'localizar/localizar.dart';
 
 class Mapa extends StatefulWidget {
-  const Mapa({Key? key, this.itemDoPedido, this.pedido, required this.isMyLocationEnabled}) : super(key: key);
+  const Mapa(
+      {Key? key,
+      this.itemDoPedido,
+      this.pedido,
+      required this.isMyLocationEnabled,
+      required this.isTrafficEnabled})
+      : super(key: key);
 
   final ItemDoPedido? itemDoPedido;
   final Pedido? pedido;
   final bool isMyLocationEnabled;
+  final bool isTrafficEnabled;
 
   @override
   State<Mapa> createState() => _MapaState();
 }
 
 class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   final localizar = Localizar();
 
@@ -52,14 +59,11 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
     ));
   }
 
-
-
   @override
   void initState() {
     super.initState();
 
-  // localizar.listenToLocationUpdates();
-
+    // localizar.listenToLocationUpdates();
 
     if (widget.pedido != null) {
       carregarMarcadores(itensDoPedido: widget.pedido!.itensDoPedido!);
@@ -72,6 +76,8 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
 
   @override
   Widget build(BuildContext context) {
+    bool isScrollGesturesEnabled = true;
+    bool isTrafficEnabled = false;
     return Container(
       //width: double.infinity,
       child: GoogleMap(
@@ -81,7 +87,23 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
         markers: marcadores,
         polygons: listaDePoligonos,
         myLocationEnabled: widget.isMyLocationEnabled,
+        onLongPress: (maker) => _adicionarMarcador(maker),
+        zoomControlsEnabled: true,
+        trafficEnabled: widget.isTrafficEnabled,
       ),
     );
+  }
+
+  _adicionarMarcador(LatLng newMaker) {
+
+    limparMarcadores();
+
+    carregarMarcador(tituloDoMarcador: 'Local', marcadoDeLatLng: newMaker);
+
+    _movimentarCamera(newMaker);
+
+    setState(() {
+      marcadores;
+    });
   }
 }

@@ -29,4 +29,16 @@ class TextLevv {
   static const ERRO_CRIAR_USUARIO = "Não foi possível criar um usuário";
   static const VOLUME = "VOLUME";
   static const CODIGO_SMS = "Código SMS";
+
+  static const CLOSE = "Fechar";
+    static const ERRO = "Erro";
+  static const EDIT = "Editar";
+  static const TO_ACCOMPANY = "Acompanhar";
+  static const TO_VIEW = "Visualizar";
+  static const UNABLE_TO_DELETE_ORDER = "UNABLE TO DELETE ORDER";
+
+  static const ENTREGA = "Entrega";
+  static const COLETA = "Coleta";
+  static const DISTANCIA = "Distância";
+
 }

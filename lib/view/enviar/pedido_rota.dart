@@ -8,19 +8,29 @@ import '../../model/frontend/text_levv.dart';
 import 'item_with_collect_delivery.dart';
 
 class PedidoRota extends StatefulWidget {
-  PedidoRota({Key? key, required this.pedido, required this.limparControllers})
+  PedidoRota(
+      {Key? key,
+      required this.pedido,
+      required this.limparControllers})
       : super(key: key);
 
   final Pedido pedido;
   bool limparControllers;
+
 
   @override
   State<PedidoRota> createState() => _PedidoRotaState();
 }
 
 class _PedidoRotaState extends State<PedidoRota> with ShowDialogErro {
+
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
     return Column(
       children: [
         const Text(TextLevv.ROTA),

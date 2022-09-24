@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
+import 'package:levv4/model/frontend/text_levv.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 import 'package:levv4/view/mapa/mapa.dart';
 
@@ -60,42 +61,54 @@ class _ListaComDetalhesDosPedidosState
 
   Widget _localDeColetaDoPedido({required Pedido pedido}) => Row(
         children: [
-          Text("Coleta\n${pedido.itensDoPedido![0].coleta.toString()}"),
+          Text("${TextLevv.COLETA}\n${pedido.itensDoPedido![0].coleta.toString()}"),
         ],
       );
 
   Widget _localDeEntregaDoPedido({required Pedido pedido}) => Row(
         children: [
           Text(
-              "Entrega\n${pedido.itensDoPedido![pedido.itensDoPedido!.length - 1].entrega}"),
+              "${TextLevv.ENTREGA}\n${pedido.itensDoPedido![pedido.itensDoPedido!.length - 1].entrega}"),
         ],
       );
 
   Widget _distanciaDoPedidoEmQuilometros({required Pedido pedido}) => Row(
         children: [
           Text(
-              "Distância\n${pedido.calcularDistancia().toString().replaceAll(".", ",")}")
+              "${TextLevv.DISTANCIA}\n${pedido.calcularDistancia().toString().replaceAll(".", ",")}")
         ],
       );
 
   Widget _botaoAcompanhar({required Pedido pedido}) => TextButton(
-        child: const Text("Acompanhar"),
+        child: const Text(TextLevv.TO_ACCOMPANY),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Mapa(pedido: pedido, isMyLocationEnabled: true,)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Mapa(
+                        pedido: pedido,
+                        isMyLocationEnabled: true,
+                        isTrafficEnabled: false,
+                      )));
         },
       );
 
   Widget _botaoFinalizados({required Pedido pedido}) => TextButton(
-        child: const Text("Visualizar"),
+        child: const Text(TextLevv.TO_VIEW),
         onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => Mapa(pedido: pedido,isMyLocationEnabled: true,)));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Mapa(
+                        pedido: pedido,
+                        isMyLocationEnabled: true,
+                        isTrafficEnabled: false,
+                      )));
         },
       );
 
   Widget _botaoPendentes({required Pedido pedido}) => TextButton(
-        child: const Text("Editar"),
+        child: const Text(TextLevv.EDIT),
         onPressed: () async {
           final pedidoDAO = PedidoDAO();
 
@@ -112,17 +125,17 @@ class _ListaComDetalhesDosPedidosState
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    title: const Text("Erro"),
+                    title: const Text(TextLevv.ERRO),
                     titlePadding: const EdgeInsets.all(20),
                     titleTextStyle:
                         const TextStyle(fontSize: 20, color: Colors.red),
-                    content:  Text(
-                        "Não foi possível excluir o pedido!",
+                    content: const Text(
+                      TextLevv.UNABLE_TO_DELETE_ORDER,
                     ),
                     actions: [
                       TextButton(
                           onPressed: () => Navigator.pop(context),
-                          child: const Text("Fechar")),
+                          child: const Text(TextLevv.CLOSE)),
                     ],
                   );
                 });
