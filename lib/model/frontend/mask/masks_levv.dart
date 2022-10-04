@@ -33,8 +33,8 @@ class MasksLevv {
       textInputType: TextInputType.phone);
 
   static Mask get phoneMaskBrazil => Mask(
-      formatter: MaskTextInputFormatter(mask: "+## ## #####-####"),
-      hint: "+00 00 00000 0000",
+      formatter: MaskTextInputFormatter(mask: "(##) #####-####"),
+      hint: "(00) 00000 0000",
       textInputType: TextInputType.phone);
 
   static Mask get smsMask => Mask(

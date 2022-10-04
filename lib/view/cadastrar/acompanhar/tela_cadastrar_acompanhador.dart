@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:levv4/model/api/api_coutry_phone_code.dart';
 import 'package:levv4/model/backend/firebase/auth/error_firebase_auth.dart';
 import 'package:levv4/model/frontend/mask/masks_levv.dart';
+import 'package:levv4/view/cadastrar/acompanhar/phone_number_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
 
 import '../../../model/backend/firebase/auth/firebase_auth.dart';
@@ -11,6 +13,7 @@ import '../../../model/dao/usuario/usuario_dao.dart';
 import '../../../model/frontend/colors_levv.dart';
 import '../../../model/frontend/image_levv.dart';
 import '../../../model/frontend/text_levv.dart';
+import '../../componentes/logo/widget_logo_levv.dart';
 
 class TelaCadastrarAcompanhador extends StatefulWidget {
   const TelaCadastrarAcompanhador({Key? key}) : super(key: key);
@@ -22,14 +25,16 @@ class TelaCadastrarAcompanhador extends StatefulWidget {
 
 class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
     with ErrorFirebaseAuth {
-  final _controllerMaskPhoneNumber = MasksLevv.phoneMaskBrazil;
-
   final autenticacao = Autenticacao(FirebaseAuth.instance);
   var _classUser;
 
   final _controllerSmsMask = MasksLevv.smsMask;
   bool smsEnviado = false;
   String verificationIdToken = "";
+
+  final _controllerMaskPhoneNumber = MasksLevv.phoneMaskBrazil;
+
+  final ApiCoutryPhoneCode _apiCoutryPhoneCode = ApiCoutryPhoneCode();
 
   @override
   void initState() {
@@ -48,112 +53,24 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(70),
+            padding: const EdgeInsets.all(8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 32),
-                  child: Image.asset(
-                    ImageLevv.LOGO_DO_APP_LEVV,
-                    width: 90,
-                  ),
+                  child: logoLevv(),
                 ),
                 !smsEnviado
                     ? Container(
                         child: Column(
                           children: [
-                            TextField(
-                              controller: _controllerMaskPhoneNumber
-                                  .textEditingController,
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                  counterText: _controllerMaskPhoneNumber
-                                              .formatter
-                                              .getUnmaskedText()
-                                              .length <=
-                                          1
-                                      ? "${_controllerMaskPhoneNumber.formatter.getUnmaskedText().length} ${TextLevv.UM_CARACTER}"
-                                      : "${_controllerMaskPhoneNumber.formatter.getUnmaskedText().length} ${TextLevv.VARIOS_CARACTERES}",
-                                  labelText: TextLevv.CELULAR,
-                                  labelStyle: const TextStyle(
-                                      backgroundColor: Colors.white,
-                                      color: Colors.black),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                          color: Colors.black12, width: 2)),
-                                  prefixIcon: const Icon(
-                                    Icons.phone_iphone,
-                                    color: Colors.black,
-                                  ),
-                                  suffixIcon: _controllerMaskPhoneNumber
-                                          .textEditingController.text.isEmpty
-                                      ? Container(width: 0)
-                                      : IconButton(
-                                          onPressed: () =>
-                                              _controllerMaskPhoneNumber
-                                                  .textEditingController
-                                                  .clear(),
-                                          icon: const Icon(Icons.close,
-                                              color: Colors.red),
-                                        ),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: _controllerMaskPhoneNumber.hint),
-                              inputFormatters: [
-                                _controllerMaskPhoneNumber.formatter
-                              ],
-                              maxLength: 20,
-                              style: const TextStyle(fontSize: 18),
-                            ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                textStyle: const TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                                padding: const EdgeInsets.all(0),
-                                minimumSize: const Size(180, 65),
-                                elevation: 2,
-                                primary: Colors.black,
-                                alignment: Alignment.center,
-                              ),
-                              onPressed: () async {
-                                if (_controllerMaskPhoneNumber.formatter
-                                        .getUnmaskedText()
-                                        .isNotEmpty &&
-                                    _controllerMaskPhoneNumber.formatter
-                                            .getUnmaskedText()
-                                            .length ==
-                                        13) {
-                                  //if (await _createUserWithEmailAndPassword()) {
-
-                                  await _verifyPhoneNumber();
-                                  /*
-                      if () {
-                        _navigatorToHomeScreen();
-                      } else {
-                        _displayErrorWaringWhenRegistering();
-                      }
-                    } else {
-                      _displayEmptyFieldWaring();*/
-                                }
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    ImageLevv.REGISTER,
-                                    width: 20,
-                                    height: 20,
-                                  ),
-                                  const SizedBox(width: 20),
-                                  const Text(TextLevv.CADASTRAR)
-                                ],
-                              ),
-                            ),
+                            PhoneNumberLevv(
+                                controllerMaskPhoneNumber:
+                                    _controllerMaskPhoneNumber,
+                                apiCoutryPhoneCode: _apiCoutryPhoneCode),
+                            _textButton(),
                           ],
                         ),
                       )
@@ -253,6 +170,61 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
     );
   }
 
+  Widget _textButton() => TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: Colors.white,
+          textStyle: const TextStyle(color: Colors.black, fontSize: 18),
+          padding: const EdgeInsets.all(0),
+          minimumSize: const Size(180, 65),
+          elevation: 2,
+          primary: Colors.black,
+          alignment: Alignment.center,
+        ),
+        onPressed: () async {
+          if (_controllerMaskPhoneNumber.formatter
+                  .getUnmaskedText()
+                  .isNotEmpty &&
+              _controllerMaskPhoneNumber.formatter.getUnmaskedText().length ==
+                  11) {
+            //if (await _createUserWithEmailAndPassword()) {
+
+            await _verifyPhoneNumber();
+            /*
+                      if () {
+                        _navigatorToHomeScreen();
+                      } else {
+                        _displayErrorWaringWhenRegistering();
+                      }
+                    } else {
+                      _displayEmptyFieldWaring();*/
+          }else{
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return const AlertDialog(
+                    title: Text("Não é possível cadastrar! Números inválidos",
+                        textAlign: TextAlign.center),
+                    titlePadding: EdgeInsets.all(20),
+                    titleTextStyle: TextStyle(fontSize: 20, color: Colors.black),
+                  );
+                });
+          }
+        },
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              ImageLevv.REGISTER,
+              width: 20,
+              height: 20,
+            ),
+            const SizedBox(width: 20),
+            const Text(TextLevv.CADASTRAR)
+          ],
+        ),
+      );
+
   Future<bool> _createUserWithEmailAndPassword() async {
     String celular =
         _controllerMaskPhoneNumber.textEditingController.text.toString();
@@ -290,8 +262,11 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
 
   //1 - primeiro
   _verifyPhoneNumber() async {
+
+    print("Phone Code: " + _apiCoutryPhoneCode.get().defaultCountryCode.phoneCode + _controllerMaskPhoneNumber.formatter.getMaskedText());
+
     await autenticacao.auth.verifyPhoneNumber(
-      phoneNumber: _controllerMaskPhoneNumber.formatter.getMaskedText(),
+      phoneNumber: _apiCoutryPhoneCode.get().defaultCountryCode.phoneCode + _controllerMaskPhoneNumber.formatter.getMaskedText(),
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _signInWithCredential(credential);
       },
