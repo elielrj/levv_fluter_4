@@ -7,16 +7,16 @@ import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_f
 
 import '../../bo/usuario/perfil/administrar/administrar.dart';
 
-class AdministrarDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Administrar> {
+class AdministrarDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Administrar> {
 
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
   final collectionPath = "administrar";
 
   @override
   Future<void> create(Administrar object) async {
 
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
 
     await bancoDeDados.db
@@ -29,7 +29,7 @@ class AdministrarDAO with DocumentNameCurrentUser implements CrudFirebaseFiresto
 
   @override
   Future<void> update(Administrar object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -71,7 +71,7 @@ class AdministrarDAO with DocumentNameCurrentUser implements CrudFirebaseFiresto
 
   @override
   Future<void> delete(Administrar object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

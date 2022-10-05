@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 mixin ShowDialogErro {
+  /*
   erroAoBuscarUsuario(BuildContext context) {
     showDialog(
         context: context,
@@ -13,7 +14,7 @@ mixin ShowDialogErro {
             titleTextStyle: TextStyle(fontSize: 20, color: Colors.black26),
           );
         });
-  }
+  }*/
 
   erroAoBuscarLocalizacao(BuildContext context) {
     showDialog(

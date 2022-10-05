@@ -11,18 +11,19 @@ import 'package:levv4/model/dao/usuario/mixin_perfil.dart';
 import '../../backend/firebase/firestore/interface/crud_firebase_firestore_to_user_basic.dart';
 
 class UsuarioDAO
-    with CreatePerfil, SearchByReferencePerfil, DeletePerfil, DocumentNameCurrentUser
+    with CreatePerfil, SearchByReferencePerfil, DeletePerfil
     implements CrudFirebaseFirestoreToUserBasic<Usuario> {
+
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
 
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
 
   final collectionPath = "usuarios";
 
   @override
-  Future<void> create(Usuario object) async {
-
-    String documentName = name(autenticacao.auth.currentUser!);
+  Future<void> criar(Usuario object) async {
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await createPerfil(object.perfil);
 
@@ -35,8 +36,9 @@ class UsuarioDAO
   }
 
   @override
-  Future<void> update(Usuario object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+  Future<void> atualizar(Usuario object) async {
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     //todo arrumar update p/ Perfil
 
@@ -49,7 +51,7 @@ class UsuarioDAO
   }
 
   @override
-  Future<Usuario?> retriveAll() async {
+  Future<Usuario?> buscarTodos() async {
     //todo buscar todos, ver como fazer isso
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
@@ -61,10 +63,14 @@ class UsuarioDAO
   }
 
   @override
-  Future<Usuario> searchByReference(String documentName) async {
+  Future<Usuario> buscarUmDocumentoPelaReferencia(String nomeDoDocumento) async {
     var usuario;
 
-    await bancoDeDados.db.collection(collectionPath).doc(documentName).get().then(
+    await bancoDeDados.db
+        .collection(collectionPath)
+        .doc(nomeDoDocumento)
+        .get()
+        .then(
       (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
@@ -77,12 +83,17 @@ class UsuarioDAO
   }
 
   @override
-  Future<void> delete(Usuario object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+  Future<void> deletar(Usuario object) async {
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await deletePerfil(object.perfil);
 
-    await bancoDeDados.db.collection(collectionPath).doc(documentName).delete().then(
+    await bancoDeDados.db
+        .collection(collectionPath)
+        .doc(documentName)
+        .delete()
+        .then(
           (doc) => print("Document deleted"),
           onError: (e) => print("Error updating document $e"),
         );
@@ -90,7 +101,6 @@ class UsuarioDAO
 
   @override
   Future<Map<String, dynamic>> toMap(Usuario object) async {
-
     DocumentReference documentReference = bancoDeDados.db.doc(
         "${object.perfil!.exibirPerfil().toString().toLowerCase()}/${object.celular}");
 
@@ -106,12 +116,9 @@ class UsuarioDAO
   Future<Usuario> fromMap(Map<String, dynamic> map) async {
     var perfil;
 
-
     DocumentReference documentReference = map["perfil"];
 
-    await documentReference
-        .get()
-        .then((DocumentSnapshot doc) async {
+    await documentReference.get().then((DocumentSnapshot doc) async {
       final data = doc.data() as Map<String, dynamic>;
 
       perfil = await searchByReferencePerfil(data, data["perfil"]);

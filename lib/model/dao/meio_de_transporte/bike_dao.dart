@@ -9,16 +9,16 @@ import '../../backend/firebase/auth/firebase_auth.dart';
 import '../../bo/meio_de_transporte/a_pe.dart';
 
 class BikeDAO
-    with DocumentNameCurrentUser
+    with NomeDoDocumentoDoUsuarioCorrente
     implements CrudFirebaseFirestore<Bike> {
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
 
   final collectionPath = "meios_de_transportes";
 
   @override
   Future<void> create(Bike object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -30,7 +30,7 @@ class BikeDAO
 
   @override
   Future<void> update(Bike object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -53,7 +53,7 @@ class BikeDAO
 
   Future<dynamic> retrive() async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db.collection(collectionPath).doc(documentName).get().then(
           (DocumentSnapshot doc) {
@@ -79,7 +79,7 @@ class BikeDAO
 
   @override
   Future<void> delete(Bike object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

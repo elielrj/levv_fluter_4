@@ -18,19 +18,19 @@ class TelaAcompanhar extends StatefulWidget {
 }
 
 class _TelaAcompanharState extends State<TelaAcompanhar>
-    with DocumentNameCurrentUser {
+    with NomeDoDocumentoDoUsuarioCorrente {
   final pedidoDAO = PedidoDAO();
 
   var listaDePedidosDoUsuario;
 
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
 
   Future<User> _buscarUsuarioCorrente() async {
     return await autenticacao.auth.currentUser!;
   }
 
   _buscarNumeroDeTelefoneDoUsuario() async {
-    return name(await _buscarUsuarioCorrente());
+    return nomeDoDocumentoDoUsuarioCorrente(await _buscarUsuarioCorrente());
   }
 
   _buscarListaDePedidosDoUsuario() async {

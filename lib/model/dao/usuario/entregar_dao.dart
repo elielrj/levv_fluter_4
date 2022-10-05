@@ -13,18 +13,18 @@ import '../../bo/meio_de_transporte/meio_de_transporte.dart';
 import '../../bo/usuario/perfil/enviar/entregar/entregar.dart';
 
 
-class EntregarDAO with DocumentNameCurrentUser, 
+class EntregarDAO with NomeDoDocumentoDoUsuarioCorrente,
     CreateMeioDeTransporteDAO,
     RetriveMeioDeTransporteDAO implements CrudFirebaseFirestoreToEntregar<Entregar>  {
 
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
   final collectionPath = "entregar";
 
   @override
   Future<void> create(Entregar object) async {
 
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -36,7 +36,7 @@ class EntregarDAO with DocumentNameCurrentUser,
 
   @override
   Future<void> update(Entregar object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -78,7 +78,7 @@ class EntregarDAO with DocumentNameCurrentUser,
 
   @override
   Future<void> delete(Entregar object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

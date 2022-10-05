@@ -25,7 +25,7 @@ class TelaCadastrarAcompanhador extends StatefulWidget {
 
 class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
     with ErrorFirebaseAuth {
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
   var _classUser;
 
   final _controllerSmsMask = MasksLevv.smsMask;
@@ -254,7 +254,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
     //todo remove
     print("filtro criando user");
     final usuarioDAO = UsuarioDAO();
-    await usuarioDAO.create(_classUser);
+    await usuarioDAO.criar(_classUser);
 
     //todo remove
     print("filtro user criado");

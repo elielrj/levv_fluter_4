@@ -86,7 +86,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
           widget.usuario.perfil = enviar;
 
           final usuarioDAO = UsuarioDAO();
-          await usuarioDAO.update(widget.usuario);
+          await usuarioDAO.atualizar(widget.usuario);
 
           _navegarParaTelaEnviar(widget.usuario);
         } catch (error) {

@@ -6,7 +6,7 @@ import '../../../home/tela_home.dart';
 
 
 mixin Navegar{
-
+/*
   navegarParaTelaHome(
       {required Usuario usuario,
         required BuildContext context}) {
@@ -24,5 +24,5 @@ mixin Navegar{
         context,
         MaterialPageRoute(
             builder: (context) => const TelaCadastrarAcompanhador()));
-  }
+  }*/
 }

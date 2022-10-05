@@ -8,9 +8,9 @@ import '../../backend/firebase/auth/firebase_auth.dart';
 import '../../bo/meio_de_transporte/a_pe.dart';
 
 
-class APeDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<APe> {
+class APeDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<APe> {
 
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
 
   final collectionPath = "meios_de_transportes";
@@ -18,7 +18,7 @@ class APeDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<APe> 
   @override
   Future<void> create(APe object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -31,7 +31,7 @@ class APeDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<APe> 
   @override
   Future<void> update(APe object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -54,7 +54,7 @@ class APeDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<APe> 
 
   Future<APe> retrive() async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     var ape;
 
@@ -85,7 +85,7 @@ class APeDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<APe> 
   @override
   Future<void> delete(APe object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

@@ -11,17 +11,17 @@ import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore_to_endereco.dart';
 
 
-class EnderecoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestoreToEndereco<Endereco> {
+class EnderecoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestoreToEndereco<Endereco> {
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
 
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
 
   final collectionPath = "enderecos";
 
   @override
   Future<void> create(Map<String,dynamic> object) async {
 
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -34,7 +34,7 @@ class EnderecoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestoreT
   @override
   Future<void> update(Map<String,dynamic> object) async {
 
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -49,7 +49,7 @@ class EnderecoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestoreT
   @override
   Future<dynamic> retrive() async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     Map<String,dynamic>  listaDeMaps = {};
 
@@ -78,7 +78,7 @@ class EnderecoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestoreT
   @override
   Future<void> delete() async {
 
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

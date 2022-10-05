@@ -8,9 +8,9 @@ import '../../backend/firebase/auth/firebase_auth.dart';
 import '../../bo/meio_de_transporte/carro.dart';
 
 
-class CarroDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Carro> {
+class CarroDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Carro> {
 
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
 
   final collectionPath = "meios_de_transportes";
@@ -18,7 +18,7 @@ class CarroDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Car
   @override
   Future<void> create(Carro object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -31,7 +31,7 @@ class CarroDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Car
   @override
   Future<void> update(Carro object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -43,7 +43,7 @@ class CarroDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Car
 
   Future<dynamic> retrive() async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db.collection(collectionPath).doc(documentName).get().then(
           (DocumentSnapshot doc) {
@@ -81,7 +81,7 @@ class CarroDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Car
   @override
   Future<void> delete(Carro object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

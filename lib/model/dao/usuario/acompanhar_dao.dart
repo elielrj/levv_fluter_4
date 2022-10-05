@@ -7,16 +7,16 @@ import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_f
 
 import '../../bo/usuario/perfil/acompanhar/acompanhar.dart';
 
-class AcompanharDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Acompanhar> {
+class AcompanharDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Acompanhar> {
 
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
   final collectionPath = "acompanhar";
 
   @override
   Future<void> create(Acompanhar object) async {
 
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
 
     await bancoDeDados.db
@@ -29,7 +29,7 @@ class AcompanharDAO with DocumentNameCurrentUser implements CrudFirebaseFirestor
 
   @override
   Future<void> update(Acompanhar object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -76,7 +76,7 @@ class AcompanharDAO with DocumentNameCurrentUser implements CrudFirebaseFirestor
 
   @override
   Future<void> delete(Acompanhar object) async {
-    String documentName = name(autenticacao.auth.currentUser!);
+    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
 
     await bancoDeDados.db

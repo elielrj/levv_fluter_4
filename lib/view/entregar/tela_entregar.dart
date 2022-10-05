@@ -19,13 +19,13 @@ class TelaEntregar extends StatefulWidget {
   State<TelaEntregar> createState() => _TelaEntregarState();
 }
 
-class _TelaEntregarState extends State<TelaEntregar> with DocumentNameCurrentUser{
+class _TelaEntregarState extends State<TelaEntregar> with NomeDoDocumentoDoUsuarioCorrente{
 
   final pedidoDAO = PedidoDAO();
 
   var listaDePedidosDoUsuario;
 
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
 
   //4 - quarto
   Future<User> _buscarUsuarioCorrente() async {
@@ -35,7 +35,7 @@ class _TelaEntregarState extends State<TelaEntregar> with DocumentNameCurrentUse
 
   //3 - terceiro
   _buscarNumeroDeTelefoneDoUsuario() async {
-    return name(await _buscarUsuarioCorrente());
+    return nomeDoDocumentoDoUsuarioCorrente(await _buscarUsuarioCorrente());
   }
 
   //2 - segundo

@@ -1345,7 +1345,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
 
         //5 - atualizar perfil do usuárioas no banco
         final usuarioDAO = UsuarioDAO();
-        await usuarioDAO.update(widget.usuario);
+        await usuarioDAO.atualizar(widget.usuario);
 
         //6 - navegar para tela Entregar
         _navegarParaTelaEntregar();

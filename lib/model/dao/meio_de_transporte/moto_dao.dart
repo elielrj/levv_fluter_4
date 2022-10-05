@@ -7,9 +7,9 @@ import '../../backend/firebase/auth/firebase_auth.dart';
 import '../../bo/meio_de_transporte/moto.dart';
 
 
-class MotoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Moto> {
+class MotoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Moto> {
 
-  final autenticacao = Autenticacao(FirebaseAuth.instance);
+  final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
 
   final collectionPath = "meios_de_transportes";
@@ -17,7 +17,7 @@ class MotoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Moto
   @override
   Future<void> create(Moto object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -30,7 +30,7 @@ class MotoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Moto
   @override
   Future<void> update(Moto object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -42,7 +42,7 @@ class MotoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Moto
 
   Future<dynamic> retrive() async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db.collection(collectionPath).doc(documentName).get().then(
           (DocumentSnapshot doc) {
@@ -81,7 +81,7 @@ class MotoDAO with DocumentNameCurrentUser implements CrudFirebaseFirestore<Moto
   @override
   Future<void> delete(Moto object) async {
 
-    String documentName =  name(autenticacao.auth.currentUser!);
+    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
