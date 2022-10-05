@@ -12,7 +12,7 @@ import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_f
 
 
 class EnderecoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestoreToEndereco<Endereco> {
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
 
   final autenticacao = Autenticacao();
 

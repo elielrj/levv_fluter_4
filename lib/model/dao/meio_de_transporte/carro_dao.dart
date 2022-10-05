@@ -11,7 +11,7 @@ import '../../bo/meio_de_transporte/carro.dart';
 class CarroDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Carro> {
 
   final autenticacao = Autenticacao();
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
 
   final collectionPath = "meios_de_transportes";
 

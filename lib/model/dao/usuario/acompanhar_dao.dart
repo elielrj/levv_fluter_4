@@ -9,7 +9,7 @@ import '../../bo/usuario/perfil/acompanhar/acompanhar.dart';
 
 class AcompanharDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Acompanhar> {
 
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "acompanhar";
 

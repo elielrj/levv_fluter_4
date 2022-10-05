@@ -9,7 +9,7 @@ import '../../bo/usuario/perfil/administrar/administrar.dart';
 
 class AdministrarDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Administrar> {
 
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "administrar";
 

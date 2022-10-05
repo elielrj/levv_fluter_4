@@ -11,7 +11,7 @@ import '../../bo/meio_de_transporte/a_pe.dart';
 class APeDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<APe> {
 
   final autenticacao = Autenticacao();
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
 
   final collectionPath = "meios_de_transportes";
 

@@ -10,7 +10,7 @@ import '../../bo/meio_de_transporte/moto.dart';
 class MotoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Moto> {
 
   final autenticacao = Autenticacao();
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
 
   final collectionPath = "meios_de_transportes";
 

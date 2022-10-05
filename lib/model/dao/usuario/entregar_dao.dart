@@ -17,7 +17,7 @@ class EntregarDAO with NomeDoDocumentoDoUsuarioCorrente,
     CreateMeioDeTransporteDAO,
     RetriveMeioDeTransporteDAO implements CrudFirebaseFirestoreToEntregar<Entregar>  {
 
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "entregar";
 

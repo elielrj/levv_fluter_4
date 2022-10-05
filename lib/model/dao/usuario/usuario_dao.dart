@@ -12,7 +12,7 @@ class UsuarioDAO
     with CreatePerfil, SearchByReferencePerfil, DeletePerfil
     implements CrudFirebaseFirestoreToUserBasic<Usuario> {
 
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
 
   final autenticacao = Autenticacao();
 

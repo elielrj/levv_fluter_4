@@ -5,7 +5,7 @@ import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_f
 
 
 class PedidoDAO implements CrudFirebaseFirestore<Pedido> {
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
 
   final collectionPath = "pedidos";
 

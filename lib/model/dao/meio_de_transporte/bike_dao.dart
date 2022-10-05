@@ -12,7 +12,7 @@ class BikeDAO
     with NomeDoDocumentoDoUsuarioCorrente
     implements CrudFirebaseFirestore<Bike> {
   final autenticacao = Autenticacao();
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
 
   final collectionPath = "meios_de_transportes";
 

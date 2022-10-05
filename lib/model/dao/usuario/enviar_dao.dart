@@ -9,7 +9,7 @@ import '../../bo/usuario/perfil/enviar/enviar.dart';
 
 class EnviarDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Enviar> {
 
-  final bancoDeDados = BancoDeDados(FirebaseFirestore.instance);
+  final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "enviar";
 
