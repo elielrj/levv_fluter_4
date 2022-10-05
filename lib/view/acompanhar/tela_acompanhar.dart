@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:levv4/model/backend/firebase/auth/document_name_current_user.dart';
-import 'package:levv4/model/backend/firebase/auth/firebase_auth.dart';
+import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
 import '../../model/frontend/colors_levv.dart';

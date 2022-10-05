@@ -6,7 +6,7 @@ import 'package:levv4/model/frontend/mask/masks_levv.dart';
 import 'package:levv4/view/cadastrar/acompanhar/phone_number_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
 
-import '../../../model/backend/firebase/auth/firebase_auth.dart';
+import '../../../model/backend/firebase/auth/autenticacao.dart';
 import '../../../model/bo/usuario/perfil/acompanhar/acompanhar.dart';
 import '../../../model/bo/usuario/usuario.dart';
 import '../../../model/dao/usuario/usuario_dao.dart';

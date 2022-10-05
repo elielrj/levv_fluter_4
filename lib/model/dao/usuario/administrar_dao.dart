@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:levv4/model/backend/firebase/auth/document_name_current_user.dart';
-import 'package:levv4/model/backend/firebase/auth/firebase_auth.dart';
+import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
 import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
 

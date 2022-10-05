@@ -4,7 +4,7 @@ import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
 
 import '../../backend/firebase/auth/document_name_current_user.dart';
-import '../../backend/firebase/auth/firebase_auth.dart';
+import '../../backend/firebase/auth/autenticacao.dart';
 import '../../bo/meio_de_transporte/a_pe.dart';
 
 

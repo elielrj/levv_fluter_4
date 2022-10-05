@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/backend/firebase/auth/document_name_current_user.dart';
-import '../../model/backend/firebase/auth/firebase_auth.dart';
+import '../../model/backend/firebase/auth/autenticacao.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
