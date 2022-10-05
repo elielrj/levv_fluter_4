@@ -1,21 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 
 import '../../../api/firebase_auth/autenticacao.dart';
-import '../../bo/meio_de_transporte/a_pe.dart';
+import 'i_crud_meio_de_transporte_dao.dart';
 
 class BikeDAO
-    implements CrudFirebaseFirestore<Bike> {
+    implements ICrudMeioDeTransporteDAO<Bike> {
   final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados();
 
   final collectionPath = "meios_de_transportes";
 
   @override
-  Future<void> create(Bike object) async {
+  Future<void> criar(Bike object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
@@ -27,7 +25,7 @@ class BikeDAO
   }
 
   @override
-  Future<void> update(Bike object) async {
+  Future<void> atualizar(Bike object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
@@ -39,7 +37,7 @@ class BikeDAO
   }
 
   @override
-  Future<Bike?> retriveAll() async {
+  Future<Bike?> buscarTodos() async {
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
         print("Successfully completed");
@@ -64,7 +62,7 @@ class BikeDAO
   }
 
   @override
-  Future<Bike?> searchByReference(String reference) async {
+  Future<Bike?> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
     await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
@@ -76,7 +74,7 @@ class BikeDAO
   }
 
   @override
-  Future<void> delete(Bike object) async {
+  Future<void> deletar(Bike object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db

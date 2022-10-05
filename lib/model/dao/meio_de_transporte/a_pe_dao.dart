@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
 import '../../../api/firebase_auth/autenticacao.dart';
 import '../../bo/meio_de_transporte/a_pe.dart';
+import 'i_crud_meio_de_transporte_dao.dart';
 
 
-class APeDAO  implements CrudFirebaseFirestore<APe> {
+class APeDAO  implements ICrudMeioDeTransporteDAO<APe> {
 
   final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados();
@@ -14,7 +14,7 @@ class APeDAO  implements CrudFirebaseFirestore<APe> {
   final collectionPath = "meios_de_transportes";
 
   @override
-  Future<void> create(APe object) async {
+  Future<void> criar(APe object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -27,7 +27,7 @@ class APeDAO  implements CrudFirebaseFirestore<APe> {
   }
 
   @override
-  Future<void> update(APe object) async {
+  Future<void> atualizar(APe object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -40,7 +40,7 @@ class APeDAO  implements CrudFirebaseFirestore<APe> {
   }
 
   @override
-  Future<APe?> retriveAll() async {
+  Future<APe?> buscarTodos() async {
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
         print("Successfully completed");
@@ -69,7 +69,7 @@ class APeDAO  implements CrudFirebaseFirestore<APe> {
   }
 
   @override
-  Future<APe?> searchByReference(String reference) async {
+  Future<APe?> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
     await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
@@ -81,7 +81,7 @@ class APeDAO  implements CrudFirebaseFirestore<APe> {
   }
 
   @override
-  Future<void> delete(APe object) async {
+  Future<void> deletar(APe object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 

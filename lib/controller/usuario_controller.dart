@@ -15,7 +15,7 @@ class UsuarioController {
   }
 
   Future<void> buscarUsuario() async {
-    _usuario = await _usuarioDAO.buscarUmDocumentoPelaReferencia(_usuarioDAO.autenticacao
+    _usuario = await _usuarioDAO.buscarUmUsuarioPeloNomeDoDocumento(_usuarioDAO.autenticacao
         .nomeDoDocumentoDoUsuarioCorrente(
             _usuarioDAO.autenticacao.auth.currentUser!));
   }

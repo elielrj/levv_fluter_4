@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+
+import '../meio_de_transporte/i_crud_meio_de_transporte_dao.dart';
 
 
-class PedidoDAO implements CrudFirebaseFirestore<Pedido> {
+class PedidoDAO implements ICrudMeioDeTransporteDAO<Pedido> {
   final bancoDeDados = BancoDeDados();
 
   final collectionPath = "pedidos";
 
   @override
-  Future<void> create(Pedido object) async {
+  Future<void> criar(Pedido object) async {
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(object.numero)
@@ -20,7 +21,7 @@ class PedidoDAO implements CrudFirebaseFirestore<Pedido> {
   }
 
   @override
-  Future<void> update(Pedido object) async {
+  Future<void> atualizar(Pedido object) async {
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(object.numero)
@@ -30,7 +31,7 @@ class PedidoDAO implements CrudFirebaseFirestore<Pedido> {
   }
 
   @override
-  Future<Pedido?> retriveAll() async {
+  Future<Pedido?> buscarTodos() async {
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
         print("Successfully completed");
@@ -41,7 +42,7 @@ class PedidoDAO implements CrudFirebaseFirestore<Pedido> {
   }
 
   @override
-  Future<Pedido?> searchByReference(String reference) async {
+  Future<Pedido?> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
     await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
@@ -91,7 +92,7 @@ class PedidoDAO implements CrudFirebaseFirestore<Pedido> {
   }
 
   @override
-  Future<void> delete(Pedido object) async {
+  Future<void> deletar(Pedido object) async {
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(object.numero)

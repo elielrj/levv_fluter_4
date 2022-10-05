@@ -1,43 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_auth/autenticacao.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
 import '../../bo/usuario/perfil/enviar/enviar.dart';
+import 'i_crud_usuario_dao.dart';
 
-class EnviarDAO  implements CrudFirebaseFirestore<Enviar> {
-
+class EnviarDAO implements ICrudUsuarioDAO<Enviar> {
   final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "enviar";
 
   @override
-  Future<void> create(Enviar object) async {
-
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+  Future<void> criar(Enviar object) async {
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(documentName)
-        .set(toMap(object))
+        .set(await toMap(object))
         .then((value) => print("DocumentSnapshot successfully create!"),
             onError: (e) => print("Error updating document $e"));
   }
 
   @override
-  Future<void> update(Enviar object) async {
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+  Future<void> atualizar(Enviar object) async {
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(documentName)
-        .update(toMap(object))
+        .update(await toMap(object))
         .then((value) => print("DocumentSnapshot successfully updated!"),
             onError: (e) => print("Error updating document $e"));
   }
 
   @override
-  Future<Enviar?> retriveAll() async {
+  Future<Enviar?> buscarTodos() async {
     //todo buscar todos, ver como fazer isso
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
@@ -49,26 +49,25 @@ class EnviarDAO  implements CrudFirebaseFirestore<Enviar> {
   }
 
   @override
-  Future<Enviar> searchByReference(String reference) async {
-
+  Future<Enviar> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
     var enviar;
 
-      await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
-            (DocumentSnapshot doc) {
+    await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
 
-          final data = doc.data() as Map<String, dynamic>;
-
-          enviar = fromMap(data);
-        },
-        onError: (e) => print("Error getting document: $e"),
-      );
+        enviar = fromMap(data);
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
 
     return enviar;
   }
 
   @override
-  Future<void> delete(Enviar object) async {
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+  Future<void> deletar(Enviar object) async {
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -81,23 +80,26 @@ class EnviarDAO  implements CrudFirebaseFirestore<Enviar> {
   }
 
   @override
-  Map<String, dynamic> toMap(Enviar object) {
+  Future<Map<String, dynamic>> toMap(Enviar object) async {
     return {
       if (object.perfil != null) "perfil": object.perfil,
       if (object.nome != null) "nome": object.nome,
       if (object.sobrenome != null) "sobrenome": object.sobrenome,
       if (object.cpf != null) "cpf": object.cpf,
-      if (object.nascimento != null) "nascimento": Timestamp.fromMillisecondsSinceEpoch(object.nascimento!.millisecondsSinceEpoch),
-      if (object.enderecosFavoritos != null) "enderecosFavoritos": object.enderecosFavoritos,
+      if (object.nascimento != null)
+        "nascimento": Timestamp.fromMillisecondsSinceEpoch(
+            object.nascimento!.millisecondsSinceEpoch),
+      if (object.enderecosFavoritos != null)
+        "enderecosFavoritos": object.enderecosFavoritos,
       if (object.casa != null) "casa": object.casa,
       if (object.trabalho != null) "trabalho": object.trabalho,
-      if (object.documentoDeIdentificacao != null) "documentoDeIdentificacao": object.documentoDeIdentificacao,
+      if (object.documentoDeIdentificacao != null)
+        "documentoDeIdentificacao": object.documentoDeIdentificacao,
     };
   }
 
   @override
-  Enviar fromMap(Map<String, dynamic> map) {
-
+  Future<Enviar> fromMap(Map<String, dynamic> map) async {
     Timestamp timestamp = map["nascimento"];
     DateTime dateTime = timestamp.toDate();
 
@@ -112,8 +114,4 @@ class EnviarDAO  implements CrudFirebaseFirestore<Enviar> {
       documentoDeIdentificacao: map["documentoDeIdentificacao"],
     );
   }
-
-
-
-
 }

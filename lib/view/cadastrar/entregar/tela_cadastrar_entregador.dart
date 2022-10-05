@@ -1338,7 +1338,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
 
         //3 - criar entregador
         final entregadorDAO = EntregarDAO();
-        await entregadorDAO.create(entregar);
+        await entregadorDAO.criar(entregar);
 
         //4 - update o perfil de user
         widget.usuario.perfil = entregar;

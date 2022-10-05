@@ -13,16 +13,16 @@ mixin CreateMeioDeTransporteDAO{
   Future<void> createMeioDeTransporteDAO(MeioDeTransporte object) async {
     if (object is APe) {
       final aPeDAO = APeDAO();
-      await aPeDAO.create(object);
+      await aPeDAO.criar(object);
     } else if (object is Bike) {
       final bikeDAO = BikeDAO();
-      await bikeDAO.create(object);
+      await bikeDAO.criar(object);
     } else if (object is Moto) {
       final motoDAO = MotoDAO();
-      await motoDAO.create(object);
+      await motoDAO.criar(object);
     } else if (object is Carro){
       final carroDAO = CarroDAO();
-      await carroDAO.create(object);
+      await carroDAO.criar(object);
     }
   }
 }
@@ -31,16 +31,16 @@ mixin UpdateMeioDeTransporteDAO{
   Future<void> updateMeioDeTransporteDAO(MeioDeTransporte object) async {
     if (object is APe) {
       final aPeDAO = APeDAO();
-      await aPeDAO.update(object);
+      await aPeDAO.atualizar(object);
     } else if (object is Bike) {
       final bikeDAO = BikeDAO();
-      await bikeDAO.update(object);
+      await bikeDAO.atualizar(object);
     } else if (object is Moto) {
       final motoDAO = MotoDAO();
-      await motoDAO.update(object);
+      await motoDAO.atualizar(object);
     } else if (object is Carro){
       final carroDAO = CarroDAO();
-      await carroDAO.update(object);
+      await carroDAO.atualizar(object);
     }
   }
 }
@@ -69,16 +69,16 @@ mixin DeleteMeioDeTransporteDAO{
   Future<void> delete(MeioDeTransporte object) async {
     if (object is APe) {
       final aPeDAO = APeDAO();
-      await aPeDAO.delete(object);
+      await aPeDAO.deletar(object);
     } else if (object is Bike) {
       final bikeDAO = BikeDAO();
-      await bikeDAO.delete(object);
+      await bikeDAO.deletar(object);
     } else if (object is Moto) {
       final motoDAO = MotoDAO();
-      await motoDAO.delete(object);
+      await motoDAO.deletar(object);
     } else if (object is Carro){
       final carroDAO = CarroDAO();
-      await carroDAO.delete(object);
+      await carroDAO.deletar(object);
     }
   }
 }

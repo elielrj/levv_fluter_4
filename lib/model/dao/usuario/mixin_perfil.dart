@@ -9,56 +9,41 @@ import '../../bo/usuario/perfil/enviar/entregar/entregar.dart';
 import '../../bo/usuario/perfil/enviar/enviar.dart';
 import '../../bo/usuario/perfil/perfil.dart';
 
-mixin CreatePerfil {
-  Future<void> createPerfil(var object) async {
-    if (object is Entregar) {
-      EntregarDAO entregarDAO = EntregarDAO();
-      await entregarDAO.create(object);
-    } else if (object is Enviar) {
-      EnviarDAO enviarDAO = EnviarDAO();
-      await enviarDAO.create(object);
-    } else if (object is Administrar) {
-      AdministrarDAO administrarDAO = AdministrarDAO();
-      await administrarDAO.create(object);
-    } else if (object is Acompanhar) {
-      AcompanharDAO acompanharDAO = AcompanharDAO();
-      await acompanharDAO.create(object);
-    }
-  }
-}
+/*
+
 
 mixin UpdatePerfil {
   Future<void> updatePerfil(Perfil object) async {
     if (object is Entregar) {
       EntregarDAO entregarDAO = EntregarDAO();
-      await entregarDAO.update(object);
+      await entregarDAO.atualizar(object);
     } else if (object is Enviar) {
       EnviarDAO enviarDAO = EnviarDAO();
-      await enviarDAO.update(object);
+      await enviarDAO.atualizar(object);
     } else if (object is Administrar) {
       AdministrarDAO administrarDAO = AdministrarDAO();
-      await administrarDAO.update(object);
+      await administrarDAO.atualizar(object);
     } else if (object is Acompanhar) {
       AcompanharDAO acompanharDAO = AcompanharDAO();
-      await acompanharDAO.update(object);
+      await acompanharDAO.atualizar(object);
     }
   }
 }
 
-mixin RetriveAllPerfil {
+mixin BuscarPerfil {
   Future<dynamic> retriveAllPerfil(Perfil object) async {
     if (object is Entregar) {
       EntregarDAO entregarDAO = EntregarDAO();
-      return await entregarDAO.retriveAll();
+      return await entregarDAO.buscarTodos();
     } else if (object is Enviar) {
       EnviarDAO enviarDAO = EnviarDAO();
-      return await enviarDAO.retriveAll();
+      return await enviarDAO.buscarTodos();
     } else if (object is Administrar) {
       AdministrarDAO administrarDAO = AdministrarDAO();
-      return await administrarDAO.retriveAll();
+      return await administrarDAO.buscarTodos();
     } else if (object is Acompanhar) {
       AcompanharDAO acompanharDAO = AcompanharDAO();
-      return await acompanharDAO.retriveAll();
+      return await acompanharDAO.buscarTodos();
     }
   }
 }
@@ -88,20 +73,22 @@ mixin SearchByReferencePerfil {
   }
 }
 
+
 mixin DeletePerfil {
   Future<void> deletePerfil(var object) async {
     if (object is Entregar) {
       EntregarDAO entregarDAO = EntregarDAO();
-      await entregarDAO.delete(object);
+      await entregarDAO.deletar(object);
     } else if (object is Enviar) {
       EnviarDAO enviarDAO = EnviarDAO();
-      await enviarDAO.delete(object);
+      await enviarDAO.deletar(object);
     } else if (object is Administrar) {
       AdministrarDAO administrarDAO = AdministrarDAO();
-      await administrarDAO.delete(object);
+      await administrarDAO.deletar(object);
     } else if (object is Acompanhar) {
       AcompanharDAO acompanharDAO = AcompanharDAO();
-      await acompanharDAO.delete(object);
+      await acompanharDAO.deletar(object);
     }
   }
 }
+*/

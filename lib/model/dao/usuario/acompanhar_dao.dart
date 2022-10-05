@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_auth/autenticacao.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
 import '../../bo/usuario/perfil/acompanhar/acompanhar.dart';
+import 'i_crud_usuario_dao.dart';
 
-class AcompanharDAO  implements CrudFirebaseFirestore<Acompanhar> {
+class AcompanharDAO  implements ICrudUsuarioDAO<Acompanhar> {
 
   final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "acompanhar";
 
   @override
-  Future<void> create(Acompanhar object) async {
+  Future<void> criar(Acompanhar object) async {
 
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -20,25 +20,25 @@ class AcompanharDAO  implements CrudFirebaseFirestore<Acompanhar> {
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(documentName)
-        .set(toMap(object))
+        .set(await toMap(object))
         .then((value) => print("DocumentSnapshot successfully create!"),
             onError: (e) => print("Error updating document $e"));
   }
 
   @override
-  Future<void> update(Acompanhar object) async {
+  Future<void> atualizar(Acompanhar object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(documentName)
-        .update(toMap(object))
+        .update(await toMap(object))
         .then((value) => print("DocumentSnapshot successfully updated!"),
             onError: (e) => print("Error updating document $e"));
   }
 
   @override
-  Future<Acompanhar?> retriveAll() async {
+  Future<Acompanhar?> buscarTodos() async {
     //todo buscar todos, ver como fazer isso
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
@@ -50,7 +50,7 @@ class AcompanharDAO  implements CrudFirebaseFirestore<Acompanhar> {
   }
 
   @override
-  Future<Acompanhar> searchByReference(String reference) async {
+  Future<Acompanhar> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
 
     var acompanhar;
 
@@ -73,7 +73,7 @@ class AcompanharDAO  implements CrudFirebaseFirestore<Acompanhar> {
   }
 
   @override
-  Future<void> delete(Acompanhar object) async {
+  Future<void> deletar(Acompanhar object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
 
@@ -88,14 +88,14 @@ class AcompanharDAO  implements CrudFirebaseFirestore<Acompanhar> {
   }
 
   @override
-  Map<String, dynamic> toMap(Acompanhar object) {
+  Future<Map<String, dynamic>> toMap(Acompanhar object) async {
     return {
       if (object.perfil != null) "perfil": object.perfil,
     };
   }
 
   @override
-  Acompanhar fromMap(Map<String, dynamic> map) {
+  Future<Acompanhar> fromMap(Map<String, dynamic> map) async {
     Acompanhar acompanhar = Acompanhar();
     acompanhar.perfil = map["perfil"];
     return acompanhar;

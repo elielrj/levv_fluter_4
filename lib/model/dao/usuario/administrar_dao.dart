@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_auth/autenticacao.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
 import '../../bo/usuario/perfil/administrar/administrar.dart';
+import 'i_crud_usuario_dao.dart';
 
-class AdministrarDAO  implements CrudFirebaseFirestore<Administrar> {
+class AdministrarDAO  implements ICrudUsuarioDAO<Administrar> {
 
   final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "administrar";
 
   @override
-  Future<void> create(Administrar object) async {
+  Future<void> criar(Administrar object) async {
 
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -20,25 +20,25 @@ class AdministrarDAO  implements CrudFirebaseFirestore<Administrar> {
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(documentName)
-        .set(toMap(object))
+        .set(await toMap(object))
         .then((value) => print("DocumentSnapshot successfully create!"),
             onError: (e) => print("Error updating document $e"));
   }
 
   @override
-  Future<void> update(Administrar object) async {
+  Future<void> atualizar(Administrar object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(documentName)
-        .update(toMap(object))
+        .update(await toMap(object))
         .then((value) => print("DocumentSnapshot successfully updated!"),
             onError: (e) => print("Error updating document $e"));
   }
 
   @override
-  Future<Administrar?> retriveAll() async {
+  Future<Administrar?> buscarTodos() async {
     //todo buscar todos, ver como fazer isso
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
@@ -50,7 +50,7 @@ class AdministrarDAO  implements CrudFirebaseFirestore<Administrar> {
   }
 
   @override
-  Future<Administrar> searchByReference(String reference) async {
+  Future<Administrar> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
 
     var administrar;
 
@@ -68,7 +68,7 @@ class AdministrarDAO  implements CrudFirebaseFirestore<Administrar> {
   }
 
   @override
-  Future<void> delete(Administrar object) async {
+  Future<void> deletar(Administrar object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
@@ -82,14 +82,14 @@ class AdministrarDAO  implements CrudFirebaseFirestore<Administrar> {
   }
 
   @override
-  Map<String, dynamic> toMap(Administrar object) {
+  Future<Map<String, dynamic>> toMap(Administrar object) async {
     return {
       if (object.perfil != null) "perfil": object.perfil,
     };
   }
 
   @override
-  Administrar fromMap(Map<String, dynamic> map) {
+  Future<Administrar> fromMap(Map<String, dynamic> map) async{
     Administrar administrar = Administrar();
     administrar.perfil = map["perfil"];
     return administrar;

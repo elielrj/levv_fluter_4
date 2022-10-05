@@ -3,14 +3,17 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/api/firebase_auth/autenticacao.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/dao/usuario/mixin_perfil.dart';
 
-import '../../backend/firebase/firestore/interface/crud_firebase_firestore_to_user_basic.dart';
+import 'i_crud_usuario_dao.dart';
+import 'mixin_buscar_referencia_perfil.dart';
+import 'mixin_criar_perfil.dart';
+import 'mixin_deletar_perfil.dart';
 
 class UsuarioDAO
-    with CreatePerfil, SearchByReferencePerfil, DeletePerfil
-    implements CrudFirebaseFirestoreToUserBasic<Usuario> {
+    with CriarPerfil, SearchByReferencePerfil, DeletePerfil
+    implements ICrudUsuarioDAO<Usuario> {
 
   final bancoDeDados = BancoDeDados();
 
@@ -61,7 +64,7 @@ class UsuarioDAO
   }
 
   @override
-  Future<Usuario> buscarUmDocumentoPelaReferencia(String nomeDoDocumento) async {
+  Future<Usuario> buscarUmUsuarioPeloNomeDoDocumento(String nomeDoDocumento) async {
     var usuario;
 
     await bancoDeDados.db

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import '../../../api/firebase_auth/autenticacao.dart';
 import '../../bo/meio_de_transporte/moto.dart';
+import 'i_crud_meio_de_transporte_dao.dart';
 
 
-class MotoDAO  implements CrudFirebaseFirestore<Moto> {
+class MotoDAO  implements ICrudMeioDeTransporteDAO<Moto> {
 
   final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados();
@@ -13,7 +13,7 @@ class MotoDAO  implements CrudFirebaseFirestore<Moto> {
   final collectionPath = "meios_de_transportes";
 
   @override
-  Future<void> create(Moto object) async {
+  Future<void> criar(Moto object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -26,7 +26,7 @@ class MotoDAO  implements CrudFirebaseFirestore<Moto> {
   }
 
   @override
-  Future<void> update(Moto object) async {
+  Future<void> atualizar(Moto object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -53,7 +53,7 @@ class MotoDAO  implements CrudFirebaseFirestore<Moto> {
   }
 
   @override
-  Future<Moto?> retriveAll() async {
+  Future<Moto?> buscarTodos() async {
 
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
@@ -65,7 +65,7 @@ class MotoDAO  implements CrudFirebaseFirestore<Moto> {
   }
 
   @override
-  Future<Moto?> searchByReference(String reference) async {
+  Future<Moto?> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
     await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
@@ -77,7 +77,7 @@ class MotoDAO  implements CrudFirebaseFirestore<Moto> {
   }
 
   @override
-  Future<void> delete(Moto object) async {
+  Future<void> deletar(Moto object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 

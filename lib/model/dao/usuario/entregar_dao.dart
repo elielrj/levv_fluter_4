@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_auth/autenticacao.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore_to_entregar.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/dao/endereco/endereco_dao.dart';
 import 'package:levv4/model/dao/meio_de_transporte/meio_de_transporte_dao.dart';
 
 import '../../bo/endereco/endereco.dart';
 import '../../bo/meio_de_transporte/meio_de_transporte.dart';
 import '../../bo/usuario/perfil/enviar/entregar/entregar.dart';
+import 'i_crud_usuario_dao.dart';
 
 
 class EntregarDAO with
     CreateMeioDeTransporteDAO,
-    RetriveMeioDeTransporteDAO implements CrudFirebaseFirestoreToEntregar<Entregar>  {
+    RetriveMeioDeTransporteDAO implements ICrudUsuarioDAO<Entregar>  {
 
   final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "entregar";
 
   @override
-  Future<void> create(Entregar object) async {
+  Future<void> criar(Entregar object) async {
 
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -32,7 +32,7 @@ class EntregarDAO with
   }
 
   @override
-  Future<void> update(Entregar object) async {
+  Future<void> atualizar(Entregar object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
@@ -44,7 +44,7 @@ class EntregarDAO with
   }
 
   @override
-  Future<Entregar?> retriveAll() async {
+  Future<Entregar?> buscarTodos() async {
     //todo buscar todos, ver como fazer isso
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
@@ -56,7 +56,7 @@ class EntregarDAO with
   }
 
   @override
-  Future<Entregar> searchByReference(String reference) async {
+  Future<Entregar> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
 
     var entregar;
 
@@ -74,7 +74,7 @@ class EntregarDAO with
   }
 
   @override
-  Future<void> delete(Entregar object) async {
+  Future<void> deletar(Entregar object) async {
     String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
@@ -99,7 +99,7 @@ class EntregarDAO with
 
     //2
     final enderecoDAO = EnderecoDAO();
-    await enderecoDAO.create(listaEnderecos);
+    await enderecoDAO.criar(listaEnderecos);
 
     //3
     await createMeioDeTransporteDAO(object.meioDeTransporte!);
@@ -122,7 +122,7 @@ class EntregarDAO with
 
     //1
     final enderecoDAO = EnderecoDAO();
-   final enderecos = await enderecoDAO.retrive();
+   final enderecos = await enderecoDAO.buscarEnderecosDoUsuarioCorrente();
 
     //2
     Endereco casa = enderecos['casa'];

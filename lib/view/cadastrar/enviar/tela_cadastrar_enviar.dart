@@ -81,7 +81,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
           arquivoDAO.upload(documentoDeIdentificacao);
 
           final enviarDAO = EnviarDAO();
-          await enviarDAO.create(enviar);
+          await enviarDAO.criar(enviar);
 
           widget.usuario.perfil = enviar;
 

@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
+import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
 import '../../../api/firebase_auth/autenticacao.dart';
 import '../../bo/meio_de_transporte/carro.dart';
+import 'i_crud_meio_de_transporte_dao.dart';
 
 
-class CarroDAO  implements CrudFirebaseFirestore<Carro> {
+class CarroDAO  implements ICrudMeioDeTransporteDAO<Carro> {
 
   final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados();
@@ -14,7 +14,7 @@ class CarroDAO  implements CrudFirebaseFirestore<Carro> {
   final collectionPath = "meios_de_transportes";
 
   @override
-  Future<void> create(Carro object) async {
+  Future<void> criar(Carro object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -27,7 +27,7 @@ class CarroDAO  implements CrudFirebaseFirestore<Carro> {
   }
 
   @override
-  Future<void> update(Carro object) async {
+  Future<void> atualizar(Carro object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
@@ -54,7 +54,7 @@ class CarroDAO  implements CrudFirebaseFirestore<Carro> {
   }
 
   @override
-  Future<Carro?> retriveAll() async {
+  Future<Carro?> buscarTodos() async {
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
         print("Successfully completed");
@@ -65,7 +65,7 @@ class CarroDAO  implements CrudFirebaseFirestore<Carro> {
   }
 
   @override
-  Future<Carro?> searchByReference(String reference) async {
+  Future<Carro?> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
     await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
@@ -77,7 +77,7 @@ class CarroDAO  implements CrudFirebaseFirestore<Carro> {
   }
 
   @override
-  Future<void> delete(Carro object) async {
+  Future<void> deletar(Carro object) async {
 
     String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 

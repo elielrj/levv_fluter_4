@@ -113,7 +113,7 @@ class _ListaComDetalhesDosPedidosState
           final pedidoDAO = PedidoDAO();
 
           try {
-            await pedidoDAO.delete(pedido);
+            await pedidoDAO.deletar(pedido);
 
             Navigator.pushReplacement(
                 context,

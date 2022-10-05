@@ -114,7 +114,7 @@ class _PedidoBotoesState extends State<PedidoBotoes> {
   Future<bool> _criarPedido() async {
     try {
       final pedidoDAO = PedidoDAO();
-      pedidoDAO.create(widget.pedido);
+      pedidoDAO.criar(widget.pedido);
       return true;
     } catch (e) {
       return false;
