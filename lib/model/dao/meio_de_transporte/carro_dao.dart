@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:levv4/model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
 
-import '../../backend/firebase/auth/autenticacao.dart';
+import '../../../api/firebase_auth/autenticacao.dart';
 import '../../bo/meio_de_transporte/carro.dart';
 
 
-class CarroDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Carro> {
+class CarroDAO  implements CrudFirebaseFirestore<Carro> {
 
   final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados();
@@ -18,7 +16,7 @@ class CarroDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFire
   @override
   Future<void> create(Carro object) async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -31,7 +29,7 @@ class CarroDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFire
   @override
   Future<void> update(Carro object) async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -43,7 +41,7 @@ class CarroDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFire
 
   Future<dynamic> retrive() async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db.collection(collectionPath).doc(documentName).get().then(
           (DocumentSnapshot doc) {
@@ -81,7 +79,7 @@ class CarroDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFire
   @override
   Future<void> delete(Carro object) async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

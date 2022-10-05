@@ -4,12 +4,10 @@ import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
 import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 
-import '../../backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
-import '../../backend/firebase/auth/autenticacao.dart';
+import '../../../api/firebase_auth/autenticacao.dart';
 import '../../bo/meio_de_transporte/a_pe.dart';
 
 class BikeDAO
-    with NomeDoDocumentoDoUsuarioCorrente
     implements CrudFirebaseFirestore<Bike> {
   final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados();
@@ -18,7 +16,7 @@ class BikeDAO
 
   @override
   Future<void> create(Bike object) async {
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -30,7 +28,7 @@ class BikeDAO
 
   @override
   Future<void> update(Bike object) async {
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -53,7 +51,7 @@ class BikeDAO
 
   Future<dynamic> retrive() async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao. nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db.collection(collectionPath).doc(documentName).get().then(
           (DocumentSnapshot doc) {
@@ -79,7 +77,7 @@ class BikeDAO
 
   @override
   Future<void> delete(Bike object) async {
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

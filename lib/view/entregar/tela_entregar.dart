@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
-import '../../model/backend/firebase/auth/autenticacao.dart';
+import '../../api/firebase_auth/autenticacao.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
@@ -19,7 +18,7 @@ class TelaEntregar extends StatefulWidget {
   State<TelaEntregar> createState() => _TelaEntregarState();
 }
 
-class _TelaEntregarState extends State<TelaEntregar> with NomeDoDocumentoDoUsuarioCorrente{
+class _TelaEntregarState extends State<TelaEntregar> {
 
   final pedidoDAO = PedidoDAO();
 
@@ -35,7 +34,7 @@ class _TelaEntregarState extends State<TelaEntregar> with NomeDoDocumentoDoUsuar
 
   //3 - terceiro
   _buscarNumeroDeTelefoneDoUsuario() async {
-    return nomeDoDocumentoDoUsuarioCorrente(await _buscarUsuarioCorrente());
+    return autenticacao.nomeDoDocumentoDoUsuarioCorrente(await _buscarUsuarioCorrente());
   }
 
   //2 - segundo

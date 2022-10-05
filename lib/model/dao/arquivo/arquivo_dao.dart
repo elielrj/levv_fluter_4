@@ -1,13 +1,10 @@
 import 'dart:io';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:levv4/model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/bo/arquivo/arquivo.dart';
-import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
+import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/model/backend/firebase/storage/bando_de_arquivos.dart';
 import 'package:levv4/model/backend/firebase/storage/interface/crud_firebase_store.dart';
 
-class ArquivoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseStore<Arquivo> {
+class ArquivoDAO  implements CrudFirebaseStore<Arquivo> {
   final bancoDeArquivos = BancoDeArquivos();
 
   final autenticacao = Autenticacao();
@@ -22,7 +19,7 @@ class ArquivoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseSt
     File file = File(path);
 
     if (file != null) {
-      String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+      String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
       String reference = "$collectionPath/$documentName/${object.descricao}.jpg";
 

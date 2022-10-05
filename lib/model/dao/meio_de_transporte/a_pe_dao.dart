@@ -1,14 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
 
-import '../../backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
-import '../../backend/firebase/auth/autenticacao.dart';
+import '../../../api/firebase_auth/autenticacao.dart';
 import '../../bo/meio_de_transporte/a_pe.dart';
 
 
-class APeDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<APe> {
+class APeDAO  implements CrudFirebaseFirestore<APe> {
 
   final autenticacao = Autenticacao();
   final bancoDeDados = BancoDeDados();
@@ -18,7 +16,7 @@ class APeDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirest
   @override
   Future<void> create(APe object) async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -31,7 +29,7 @@ class APeDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirest
   @override
   Future<void> update(APe object) async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -54,7 +52,7 @@ class APeDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirest
 
   Future<APe> retrive() async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao. nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     var ape;
 
@@ -85,7 +83,7 @@ class APeDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirest
   @override
   Future<void> delete(APe object) async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName =  autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

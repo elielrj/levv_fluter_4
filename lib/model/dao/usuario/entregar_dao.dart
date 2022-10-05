@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:levv4/model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
-import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
+import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
-import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore_to_entregar.dart';
 import 'package:levv4/model/dao/endereco/endereco_dao.dart';
 import 'package:levv4/model/dao/meio_de_transporte/meio_de_transporte_dao.dart';
@@ -13,7 +10,7 @@ import '../../bo/meio_de_transporte/meio_de_transporte.dart';
 import '../../bo/usuario/perfil/enviar/entregar/entregar.dart';
 
 
-class EntregarDAO with NomeDoDocumentoDoUsuarioCorrente,
+class EntregarDAO with
     CreateMeioDeTransporteDAO,
     RetriveMeioDeTransporteDAO implements CrudFirebaseFirestoreToEntregar<Entregar>  {
 
@@ -24,7 +21,7 @@ class EntregarDAO with NomeDoDocumentoDoUsuarioCorrente,
   @override
   Future<void> create(Entregar object) async {
 
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -36,7 +33,7 @@ class EntregarDAO with NomeDoDocumentoDoUsuarioCorrente,
 
   @override
   Future<void> update(Entregar object) async {
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -78,7 +75,7 @@ class EntregarDAO with NomeDoDocumentoDoUsuarioCorrente,
 
   @override
   Future<void> delete(Entregar object) async {
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

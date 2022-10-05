@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:levv4/model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
-import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
+import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
 import '../../api/cor/colors_levv.dart';
@@ -18,7 +17,7 @@ class TelaAcompanhar extends StatefulWidget {
 }
 
 class _TelaAcompanharState extends State<TelaAcompanhar>
-    with NomeDoDocumentoDoUsuarioCorrente {
+     {
   final pedidoDAO = PedidoDAO();
 
   var listaDePedidosDoUsuario;
@@ -30,7 +29,7 @@ class _TelaAcompanharState extends State<TelaAcompanhar>
   }
 
   _buscarNumeroDeTelefoneDoUsuario() async {
-    return nomeDoDocumentoDoUsuarioCorrente(await _buscarUsuarioCorrente());
+    return autenticacao.nomeDoDocumentoDoUsuarioCorrente(await _buscarUsuarioCorrente());
   }
 
   _buscarListaDePedidosDoUsuario() async {

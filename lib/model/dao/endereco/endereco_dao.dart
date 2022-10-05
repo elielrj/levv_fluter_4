@@ -4,14 +4,13 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:levv4/model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
-import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
+import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore_to_endereco.dart';
 
 
-class EnderecoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestoreToEndereco<Endereco> {
+class EnderecoDAO  implements CrudFirebaseFirestoreToEndereco<Endereco> {
   final bancoDeDados = BancoDeDados();
 
   final autenticacao = Autenticacao();
@@ -21,7 +20,7 @@ class EnderecoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseF
   @override
   Future<void> create(Map<String,dynamic> object) async {
 
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -34,7 +33,7 @@ class EnderecoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseF
   @override
   Future<void> update(Map<String,dynamic> object) async {
 
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName =autenticacao. nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -49,7 +48,7 @@ class EnderecoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseF
   @override
   Future<dynamic> retrive() async {
 
-    String documentName =  nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao. nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     Map<String,dynamic>  listaDeMaps = {};
 
@@ -78,7 +77,7 @@ class EnderecoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseF
   @override
   Future<void> delete() async {
 
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)

@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:levv4/model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
-import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
+import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/model/backend/firebase/firestore/bando_de_dados.dart';
 import 'package:levv4/model/backend/firebase/firestore/interface/crud_firebase_firestore.dart';
 
 import '../../bo/usuario/perfil/administrar/administrar.dart';
 
-class AdministrarDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseFirestore<Administrar> {
+class AdministrarDAO  implements CrudFirebaseFirestore<Administrar> {
 
   final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
@@ -16,7 +14,7 @@ class AdministrarDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFireba
   @override
   Future<void> create(Administrar object) async {
 
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
 
     await bancoDeDados.db
@@ -29,7 +27,7 @@ class AdministrarDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFireba
 
   @override
   Future<void> update(Administrar object) async {
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -71,7 +69,7 @@ class AdministrarDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFireba
 
   @override
   Future<void> delete(Administrar object) async {
-    String documentName = nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
