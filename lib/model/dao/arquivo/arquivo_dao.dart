@@ -8,7 +8,7 @@ import 'package:levv4/model/backend/firebase/storage/bando_de_arquivos.dart';
 import 'package:levv4/model/backend/firebase/storage/interface/crud_firebase_store.dart';
 
 class ArquivoDAO with NomeDoDocumentoDoUsuarioCorrente implements CrudFirebaseStore<Arquivo> {
-  final bancoDeArquivos = BancoDeArquivos(FirebaseStorage.instance);
+  final bancoDeArquivos = BancoDeArquivos();
 
   final autenticacao = Autenticacao();
 
