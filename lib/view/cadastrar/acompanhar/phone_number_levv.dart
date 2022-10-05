@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/api/api_coutry_phone_code.dart';
-import '../../../model/frontend/mask/masks_levv.dart';
-import '../../../model/frontend/text_levv.dart';
+import '../../../api/codigo_do_pais/api_coutry_phone_code.dart';
+import '../../../api/texto/text_levv.dart';
 
 class PhoneNumberLevv extends StatefulWidget {
   const PhoneNumberLevv({Key? key,

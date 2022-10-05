@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import '../../model/frontend/colors_levv.dart';
+import '../../api/cor/colors_levv.dart';
 
-import '../../model/frontend/text_levv.dart';
+import '../../api/texto/text_levv.dart';
 import '../componentes/erro/show_dialog_erro.dart';
 
 import '../componentes/nevegacao/home/navegar_tela_home.dart';
@@ -19,7 +19,6 @@ class TelaSplash extends StatefulWidget {
 }
 
 class _TelaSplashState extends State<TelaSplash> with Navegar, ShowDialogErro {
-
   final UsuarioController usuarioController = UsuarioController();
 
   @override

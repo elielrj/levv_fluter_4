@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import 'mask.dart';
+import '../../../api/mascara/mask.dart';
 
 class MasksLevv {
   static Mask get dateMask => Mask(

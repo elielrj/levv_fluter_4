@@ -4,7 +4,7 @@ import 'package:levv4/view/componentes/erro/show_dialog_erro.dart';
 
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
-import '../../model/frontend/text_levv.dart';
+import '../../api/texto/text_levv.dart';
 import 'item_with_collect_delivery.dart';
 
 class PedidoRota extends StatefulWidget {

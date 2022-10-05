@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
-import 'package:levv4/model/frontend/mask/masks_levv.dart';
-import 'package:levv4/model/frontend/text_levv.dart';
+
+import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/view/enviar/pedido_botoes.dart';
 import 'package:levv4/view/enviar/pedido_rota.dart';
 import 'package:levv4/view/enviar/pedido_valor.dart';
@@ -11,14 +11,15 @@ import 'package:levv4/view/enviar/pedido_veiculo.dart';
 import 'package:levv4/view/enviar/item_with_collect_delivery.dart';
 import 'package:levv4/view/enviar/pedido_peso.dart';
 
+import '../../api/mascara/masks_levv.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/meio_de_transporte/carro.dart';
 import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import '../../model/bo/pedido/pedido.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
-import '../../model/frontend/colors_levv.dart';
-import '../../model/frontend/image_levv.dart';
+import '../../api/cor/colors_levv.dart';
+import '../../api/imagem/image_levv.dart';
 import '../componentes/logo/widget_logo_levv.dart';
 import 'pedido_volume.dart';
 

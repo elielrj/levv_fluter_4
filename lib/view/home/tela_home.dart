@@ -9,9 +9,9 @@ import 'package:levv4/view/entregar/tela_entregar.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 
 import '../../model/bo/usuario/usuario.dart';
-import '../../model/frontend/colors_levv.dart';
-import '../../model/frontend/image_levv.dart';
-import '../../model/frontend/text_levv.dart';
+import '../../api/cor/colors_levv.dart';
+import '../../api/imagem/image_levv.dart';
+import '../../api/texto/text_levv.dart';
 
 class TelaHome extends StatefulWidget {
   const TelaHome({Key? key, required this.usuario}) : super(key: key);

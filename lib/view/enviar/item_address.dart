@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
-import 'package:levv4/model/frontend/text_levv.dart';
+import 'package:levv4/api/texto/text_levv.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../mapa/localizar/localizar.dart';
 import '../mapa/mapa.dart';

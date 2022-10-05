@@ -1,18 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:levv4/model/api/api_coutry_phone_code.dart';
+import 'package:levv4/api/codigo_do_pais/api_coutry_phone_code.dart';
 import 'package:levv4/model/backend/firebase/auth/error_firebase_auth.dart';
-import 'package:levv4/model/frontend/mask/masks_levv.dart';
 import 'package:levv4/view/cadastrar/acompanhar/phone_number_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
 
+import '../../../api/mascara/masks_levv.dart';
 import '../../../model/backend/firebase/auth/autenticacao.dart';
 import '../../../model/bo/usuario/perfil/acompanhar/acompanhar.dart';
 import '../../../model/bo/usuario/usuario.dart';
 import '../../../model/dao/usuario/usuario_dao.dart';
-import '../../../model/frontend/colors_levv.dart';
-import '../../../model/frontend/image_levv.dart';
-import '../../../model/frontend/text_levv.dart';
+import '../../../api/cor/colors_levv.dart';
+import '../../../api/imagem/image_levv.dart';
+import '../../../api/texto/text_levv.dart';
 import '../../componentes/logo/widget_logo_levv.dart';
 
 class TelaCadastrarAcompanhador extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/frontend/colors_levv.dart';
+import '../../../api/cor/colors_levv.dart';
 
 class Botao extends StatefulWidget {
   Botao(

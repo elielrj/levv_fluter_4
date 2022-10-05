@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
-import 'package:levv4/model/frontend/text_levv.dart';
+import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 import 'package:levv4/view/mapa/mapa.dart';
 

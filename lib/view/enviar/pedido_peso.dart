@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../model/bo/pedido/pedido.dart';
-import '../../model/frontend/text_levv.dart';
+import '../../api/texto/text_levv.dart';
 
 class PedidoPeso extends StatefulWidget {
   const PedidoPeso({Key? key, required this.pedido}) : super(key: key);

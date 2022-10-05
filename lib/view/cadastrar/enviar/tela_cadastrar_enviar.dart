@@ -4,13 +4,13 @@ import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
 import 'package:levv4/model/dao/usuario/enviar_dao.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
-import 'package:levv4/model/frontend/mask/masks_levv.dart';
 
 import 'package:levv4/view/enviar/tela_enviar.dart';
 
+import '../../../api/mascara/masks_levv.dart';
 import '../../../model/bo/arquivo/arquivo.dart';
 import '../../../model/bo/usuario/perfil/enviar/enviar.dart';
-import '../../../model/frontend/colors_levv.dart';
+import '../../../api/cor/colors_levv.dart';
 
 import 'package:intl/intl.dart';
 

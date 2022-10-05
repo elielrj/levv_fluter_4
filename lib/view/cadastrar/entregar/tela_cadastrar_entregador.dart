@@ -11,15 +11,15 @@ import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 import 'package:levv4/view/mapa/localizar/localizar.dart';
 
+import '../../../api/mascara/masks_levv.dart';
 import '../../../model/bo/arquivo/arquivo.dart';
 import '../../../model/bo/meio_de_transporte/bike.dart';
 import '../../../model/bo/pedido/pedido.dart';
 import '../../../model/bo/usuario/usuario.dart';
 import '../../../model/dao/arquivo/arquivo_dao.dart';
 import '../../../model/dao/usuario/entregar_dao.dart';
-import '../../../model/frontend/colors_levv.dart';
-import '../../../model/frontend/image_levv.dart';
-import '../../../model/frontend/mask/masks_levv.dart';
+import '../../../api/cor/colors_levv.dart';
+import '../../../api/imagem/image_levv.dart';
 import '../../componentes/erro/show_dialog_erro.dart';
 import '../../entregar/tela_entregar.dart';
 

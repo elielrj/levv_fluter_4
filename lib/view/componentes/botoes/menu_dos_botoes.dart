@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/frontend/colors_levv.dart';
-import '../../../model/frontend/image_levv.dart';
+import '../../../api/cor/colors_levv.dart';
+import '../../../api/imagem/image_levv.dart';
 
 class MenuDosBotoes extends StatefulWidget {
   const MenuDosBotoes({Key? key, required this.listaDeStatusDosBotoes}) : super(key: key);

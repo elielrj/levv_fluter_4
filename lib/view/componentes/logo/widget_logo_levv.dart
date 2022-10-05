@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../model/frontend/image_levv.dart';
+import '../../../api/imagem/image_levv.dart';
 
 Widget logoLevv({double? value}) {
 

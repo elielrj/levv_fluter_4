@@ -6,7 +6,7 @@ import 'package:levv4/view/mapa/localizar/localizar.dart';
 import 'package:levv4/view/mapa/mapa.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
-import '../../model/frontend/text_levv.dart';
+import '../../api/texto/text_levv.dart';
 import 'open_map_widget.dart';
 
 class ItemWithCollectAndDelivery extends StatefulWidget {

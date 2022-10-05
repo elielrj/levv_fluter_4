@@ -5,7 +5,7 @@ import '../../model/bo/meio_de_transporte/bike.dart';
 import '../../model/bo/meio_de_transporte/carro.dart';
 import '../../model/bo/meio_de_transporte/moto.dart';
 import '../../model/bo/pedido/pedido.dart';
-import '../../model/frontend/text_levv.dart';
+import '../../api/texto/text_levv.dart';
 
 
 class PedidoVeiculo extends StatefulWidget {

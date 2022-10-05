@@ -4,7 +4,7 @@ import 'package:levv4/model/backend/firebase/auth/document_name_current_user.dar
 import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
-import '../../model/frontend/colors_levv.dart';
+import '../../api/cor/colors_levv.dart';
 import '../componentes/pedidos/lista/listagem_de_pedidos.dart';
 import '../componentes/botoes/menu_dos_botoes.dart';
 
