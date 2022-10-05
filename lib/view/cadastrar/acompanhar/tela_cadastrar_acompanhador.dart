@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:levv4/api/codigo_do_pais/api_coutry_phone_code.dart';
-import 'package:levv4/model/backend/firebase/auth/error_firebase_auth.dart';
+import 'package:levv4/model/backend/firebase/auth/mixin_codigo_de_erro_do_firebase_auth.dart';
 import 'package:levv4/view/cadastrar/acompanhar/phone_number_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
 

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/backend/firebase/auth/document_name_current_user.dart';
+import '../../model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
 import '../../model/backend/firebase/auth/autenticacao.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/usuario/usuario.dart';

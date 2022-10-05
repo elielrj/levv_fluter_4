@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:levv4/model/backend/firebase/auth/document_name_current_user.dart';
+import 'package:levv4/model/backend/firebase/auth/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/bo/arquivo/arquivo.dart';
 import 'package:levv4/model/backend/firebase/auth/autenticacao.dart';
 import 'package:levv4/model/backend/firebase/storage/bando_de_arquivos.dart';
