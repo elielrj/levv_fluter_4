@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-mixin ErrorFirebaseAuth {
-  code(FirebaseAuthException e) {
+mixin CodigoDeErroDoFirebaseAuth {
+  codigoDeErro(FirebaseAuthException e) {
     switch (e.code) {
       case "quotaExceeded":
         print('quotaExceeded.');

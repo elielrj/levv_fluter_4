@@ -24,7 +24,7 @@ class TelaCadastrarAcompanhador extends StatefulWidget {
 }
 
 class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
-    with ErrorFirebaseAuth {
+     {
   final autenticacao = Autenticacao();
   var _classUser;
 
@@ -271,7 +271,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
         await _signInWithCredential(credential);
       },
       verificationFailed: (FirebaseAuthException e) {
-        code(e);
+        autenticacao.codigoDeErro(e);
       },
       codeSent: (String verificationId, int? resendToken) async {
         setState(() {
