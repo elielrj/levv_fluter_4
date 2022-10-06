@@ -4,12 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
-import 'package:levv4/model/dao/usuario/mixin_perfil.dart';
 
-import 'i_crud_usuario_dao.dart';
+import '../interface/i_crud_usuario_dao.dart';
 import 'mixin_buscar_referencia_perfil.dart';
 import 'mixin_criar_perfil.dart';
 import 'mixin_deletar_perfil.dart';
+
 
 class UsuarioDAO
     with CriarPerfil, SearchByReferencePerfil, DeletePerfil
@@ -135,4 +135,5 @@ class UsuarioDAO
       listaDePedidos: null,
     );
   }
+
 }

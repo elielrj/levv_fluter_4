@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import '../../../api/firebase_auth/autenticacao.dart';
 import '../../bo/meio_de_transporte/moto.dart';
-import 'i_crud_meio_de_transporte_dao.dart';
+import '../interface/i_crud_meio_de_transporte_dao.dart';
 
 
 class MotoDAO  implements ICrudMeioDeTransporteDAO<Moto> {

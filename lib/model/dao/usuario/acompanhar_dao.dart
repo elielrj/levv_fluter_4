@@ -3,7 +3,7 @@ import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
 import '../../bo/usuario/perfil/acompanhar/acompanhar.dart';
-import 'i_crud_usuario_dao.dart';
+import '../interface/i_crud_usuario_dao.dart';
 
 class AcompanharDAO  implements ICrudUsuarioDAO<Acompanhar> {
 

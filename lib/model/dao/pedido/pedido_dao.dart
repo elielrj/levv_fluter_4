@@ -2,10 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
-import '../meio_de_transporte/i_crud_meio_de_transporte_dao.dart';
+import '../interface/i_crud_pedido_dao.dart';
 
 
-class PedidoDAO implements ICrudMeioDeTransporteDAO<Pedido> {
+
+class PedidoDAO implements ICrudPedidoDAO<Pedido> {
   final bancoDeDados = BancoDeDados();
 
   final collectionPath = "pedidos";

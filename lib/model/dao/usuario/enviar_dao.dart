@@ -3,7 +3,7 @@ import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
 import '../../bo/usuario/perfil/enviar/enviar.dart';
-import 'i_crud_usuario_dao.dart';
+import '../interface/i_crud_usuario_dao.dart';
 
 class EnviarDAO implements ICrudUsuarioDAO<Enviar> {
   final bancoDeDados = BancoDeDados();

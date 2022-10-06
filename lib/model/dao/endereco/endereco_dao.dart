@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
-import 'package:levv4/model/dao/endereco/i_crud_endereco_dao.dart';
+import 'package:levv4/model/dao/interface/i_crud_endereco_dao.dart';
 
 class EnderecoDAO implements ICrudEnderecoDAO<Endereco> {
   final bancoDeDados = BancoDeDados();

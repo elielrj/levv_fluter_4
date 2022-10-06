@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:levv4/model/bo/arquivo/arquivo.dart';
 import 'package:levv4/api/firebase_auth/autenticacao.dart';
 import 'package:levv4/api/firebase_banco_de_arquivos/bando_de_arquivos.dart';
-import 'package:levv4/model/dao/arquivo/i_crud_arquivo_dao.dart';
+import 'package:levv4/model/dao/interface/i_crud_arquivo_dao.dart';
 
 class ArquivoDAO  implements ICrudArquivoDAO<Arquivo> {
   final bancoDeArquivos = BancoDeArquivos();

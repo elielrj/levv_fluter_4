@@ -7,7 +7,7 @@ import 'package:levv4/model/dao/meio_de_transporte/meio_de_transporte_dao.dart';
 import '../../bo/endereco/endereco.dart';
 import '../../bo/meio_de_transporte/meio_de_transporte.dart';
 import '../../bo/usuario/perfil/enviar/entregar/entregar.dart';
-import 'i_crud_usuario_dao.dart';
+import '../interface/i_crud_usuario_dao.dart';
 
 
 class EntregarDAO with
