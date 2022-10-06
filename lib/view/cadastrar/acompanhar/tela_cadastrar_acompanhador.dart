@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:levv4/api/codigo_do_pais/api_coutry_phone_code.dart';
+import 'package:levv4/api/codigo_do_pais/api_codigo_telefone_pais.dart';
 import 'package:levv4/view/cadastrar/acompanhar/phone_number_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
 
@@ -33,7 +33,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
 
   final _controllerMaskPhoneNumber = MasksLevv.phoneMaskBrazil;
 
-  final ApiCoutryPhoneCode _apiCoutryPhoneCode = ApiCoutryPhoneCode();
+  final ApiCodigoTelefoneDoPais _apiCoutryPhoneCode = ApiCodigoTelefoneDoPais();
 
   @override
   void initState() {

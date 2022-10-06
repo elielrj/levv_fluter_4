@@ -5,10 +5,10 @@ import 'package:levv4/api/cor/colors_levv.dart';
 
 ///https://pub.dev/packages/country_phone_code_picker
 
-class ApiCoutryPhoneCode {
+class ApiCodigoTelefoneDoPais {
 
 
-  final CountryPhoneCodePicker _countryPhoneCodePicker =
+  final CountryPhoneCodePicker _codigoDoTelefoneDoPais =
       CountryPhoneCodePicker
           .withDefaultSelectedCountry(
     backgroundColor: Colors.transparent,
@@ -21,5 +21,5 @@ class ApiCoutryPhoneCode {
     searchBarHintText: 'Search by name',
   );
 
-  CountryPhoneCodePicker get() => _countryPhoneCodePicker;
+  CountryPhoneCodePicker get() => _codigoDoTelefoneDoPais;
 }

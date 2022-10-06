@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../api/codigo_do_pais/api_coutry_phone_code.dart';
+import '../../../api/codigo_do_pais/api_codigo_telefone_pais.dart';
 import '../../../api/texto/text_levv.dart';
 
 class PhoneNumberLevv extends StatefulWidget {
@@ -10,7 +10,7 @@ class PhoneNumberLevv extends StatefulWidget {
       : super(key: key);
 
   final controllerMaskPhoneNumber;
-  final  ApiCoutryPhoneCode apiCoutryPhoneCode;
+  final  ApiCodigoTelefoneDoPais apiCoutryPhoneCode;
 
   @override
   State<PhoneNumberLevv> createState() => _PhoneNumberLevvState();
