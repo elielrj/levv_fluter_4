@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 
-import '../model/bo/usuario/usuario.dart';
-import '../view/cadastrar/acompanhar/tela_cadastrar_acompanhador.dart';
-import '../view/home/tela_home.dart';
+import '../../model/bo/usuario/usuario.dart';
+import '../../view/cadastrar/acompanhar/tela_cadastrar_acompanhador.dart';
+import '../../view/home/tela_home.dart';
 
 class UsuarioController {
 

@@ -9,7 +9,7 @@ import '../componentes/erro/show_dialog_erro.dart';
 import '../componentes/nevegacao/home/navegar_tela_home.dart';
 import '../componentes/logo/widget_logo_levv.dart';
 
-import '../../controller/usuario_controller.dart';
+import '../../controller/usuario/usuario_controller.dart';
 
 class TelaSplash extends StatefulWidget {
   const TelaSplash({Key? key}) : super(key: key);

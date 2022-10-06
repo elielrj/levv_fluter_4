@@ -262,10 +262,10 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
   //1 - primeiro
   _verifyPhoneNumber() async {
 
-    print("Phone Code: " + _apiCoutryPhoneCode.get().defaultCountryCode.phoneCode + _controllerMaskPhoneNumber.formatter.getMaskedText());
+    print("Phone Code: " + _apiCoutryPhoneCode.codigoDoTelefoneDoPais.defaultCountryCode.phoneCode + _controllerMaskPhoneNumber.formatter.getMaskedText());
 
     await autenticacao.auth.verifyPhoneNumber(
-      phoneNumber: _apiCoutryPhoneCode.get().defaultCountryCode.phoneCode + _controllerMaskPhoneNumber.formatter.getMaskedText(),
+      phoneNumber: _apiCoutryPhoneCode.codigoDoTelefoneDoPais.defaultCountryCode.phoneCode + _controllerMaskPhoneNumber.formatter.getMaskedText(),
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _signInWithCredential(credential);
       },

@@ -25,7 +25,7 @@ class _PhoneNumberLevvState extends State<PhoneNumberLevv> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(child: widget.apiCoutryPhoneCode.get()),
+        Expanded(child: widget.apiCoutryPhoneCode.codigoDoTelefoneDoPais),
         SizedBox(
           width: 280,
           child: TextField(
