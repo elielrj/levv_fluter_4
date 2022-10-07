@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
+import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/carro.dart';
@@ -11,6 +12,9 @@ import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 import 'package:levv4/view/mapa/localizar/localizar.dart';
 
+import '../../../api/mascara/formatter_cep.dart';
+import '../../../api/mascara/formatter_cpf.dart';
+import '../../../api/mascara/formatter_date.dart';
 import '../../../api/mascara/masks_levv.dart';
 import '../../../model/bo/arquivo/arquivo.dart';
 import '../../../model/bo/meio_de_transporte/bike.dart';
@@ -38,8 +42,8 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
     with ShowDialogErro {
   final controllerNome = TextEditingController();
   final controllerSobrenome = TextEditingController();
-  final controllerMaskCpf = MasksLevv.cpfMask;
-  final controllerMaskNascimento = MasksLevv.dateMask;
+  final controllerMaskCpf = Mask(formatter: FormatterCpf());
+  final controllerMaskNascimento = Mask(formatter: FormatterDate());
   final documentoDeIdentificacao = Arquivo();
 
   int valueMeioDeTransporte = 0;
@@ -53,7 +57,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
   final logradouro = TextEditingController();
   final numero = TextEditingController();
   final complemento = TextEditingController();
-  final cepMask = MasksLevv.cepMask;
+  final cepMask = Mask(formatter: FormatterCep());
   final bairro = TextEditingController();
   final cidade = TextEditingController();
   final estado = TextEditingController();
@@ -190,12 +194,12 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         //todo resolver contagem
-                        counterText: controllerMaskCpf.formatter
+                        counterText: controllerMaskCpf.formatter.getFormatter()
                                     .getUnmaskedText()
                                     .length <=
                                 1
-                            ? "${controllerMaskCpf.formatter.getUnmaskedText().length} caracter"
-                            : "${controllerMaskCpf.formatter.getUnmaskedText().length} caracteres",
+                            ? "${controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length} caracter"
+                            : "${controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length} caracteres",
                         labelText: "CPF",
                         labelStyle: const TextStyle(
                             backgroundColor: Colors.white, color: Colors.black),
@@ -209,14 +213,14 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                                 color: Colors.green, width: 2)),
                         prefixIcon: Icon(
                           Icons.account_circle,
-                          color: (controllerMaskCpf.formatter
+                          color: (controllerMaskCpf.formatter.getFormatter()
                                       .getUnmaskedText()
                                       .length <
                                   3
                               ? Colors.black
                               : Colors.green),
                         ),
-                        suffixIcon: controllerMaskCpf.formatter
+                        suffixIcon: controllerMaskCpf.formatter.getFormatter()
                                 .getUnmaskedText()
                                 .isEmpty
                             ? Container(
@@ -232,7 +236,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                         fillColor: Colors.white,
                         filled: true,
                       ),
-                      inputFormatters: [controllerMaskCpf.formatter],
+                      inputFormatters: [controllerMaskCpf.formatter.getFormatter()],
                       maxLength: 14,
                       style: const TextStyle(fontSize: 18),
                     ),
@@ -242,12 +246,12 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                           controllerMaskNascimento.textEditingController,
                       keyboardType: TextInputType.datetime,
                       decoration: InputDecoration(
-                        counterText: controllerMaskNascimento.formatter
+                        counterText: controllerMaskNascimento.formatter.getFormatter()
                                     .getUnmaskedText()
                                     .length <=
                                 1
-                            ? "${controllerMaskNascimento.formatter.getUnmaskedText().length} caracter"
-                            : "${controllerMaskNascimento.formatter.getUnmaskedText().length} caracteres",
+                            ? "${controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length} caracter"
+                            : "${controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length} caracteres",
                         labelText: "Data de nascimento",
                         labelStyle: const TextStyle(
                             backgroundColor: Colors.white, color: Colors.black),
@@ -261,14 +265,14 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                                 color: Colors.green, width: 2)),
                         prefixIcon: Icon(
                           Icons.account_circle,
-                          color: (controllerMaskNascimento.formatter
+                          color: (controllerMaskNascimento.formatter.getFormatter()
                                       .getUnmaskedText()
                                       .length <
                                   3
                               ? Colors.black
                               : Colors.green),
                         ),
-                        suffixIcon: controllerMaskNascimento.formatter
+                        suffixIcon: controllerMaskNascimento.formatter.getFormatter()
                                 .getUnmaskedText()
                                 .isEmpty
                             ? Container(
@@ -284,7 +288,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                         fillColor: Colors.white,
                         filled: true,
                       ),
-                      inputFormatters: [controllerMaskNascimento.formatter],
+                      inputFormatters: [controllerMaskNascimento.formatter.getFormatter()],
                       maxLength: 10,
                       style: const TextStyle(fontSize: 18),
                     ),
@@ -920,12 +924,12 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                       controller: cepMask.textEditingController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        counterText: cepMask.formatter
+                        counterText: cepMask.formatter.getFormatter()
                                     .getUnmaskedText()
                                     .length <=
                                 1
-                            ? "${cepMask.formatter.getUnmaskedText().length} caracter"
-                            : "${cepMask.formatter.getUnmaskedText().length} caracteres",
+                            ? "${cepMask.formatter.getFormatter().getUnmaskedText().length} caracter"
+                            : "${cepMask.formatter.getFormatter().getUnmaskedText().length} caracteres",
                         labelText: "CEP",
                         labelStyle: const TextStyle(
                             backgroundColor: Colors.white, color: Colors.black),
@@ -940,11 +944,11 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                         prefixIcon: Icon(
                           Icons.account_circle,
                           color:
-                              (cepMask.formatter.getUnmaskedText().length == 9
+                              (cepMask.formatter.getFormatter().getUnmaskedText().length == 9
                                   ? Colors.black
                                   : Colors.green),
                         ),
-                        suffixIcon: cepMask.formatter.getUnmaskedText().isEmpty
+                        suffixIcon: cepMask.formatter.getFormatter().getUnmaskedText().isEmpty
                             ? Container(
                                 width: 0,
                               )
@@ -957,7 +961,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                         fillColor: Colors.white,
                         filled: true,
                       ),
-                      inputFormatters: [cepMask.formatter],
+                      inputFormatters: [cepMask.formatter.getFormatter()],
                       maxLength: 9,
                       style: const TextStyle(fontSize: 18),
                     ),
@@ -1400,7 +1404,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
   }
 
   bool _verificarCpf() {
-    if (controllerMaskCpf.formatter.getUnmaskedText().length == 11) {
+    if (controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length == 11) {
       return _verificarNascimento();
     } else {
       _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo CPF!");
@@ -1410,7 +1414,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
   }
 
   bool _verificarNascimento() {
-    if (controllerMaskNascimento.formatter.getUnmaskedText().length == 8) {
+    if (controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length == 8) {
       return _verificarDocumentoDeIdentificacao();
     } else {
       _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Data de Nascimento!");
@@ -1484,7 +1488,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
   }
 
   bool _verificarCep(){
-    if(cepMask.formatter.getUnmaskedText().length == 8){
+    if(cepMask.formatter.getFormatter().getUnmaskedText().length == 8){
       return _verificarBairro();
     }else{
       _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Cep!");

@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:levv4/api/codigo_do_pais/api_codigo_telefone_pais.dart';
+import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/view/cadastrar/acompanhar/phone_number_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
 
+import '../../../api/mascara/formatter_phone.dart';
+import '../../../api/mascara/formatter_sms.dart';
 import '../../../api/mascara/masks_levv.dart';
 import '../../../api/firebase_auth/autenticacao.dart';
 import '../../../model/bo/usuario/perfil/acompanhar/acompanhar.dart';
@@ -22,16 +25,15 @@ class TelaCadastrarAcompanhador extends StatefulWidget {
       _TelaCadastrarAcompanhadorState();
 }
 
-class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
-     {
+class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   final autenticacao = Autenticacao();
   var _classUser;
 
-  final _controllerSmsMask = MasksLevv.smsMask;
+  final _controllerSmsMask = Mask(formatter: FormatterSms());
   bool smsEnviado = false;
   String verificationIdToken = "";
 
-  final _controllerMaskPhoneNumber = MasksLevv.phoneMaskBrazil;
+  final _controllerMaskPhoneNumber = Mask(formatter: FormatterPhone());
 
   final ApiCodigoTelefoneDoPais _apiCoutryPhoneCode = ApiCodigoTelefoneDoPais();
 
@@ -87,10 +89,11 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 counterText: _controllerSmsMask.formatter
+                                        .getFormatter()
                                         .getUnmaskedText()
                                         .isNotEmpty
-                                    ? "${_controllerSmsMask.formatter.getUnmaskedText().length} ${TextLevv.VARIOS_CARACTERES}"
-                                    : "${_controllerSmsMask.formatter.getUnmaskedText().length} ${TextLevv.UM_CARACTER}",
+                                    ? "${_controllerSmsMask.formatter.getFormatter().getUnmaskedText().length} ${TextLevv.VARIOS_CARACTERES}"
+                                    : "${_controllerSmsMask.formatter.getFormatter().getUnmaskedText().length} ${TextLevv.UM_CARACTER}",
                                 labelText: TextLevv.CODIGO_SMS,
                                 labelStyle: const TextStyle(
                                     backgroundColor: Colors.white,
@@ -104,6 +107,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
                                   color: Colors.black,
                                 ),
                                 suffixIcon: _controllerSmsMask.formatter
+                                        .getFormatter()
                                         .getUnmaskedText()
                                         .isEmpty
                                     ? Container(width: 0)
@@ -119,7 +123,9 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
                                 fillColor: Colors.white,
                                 filled: true,
                               ),
-                              inputFormatters: [_controllerSmsMask.formatter],
+                              inputFormatters: [
+                                _controllerSmsMask.formatter.getFormatter()
+                              ],
                               maxLength: 7,
                               style: const TextStyle(fontSize: 14),
                             ),
@@ -138,6 +144,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
                                 await _phoneCredentialWithCodeSent(
                                     verificationIdToken,
                                     int.parse(_controllerSmsMask.formatter
+                                        .getFormatter()
                                         .getUnmaskedText()));
                               },
                               child: Row(
@@ -181,9 +188,13 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
         ),
         onPressed: () async {
           if (_controllerMaskPhoneNumber.formatter
+                  .getFormatter()
                   .getUnmaskedText()
                   .isNotEmpty &&
-              _controllerMaskPhoneNumber.formatter.getUnmaskedText().length ==
+              _controllerMaskPhoneNumber.formatter
+                      .getFormatter()
+                      .getUnmaskedText()
+                      .length ==
                   11) {
             //if (await _createUserWithEmailAndPassword()) {
 
@@ -196,7 +207,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
                       }
                     } else {
                       _displayEmptyFieldWaring();*/
-          }else{
+          } else {
             showDialog(
                 context: context,
                 builder: (context) {
@@ -204,7 +215,8 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
                     title: Text("Não é possível cadastrar! Números inválidos",
                         textAlign: TextAlign.center),
                     titlePadding: EdgeInsets.all(20),
-                    titleTextStyle: TextStyle(fontSize: 20, color: Colors.black),
+                    titleTextStyle:
+                        TextStyle(fontSize: 20, color: Colors.black),
                   );
                 });
           }
@@ -261,11 +273,15 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador>
 
   //1 - primeiro
   _verifyPhoneNumber() async {
-
-    print("Phone Code: " + _apiCoutryPhoneCode.codigoDoTelefoneDoPais.defaultCountryCode.phoneCode + _controllerMaskPhoneNumber.formatter.getMaskedText());
+    print("Phone Code: " +
+        _apiCoutryPhoneCode
+            .codigoDoTelefoneDoPais.defaultCountryCode.phoneCode +
+        _controllerMaskPhoneNumber.formatter.getFormatter().getMaskedText());
 
     await autenticacao.auth.verifyPhoneNumber(
-      phoneNumber: _apiCoutryPhoneCode.codigoDoTelefoneDoPais.defaultCountryCode.phoneCode + _controllerMaskPhoneNumber.formatter.getMaskedText(),
+      phoneNumber: _apiCoutryPhoneCode
+              .codigoDoTelefoneDoPais.defaultCountryCode.phoneCode +
+          _controllerMaskPhoneNumber.formatter.getFormatter().getMaskedText(),
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _signInWithCredential(credential);
       },

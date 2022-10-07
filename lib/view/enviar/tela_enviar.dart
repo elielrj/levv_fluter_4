@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
@@ -11,6 +12,7 @@ import 'package:levv4/view/enviar/pedido_veiculo.dart';
 import 'package:levv4/view/enviar/item_with_collect_delivery.dart';
 import 'package:levv4/view/enviar/pedido_peso.dart';
 
+import '../../api/mascara/formatter_valor_em_real.dart';
 import '../../api/mascara/masks_levv.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/meio_de_transporte/carro.dart';
@@ -36,7 +38,7 @@ class TelaEnviar extends StatefulWidget {
 
 class _TelaEnviarState extends State<TelaEnviar> {
   //final pedido = Pedido();
-  final controllerValor = MasksLevv.moedaRealMask;
+  final controllerValor = Mask(formatter: FormatterValorEmReal());
   bool limparControllers = false;
 
   @override

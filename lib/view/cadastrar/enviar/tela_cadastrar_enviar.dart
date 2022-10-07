@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
@@ -7,6 +8,8 @@ import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 
 import 'package:levv4/view/enviar/tela_enviar.dart';
 
+import '../../../api/mascara/formatter_cpf.dart';
+import '../../../api/mascara/formatter_date.dart';
 import '../../../api/mascara/masks_levv.dart';
 import '../../../model/bo/arquivo/arquivo.dart';
 import '../../../model/bo/usuario/perfil/enviar/enviar.dart';
@@ -27,8 +30,8 @@ class TelaCadastrarCliente extends StatefulWidget {
 class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
   final controllerNome = TextEditingController();
   final controllerSobrenome = TextEditingController();
-  final controllerMaskCpf = MasksLevv.cpfMask;
-  final controllerMaskNascimento = MasksLevv.dateMask;
+  final controllerMaskCpf = Mask(formatter: FormatterCpf());
+  final controllerMaskNascimento = Mask(formatter: FormatterDate());
   final documentoDeIdentificacao = Arquivo();
 
   String labelTextNome = "Nome";
@@ -241,10 +244,10 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     counterText: controllerMaskCpf
-                                .formatter.getUnmaskedText().length <=
+                                .formatter.getFormatter().getUnmaskedText().length <=
                             1
-                        ? "${controllerMaskCpf.formatter.getUnmaskedText().length} caracter"
-                        : "${controllerMaskCpf.formatter.getUnmaskedText().length} caracteres",
+                        ? "${controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length} caracter"
+                        : "${controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length} caracteres",
                     labelText: labelTextCpf,
                     labelStyle: const TextStyle(
                         backgroundColor: Colors.white, color: Colors.black),
@@ -274,7 +277,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  inputFormatters: [controllerMaskCpf.formatter],
+                  inputFormatters: [controllerMaskCpf.formatter.getFormatter()],
                   maxLength: 100,
                   style: const TextStyle(fontSize: 18),
                 ),
@@ -283,9 +286,9 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                   controller: controllerMaskNascimento.textEditingController,
                   keyboardType: TextInputType.datetime,
                   decoration: InputDecoration(
-                    counterText: controllerMaskNascimento.formatter.getUnmaskedText().length <= 1
-                        ? "${controllerMaskNascimento.formatter.getUnmaskedText().length} caracter"
-                        : "${controllerMaskNascimento.formatter.getUnmaskedText().length} caracteres",
+                    counterText: controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length <= 1
+                        ? "${controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length} caracter"
+                        : "${controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length} caracteres",
                     labelText: labelTextNascimento,
                     labelStyle: const TextStyle(
                         backgroundColor: Colors.white, color: Colors.black),
@@ -312,7 +315,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  inputFormatters: [controllerMaskNascimento.formatter],
+                  inputFormatters: [controllerMaskNascimento.formatter.getFormatter()],
                   maxLength: 100,
                   style: const TextStyle(fontSize: 18),
                 ),

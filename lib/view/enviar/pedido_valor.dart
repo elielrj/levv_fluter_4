@@ -21,7 +21,7 @@ class _PedidoValorState extends State<PedidoValor> {
         const Text("VALOR"),
         TextField(
           controller: widget.controllerValor.textEditingController,
-          inputFormatters: [widget.controllerValor.formatter],
+          inputFormatters: [widget.controllerValor.formatter.getFormatter()],
           enabled: false,
           decoration: const InputDecoration(
               labelStyle: TextStyle(backgroundColor: Colors.white),
