@@ -110,7 +110,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
         builder: (context) {
           return AlertDialog(
             title: const Text("Campo Vazio"),
-            titlePadding: EdgeInsets.all(20),
+            titlePadding: const EdgeInsets.all(20),
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
             content: const Text("Envie um documento de identificação!"),
             actions: [

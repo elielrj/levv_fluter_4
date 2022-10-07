@@ -40,7 +40,7 @@ class _MenuDosBotoesState extends State<MenuDosBotoes> {
               TextButton(
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(25)),
+                          const EdgeInsets.all(20)),
                       backgroundColor: MaterialStateProperty.all(
                           widget.listaDeStatusDosBotoes[index]
                               ? ColorsLevv

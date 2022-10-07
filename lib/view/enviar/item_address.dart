@@ -141,10 +141,12 @@ class _ItemAddressState extends State<ItemAddress> {
       if (widget.labelText == TextLevv.ENDERECO_ENTREGA) {
         setState(() {
           widget.itemDoPedido.entrega = endereco;
+          _controller.text = widget.itemDoPedido.entrega.toString();
         });
       } else {
         setState(() {
           widget.itemDoPedido.coleta = endereco;
+          _controller.text = widget.itemDoPedido.coleta.toString();
         });
       }
     }catch(error){

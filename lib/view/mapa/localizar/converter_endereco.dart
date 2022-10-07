@@ -37,7 +37,7 @@ mixin ConverterEnderecos {
     try {
       if (position != null) {
         return await converterLatitudeLongitudeEmEndereco(
-            latitude: position.longitude, longitude: position.longitude);
+            latitude: position.latitude, longitude: position.longitude);
       }
     } catch (error) {
       print("erro ao buscar location: ${error.toString()}");

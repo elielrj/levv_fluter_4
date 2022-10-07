@@ -57,7 +57,8 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
   final bairro = TextEditingController();
   final cidade = TextEditingController();
   final estado = TextEditingController();
-  GeoPoint geoPoit = GeoPoint(0.0, 0.0);
+  //todo mudar isso no geopoint
+  GeoPoint geoPoit = GeoPoint(2.1, 1.1);
 
   @override
   void initState() {
@@ -374,6 +375,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                   child: Text(
                     "Meio que utilizará para transportar pedidos",
                     style: TextStyle(fontSize: 22, color: Colors.white),
+                    textAlign: TextAlign.center,
                   ),
                 ),
 
@@ -1383,7 +1385,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
     if (controllerNome.text.length > 3) {
       return _verificarSobrenome();
     } else {
-      _exibirMensagemDeCampoVazio();
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo nome!");
       return false;
     }
   }
@@ -1392,7 +1394,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
     if (controllerSobrenome.text.length > 3) {
       return _verificarCpf();
     } else {
-      _exibirMensagemDeCampoVazio();
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo sobrnome!");
       return false;
     }
   }
@@ -1401,7 +1403,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
     if (controllerMaskCpf.formatter.getUnmaskedText().length == 11) {
       return _verificarNascimento();
     } else {
-      _exibirMensagemDeCampoVazio();
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo CPF!");
       print("erro em verificar cpf");
       return false;
     }
@@ -1411,7 +1413,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
     if (controllerMaskNascimento.formatter.getUnmaskedText().length == 8) {
       return _verificarDocumentoDeIdentificacao();
     } else {
-      _exibirMensagemDeCampoVazio();
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Data de Nascimento!");
       return false;
     }
   }
@@ -1442,28 +1444,90 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
         return false;
       }
     } else {
-      _exibirMensagemDeCampoVazio();
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, nos campos meio de transporte!");
       print("erro em verificar meio de transporte");
       return false;
     }
   }
 
+
+
   bool _verificarEnderecoDeCasa() {
-    if (logradouro.text.length > 3 &&
-        numero.text.length > 3 &&
-        complemento.text.length > 3 &&
-        cepMask.formatter.getUnmaskedText().length == 8 &&
-        (geoPoit.latitude != 0.0 && geoPoit.longitude != 0.0) &&
-        bairro.text.length > 3 &&
-        cidade.text.length > 3 &&
-        estado.text.length > 3) {
-      return true;
-    } else {
-      _exibirMensagemDeCampoVazio();
-      print("erro em verificar endereço de casa");
+    return _verificarLogradouro();
+  }
+
+  bool _verificarLogradouro(){
+    if(logradouro.text.length >= 3){
+      return _verificarNumero();
+    }else{
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Logradouro!");
       return false;
     }
   }
+
+  bool _verificarNumero(){
+    if(numero.text.length >= 3){
+      return _verificarComplemento();
+    }else{
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Número!");
+      return false;
+    }
+  }
+
+  bool _verificarComplemento(){
+    if(complemento.text.length >= 3){
+      return _verificarCep();
+    }else{
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Complemento!");
+      return false;
+    }
+  }
+
+  bool _verificarCep(){
+    if(cepMask.formatter.getUnmaskedText().length == 8){
+      return _verificarBairro();
+    }else{
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Cep!");
+      return false;
+    }
+  }
+
+  bool _verificarBairro(){
+    if(bairro.text.length >= 3){
+      return _verificarCidade();
+    }else{
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Bairro!");
+      return false;
+    }
+  }
+
+  bool _verificarCidade(){
+    if(cidade.text.length >= 3){
+      return _verificarEstado();
+    }else{
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Cidade!");
+      return false;
+    }
+  }
+
+  bool _verificarEstado(){
+    if(estado.text.length >= 3){
+      return _verificarGeopoint();
+    }else{
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Estado!");
+      return false;
+    }
+  }
+
+  bool _verificarGeopoint(){
+    if(geoPoit.latitude != 0.0 && geoPoit.longitude != 0.0){
+      return true;
+    }else{
+      _exibirMensagemDeCampoVazio(mensagem:  "Varifique os dados digitados, no campo Geopoint!");
+      return false;
+    }
+  }
+
 
   _navegarParaTelaEntregar() {
     Navigator.pushReplacement(
@@ -1494,7 +1558,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
         });
   }
 
-  _exibirMensagemDeCampoVazio() {
+  _exibirMensagemDeCampoVazio({required String mensagem}) {
     showDialog(
         context: context,
         builder: (context) {
@@ -1502,8 +1566,8 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
             title: const Text("Campo Inválido"),
             titlePadding: EdgeInsets.all(20),
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
-            content: const Text(
-                "Varifique os dados digitados, pois há 1 ou mais campos vazios!"),
+            content: Text(
+                mensagem),
             actions: [
               TextButton(
                   onPressed: () {
