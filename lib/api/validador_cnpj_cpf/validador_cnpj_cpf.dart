@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class ValidadorCnpjCpf{
 
-  bool isValidCpf(String cpf){
+  static bool isValidCpf(String cpf){
     return CPFValidator.isValid(cpf);
   }
 
-  bool isValidCnpj(String cnpj){
+  static bool isValidCnpj(String cnpj){
     return CNPJValidator.isValid(cnpj);
   }
 
