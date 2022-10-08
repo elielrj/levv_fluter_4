@@ -53,4 +53,3 @@ app.*.map.json
 /android/local.properties
 
 
-/android/app/src/main/AndroidManifest.xml
