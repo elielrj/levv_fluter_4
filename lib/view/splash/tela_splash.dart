@@ -76,6 +76,8 @@ class _TelaSplashState extends State<TelaSplash> with Navegar, ShowDialogErro {
         usuarioController.navegarParaTelaHome(context: context);
       } catch (erro) {
         _erroAoBuscarUsuario();
+        print(
+            "erro -> tela splash -> escolher proxima tela: ${erro.toString()}");
       }
     } else {
       usuarioController.navegarParaTelaCadastrarAcompanhador(context: context);

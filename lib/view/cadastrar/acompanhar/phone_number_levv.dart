@@ -4,21 +4,20 @@ import '../../../api/codigo_do_pais/api_codigo_telefone_pais.dart';
 import '../../../api/texto/text_levv.dart';
 
 class PhoneNumberLevv extends StatefulWidget {
-  const PhoneNumberLevv({Key? key,
-    this.controllerMaskPhoneNumber,
-    required this.apiCoutryPhoneCode})
+  const PhoneNumberLevv(
+      {Key? key,
+      this.controllerMaskPhoneNumber,
+      required this.apiCoutryPhoneCode})
       : super(key: key);
 
   final controllerMaskPhoneNumber;
-  final  ApiCodigoTelefoneDoPais apiCoutryPhoneCode;
+  final ApiCodigoTelefoneDoPais apiCoutryPhoneCode;
 
   @override
   State<PhoneNumberLevv> createState() => _PhoneNumberLevvState();
 }
 
 class _PhoneNumberLevvState extends State<PhoneNumberLevv> {
-
-
   @override
   Widget build(BuildContext context) {
     return Row(

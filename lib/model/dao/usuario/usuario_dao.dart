@@ -19,7 +19,7 @@ class UsuarioDAO
 
   final autenticacao = Autenticacao();
 
-  final collectionPath = "usuarios";
+  static String collectionPath = "usuarios";
 
   @override
   Future<void> criar(Usuario object) async {

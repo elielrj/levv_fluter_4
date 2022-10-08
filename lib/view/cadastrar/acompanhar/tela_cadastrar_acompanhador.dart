@@ -313,7 +313,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
     await _signInWithCredential(credential);
 
     if (_classUser != null) {
-      _navigatorToHomeScreen();
+      _navegarParaTelaHome();
     }
   }
 
@@ -357,7 +357,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         });
   }
 
-  _navigatorToHomeScreen() {
+  _navegarParaTelaHome() {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(

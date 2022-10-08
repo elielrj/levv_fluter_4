@@ -6,7 +6,6 @@ import '../../view/cadastrar/acompanhar/tela_cadastrar_acompanhador.dart';
 import '../../view/home/tela_home.dart';
 
 class UsuarioController {
-
   final UsuarioDAO _usuarioDAO = UsuarioDAO();
   late final Usuario _usuario;
 
@@ -15,8 +14,8 @@ class UsuarioController {
   }
 
   Future<void> buscarUsuario() async {
-    _usuario = await _usuarioDAO.buscarUmUsuarioPeloNomeDoDocumento(_usuarioDAO.autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(
+    _usuario = await _usuarioDAO.buscarUmUsuarioPeloNomeDoDocumento(
+        _usuarioDAO.autenticacao.nomeDoDocumentoDoUsuarioCorrente(
             _usuarioDAO.autenticacao.auth.currentUser!));
   }
 
