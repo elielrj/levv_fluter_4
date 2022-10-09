@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
-import 'package:levv4/api/firebase_auth/autenticacao.dart';
+import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
 import '../interface/i_crud_usuario_dao.dart';

@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
-import 'package:levv4/api/firebase_auth/autenticacao.dart';
+import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/dao/interface/i_crud_endereco_dao.dart';
 

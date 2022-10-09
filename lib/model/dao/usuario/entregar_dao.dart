@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/api/firebase_auth/autenticacao.dart';
+import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/dao/endereco/endereco_dao.dart';
 import 'package:levv4/model/dao/meio_de_transporte/meio_de_transporte_dao.dart';

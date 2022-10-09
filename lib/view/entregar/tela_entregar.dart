@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../../api/firebase_auth/autenticacao.dart';
+import '../../api/firebase_autenticacao/autenticacao.dart';
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';

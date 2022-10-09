@@ -32,9 +32,7 @@ class _PhoneNumberLevvState extends State<PhoneNumberLevv> {
           width: 280,
           child: Column(
             children: [
-              const SizedBox(
-                height: 18,
-              ),
+              const SizedBox(height: 18),
               TextField(
                 controller: widget.maskPhoneNumber.textEditingController,
                 keyboardType: TextInputType.phone,

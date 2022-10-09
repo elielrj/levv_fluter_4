@@ -8,7 +8,7 @@ import 'package:levv4/view/home/tela_home.dart';
 import '../../../api/mascara/formatter_phone.dart';
 import '../../../api/mascara/formatter_sms.dart';
 import '../../../api/mascara/masks_levv.dart';
-import '../../../api/firebase_auth/autenticacao.dart';
+import '../../../api/firebase_autenticacao/autenticacao.dart';
 import '../../../model/bo/usuario/perfil/acompanhar/acompanhar.dart';
 import '../../../model/bo/usuario/usuario.dart';
 import '../../../model/dao/usuario/usuario_dao.dart';
