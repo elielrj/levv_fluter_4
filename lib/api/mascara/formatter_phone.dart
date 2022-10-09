@@ -5,9 +5,9 @@ import 'formatter.dart';
 
 class FormatterPhone implements Formatter {
 
-  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "+## ## #####-####");
+  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "(##) #####-####");
 
-  static String HINT = "+00 00 00000 0000";
+  static String HINT = "(00) 00000 0000";
 
   final TextInputType textInputType = TextInputType.phone;
 

@@ -15,6 +15,7 @@ import '../../../model/dao/usuario/usuario_dao.dart';
 import '../../../api/cor/colors_levv.dart';
 import '../../../api/imagem/image_levv.dart';
 import '../../../api/texto/text_levv.dart';
+import '../../componentes/counter_text/counter_text.dart';
 import '../../componentes/logo/widget_logo_levv.dart';
 
 class TelaCadastrarAcompanhador extends StatefulWidget {
@@ -33,7 +34,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   bool smsEnviado = false;
   String verificationIdToken = "";
 
-  final _controllerMaskPhoneNumber = Mask(formatter: FormatterPhone());
+  final _maskPhoneNumber = Mask(formatter: FormatterPhone());
 
   final ApiCodigoTelefoneDoPais _apiCoutryPhoneCode = ApiCodigoTelefoneDoPais();
 
@@ -41,8 +42,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   void initState() {
     super.initState();
 
-    _controllerMaskPhoneNumber.textEditingController
-        .addListener(() => setState(() {}));
+    _maskPhoneNumber.textEditingController.addListener(() => setState(() {}));
 
     _controllerSmsMask.textEditingController.addListener(() => setState(() {}));
   }
@@ -63,111 +63,8 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                   padding: const EdgeInsets.only(bottom: 32),
                   child: logoLevv(),
                 ),
-                !smsEnviado
-                    ? Container(
-                        child: Column(
-                          children: [
-                            PhoneNumberLevv(
-                                controllerMaskPhoneNumber:
-                                    _controllerMaskPhoneNumber,
-                                apiCoutryPhoneCode: _apiCoutryPhoneCode),
-                            _textButton(),
-                          ],
-                        ),
-                      )
-                    : Container(
-                        width: 0,
-                      ),
-                smsEnviado
-                    ? Container(
-                        padding: const EdgeInsets.only(top: 32),
-                        child: Column(
-                          children: [
-                            TextField(
-                              controller:
-                                  _controllerSmsMask.textEditingController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                counterText: _controllerSmsMask.formatter
-                                        .getFormatter()
-                                        .getUnmaskedText()
-                                        .isNotEmpty
-                                    ? "${_controllerSmsMask.formatter.getFormatter().getUnmaskedText().length} ${TextLevv.VARIOS_CARACTERES}"
-                                    : "${_controllerSmsMask.formatter.getFormatter().getUnmaskedText().length} ${TextLevv.UM_CARACTER}",
-                                labelText: TextLevv.CODIGO_SMS,
-                                labelStyle: const TextStyle(
-                                    backgroundColor: Colors.white,
-                                    color: Colors.black),
-                                enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
-                                        color: Colors.black12, width: 2)),
-                                prefixIcon: const Icon(
-                                  Icons.sms_outlined,
-                                  color: Colors.black,
-                                ),
-                                suffixIcon: _controllerSmsMask.formatter
-                                        .getFormatter()
-                                        .getUnmaskedText()
-                                        .isEmpty
-                                    ? Container(width: 0)
-                                    : IconButton(
-                                        onPressed: () => _controllerSmsMask
-                                            .textEditingController
-                                            .clear(),
-                                        icon: const Icon(
-                                          Icons.close,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                fillColor: Colors.white,
-                                filled: true,
-                              ),
-                              inputFormatters: [
-                                _controllerSmsMask.formatter.getFormatter()
-                              ],
-                              maxLength: 7,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                            TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                textStyle: const TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                                padding: const EdgeInsets.only(top: 8),
-                                minimumSize: const Size(180, 65),
-                                elevation: 2,
-                                primary: Colors.black,
-                                alignment: Alignment.center,
-                              ),
-                              onPressed: () async {
-                                await _phoneCredentialWithCodeSent(
-                                    verificationIdToken,
-                                    int.parse(_controllerSmsMask.formatter
-                                        .getFormatter()
-                                        .getUnmaskedText()));
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    ImageLevv.REGISTER,
-                                    width: 20,
-                                    height: 20,
-                                  ),
-                                  const SizedBox(width: 20),
-                                  const Text("Enviar SMS")
-                                ],
-                              ),
-                            ),
-                            const Text("aguarde!"),
-                          ],
-                        ),
-                      )
-                    : Container(
-                        width: 0,
-                      ),
+                !smsEnviado ? _smsNaoEnviado() : Container(width: 0),
+                smsEnviado ? _smsEnviado() : Container(width: 0),
               ],
             ),
           ),
@@ -183,15 +80,15 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
           padding: const EdgeInsets.all(0),
           minimumSize: const Size(180, 65),
           elevation: 2,
-          primary: Colors.black,
+          foregroundColor: Colors.black,
           alignment: Alignment.center,
         ),
         onPressed: () async {
-          if (_controllerMaskPhoneNumber.formatter
+          if (_maskPhoneNumber.formatter
                   .getFormatter()
                   .getUnmaskedText()
                   .isNotEmpty &&
-              _controllerMaskPhoneNumber.formatter
+              _maskPhoneNumber.formatter
                       .getFormatter()
                       .getUnmaskedText()
                       .length ==
@@ -236,13 +133,99 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         ),
       );
 
+  _smsNaoEnviado() => Container(
+        child: Column(
+          children: [
+            PhoneNumberLevv(
+                maskPhoneNumber: _maskPhoneNumber,
+                apiCoutryPhoneCode: _apiCoutryPhoneCode),
+            _textButton(),
+          ],
+        ),
+      );
+
+  _smsEnviado() => Container(
+        padding: const EdgeInsets.only(top: 32),
+        child: Column(
+          children: [
+            TextField(
+              controller: _controllerSmsMask.textEditingController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                counterText: CounterText(mask: _controllerSmsMask).contar(),
+                labelText: TextLevv.CODIGO_SMS,
+                labelStyle: const TextStyle(
+                    backgroundColor: Colors.white, color: Colors.black),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide:
+                        const BorderSide(color: Colors.black12, width: 2)),
+                prefixIcon: const Icon(
+                  Icons.sms_outlined,
+                  color: Colors.black,
+                ),
+                suffixIcon: _controllerSmsMask.formatter
+                        .getFormatter()
+                        .getUnmaskedText()
+                        .isEmpty
+                    ? Container(width: 0)
+                    : IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _controllerSmsMask.textEditingController.clear();
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.red,
+                        ),
+                      ),
+                fillColor: Colors.white,
+                filled: true,
+              ),
+              inputFormatters: [_controllerSmsMask.formatter.getFormatter()],
+              maxLength: 7,
+              style: const TextStyle(fontSize: 14),
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white,
+                textStyle: const TextStyle(color: Colors.black, fontSize: 18),
+                padding: const EdgeInsets.only(top: 8),
+                minimumSize: const Size(180, 65),
+                elevation: 2,
+                foregroundColor: Colors.black,
+                alignment: Alignment.center,
+              ),
+              onPressed: () async {
+                await _phoneCredentialWithCodeSent(
+                    verificationIdToken,
+                    int.parse(_controllerSmsMask.formatter
+                        .getFormatter()
+                        .getUnmaskedText()));
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    ImageLevv.REGISTER,
+                    width: 20,
+                    height: 20,
+                  ),
+                  const SizedBox(width: 20),
+                  const Text("Enviar Código")
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+
   Future<bool> _createUserWithEmailAndPassword() async {
-    String celular =
-        _controllerMaskPhoneNumber.textEditingController.text.toString();
+    String celular = _maskPhoneNumber.textEditingController.text.toString();
     celular = "elielrj@gmail.com";
 
-    //todo remove
-    print("filtro ...auenticando...");
     await autenticacao.auth
         .createUserWithEmailAndPassword(email: celular, password: "952420")
         .then((userCredential) async {
@@ -252,8 +235,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
 
       return true;
     });
-    //todo remove
-    print("filtro ..autenticado");
+
     return false;
   }
 
@@ -262,26 +244,16 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   }
 
   Future<void> _createUserDAO() async {
-    //todo remove
-    print("filtro criando user");
     final usuarioDAO = UsuarioDAO();
     await usuarioDAO.criar(_classUser);
-
-    //todo remove
-    print("filtro user criado");
   }
 
   //1 - primeiro
   _verifyPhoneNumber() async {
-    print("Phone Code: " +
-        _apiCoutryPhoneCode
-            .codigoDoTelefoneDoPais.defaultCountryCode.phoneCode +
-        _controllerMaskPhoneNumber.formatter.getFormatter().getMaskedText());
-
     await autenticacao.auth.verifyPhoneNumber(
       phoneNumber: _apiCoutryPhoneCode
               .codigoDoTelefoneDoPais.defaultCountryCode.phoneCode +
-          _controllerMaskPhoneNumber.formatter.getFormatter().getMaskedText(),
+          _maskPhoneNumber.formatter.getFormatter().getMaskedText(),
       verificationCompleted: (PhoneAuthCredential credential) async {
         await _signInWithCredential(credential);
       },
@@ -321,23 +293,25 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
     await autenticacao.auth
         .signInWithCredential(credential)
         .then((userCredetial) async {
-      print("codeSente: sucess ao logar!");
       _createUser(userCredetial.user!.phoneNumber.toString());
       await _createUserDAO();
     }).onError((error, stackTrace) {
       print("codeSente: erro ao locar: ${error.toString()}");
+      _displayErrorWaringWhenRegistering(error.toString());
     });
   }
 
-  _displayErrorWaringWhenRegistering() {
+  _displayErrorWaringWhenRegistering(String erro) {
     showDialog(
         context: context,
         builder: (context) {
-          return const AlertDialog(
-            title: Text("Erro ao tentar cadastrar! Entre em contato com o SAC!",
+          return AlertDialog(
+            title: const Text(
+                "Erro ao tentar cadastrar! Entre em contato com o SAC!",
                 textAlign: TextAlign.center),
-            titlePadding: EdgeInsets.all(20),
-            titleTextStyle: TextStyle(fontSize: 20, color: Colors.black),
+            titlePadding: const EdgeInsets.all(20),
+            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black),
+            content: Text(erro),
           );
         });
   }
