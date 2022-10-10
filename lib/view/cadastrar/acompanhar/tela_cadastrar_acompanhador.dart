@@ -3,15 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:levv4/api/codigo_do_pais/api_codigo_telefone_pais.dart';
 import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/view/cadastrar/acompanhar/phone_number_levv.dart';
-import 'package:levv4/view/home/tela_home.dart';
+import '../../../controller/cadastrar/acompanhar/acompanhar_controller.dart';
 
-import '../../../api/mascara/formatter_phone.dart';
-import '../../../api/mascara/formatter_sms.dart';
-import '../../../api/mascara/masks_levv.dart';
-import '../../../api/firebase_autenticacao/autenticacao.dart';
-import '../../../model/bo/usuario/perfil/acompanhar/acompanhar.dart';
-import '../../../model/bo/usuario/usuario.dart';
-import '../../../model/dao/usuario/usuario_dao.dart';
 import '../../../api/cor/colors_levv.dart';
 import '../../../api/imagem/image_levv.dart';
 import '../../../api/texto/text_levv.dart';
@@ -27,24 +20,19 @@ class TelaCadastrarAcompanhador extends StatefulWidget {
 }
 
 class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
-  final autenticacao = Autenticacao();
-  var _classUser;
+  final AcompanharController acompanharController = AcompanharController();
 
-  final _controllerSmsMask = Mask(formatter: FormatterSms());
-  bool smsEnviado = false;
-  String verificationIdToken = "";
-
-  final _maskPhoneNumber = Mask(formatter: FormatterPhone());
-
-  final ApiCodigoTelefoneDoPais _apiCoutryPhoneCode = ApiCodigoTelefoneDoPais();
+  //final autenticacao = Autenticacao();
 
   @override
   void initState() {
     super.initState();
 
-    _maskPhoneNumber.textEditingController.addListener(() => setState(() {}));
+    acompanharController.maskPhoneNumber.textEditingController
+        .addListener(() => setState(() {}));
 
-    _controllerSmsMask.textEditingController.addListener(() => setState(() {}));
+    acompanharController.controllerSmsMask.textEditingController
+        .addListener(() => setState(() {}));
   }
 
   @override
@@ -59,12 +47,13 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 32),
-                  child: logoLevv(),
-                ),
-                !smsEnviado ? _smsNaoEnviado() : Container(width: 0),
-                smsEnviado ? _smsEnviado() : Container(width: 0),
+                _logo(),
+                !acompanharController.smsEnviado
+                    ? _smsNaoEnviado()
+                    : Container(width: 0),
+                acompanharController.smsEnviado
+                    ? _smsEnviado()
+                    : Container(width: 0),
               ],
             ),
           ),
@@ -72,6 +61,11 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
       ),
     );
   }
+
+  Widget _logo() => Padding(
+        padding: const EdgeInsets.only(bottom: 32),
+        child: logoLevv(),
+      );
 
   Widget _textButton() => TextButton(
         style: TextButton.styleFrom(
@@ -83,41 +77,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
           foregroundColor: Colors.black,
           alignment: Alignment.center,
         ),
-        onPressed: () async {
-          if (_maskPhoneNumber.formatter
-                  .getFormatter()
-                  .getUnmaskedText()
-                  .isNotEmpty &&
-              _maskPhoneNumber.formatter
-                      .getFormatter()
-                      .getUnmaskedText()
-                      .length ==
-                  11) {
-            //if (await _createUserWithEmailAndPassword()) {
-
-            await _verifyPhoneNumber();
-            /*
-                      if () {
-                        _navigatorToHomeScreen();
-                      } else {
-                        _displayErrorWaringWhenRegistering();
-                      }
-                    } else {
-                      _displayEmptyFieldWaring();*/
-          } else {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return const AlertDialog(
-                    title: Text("Não é possível cadastrar! Números inválidos",
-                        textAlign: TextAlign.center),
-                    titlePadding: EdgeInsets.all(20),
-                    titleTextStyle:
-                        TextStyle(fontSize: 20, color: Colors.black),
-                  );
-                });
-          }
-        },
+        onPressed: () async => await acompanharController.criarUsuario(context),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -137,8 +97,9 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         child: Column(
           children: [
             PhoneNumberLevv(
-                maskPhoneNumber: _maskPhoneNumber,
-                apiCoutryPhoneCode: _apiCoutryPhoneCode),
+                maskPhoneNumber: acompanharController.maskPhoneNumber,
+                apiCoutryPhoneCode:
+                    acompanharController.apiCodigoTelefoneDoPais),
             _textButton(),
           ],
         ),
@@ -149,10 +110,13 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         child: Column(
           children: [
             TextField(
-              controller: _controllerSmsMask.textEditingController,
+              controller:
+                  acompanharController.controllerSmsMask.textEditingController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
-                counterText: CounterText(mask: _controllerSmsMask).contar(),
+                counterText:
+                    CounterText(mask: acompanharController.controllerSmsMask)
+                        .contar(),
                 labelText: TextLevv.CODIGO_SMS,
                 labelStyle: const TextStyle(
                     backgroundColor: Colors.white, color: Colors.black),
@@ -164,7 +128,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                   Icons.sms_outlined,
                   color: Colors.black,
                 ),
-                suffixIcon: _controllerSmsMask.formatter
+                suffixIcon: acompanharController.controllerSmsMask.formatter
                         .getFormatter()
                         .getUnmaskedText()
                         .isEmpty
@@ -172,7 +136,9 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                     : IconButton(
                         onPressed: () {
                           setState(() {
-                            _controllerSmsMask.textEditingController.clear();
+                            acompanharController
+                                .controllerSmsMask.textEditingController
+                                .clear();
                           });
                         },
                         icon: const Icon(
@@ -183,7 +149,9 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                 fillColor: Colors.white,
                 filled: true,
               ),
-              inputFormatters: [_controllerSmsMask.formatter.getFormatter()],
+              inputFormatters: [
+                acompanharController.controllerSmsMask.formatter.getFormatter()
+              ],
               maxLength: 7,
               style: const TextStyle(fontSize: 14),
             ),
@@ -198,11 +166,12 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                 alignment: Alignment.center,
               ),
               onPressed: () async {
-                await _phoneCredentialWithCodeSent(
-                    verificationIdToken,
-                    int.parse(_controllerSmsMask.formatter
+                await acompanharController.phoneCredentialWithCodeSent(
+                    acompanharController.verificationIdToken,
+                    int.parse(acompanharController.controllerSmsMask.formatter
                         .getFormatter()
-                        .getUnmaskedText()));
+                        .getUnmaskedText()),
+                    context);
               },
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -221,122 +190,4 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
           ],
         ),
       );
-
-  Future<bool> _createUserWithEmailAndPassword() async {
-    String celular = _maskPhoneNumber.textEditingController.text.toString();
-    celular = "elielrj@gmail.com";
-
-    await autenticacao.auth
-        .createUserWithEmailAndPassword(email: celular, password: "952420")
-        .then((userCredential) async {
-      _createUser(userCredential.user!.email.toString());
-
-      await _createUserDAO();
-
-      return true;
-    });
-
-    return false;
-  }
-
-  _createUser(String celular) {
-    _classUser = Usuario(celular: celular, perfil: Acompanhar());
-  }
-
-  Future<void> _createUserDAO() async {
-    final usuarioDAO = UsuarioDAO();
-    await usuarioDAO.criar(_classUser);
-  }
-
-  //1 - primeiro
-  _verifyPhoneNumber() async {
-    await autenticacao.auth.verifyPhoneNumber(
-      phoneNumber: _apiCoutryPhoneCode
-              .codigoDoTelefoneDoPais.defaultCountryCode.phoneCode +
-          _maskPhoneNumber.formatter.getFormatter().getMaskedText(),
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await _signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        autenticacao.codigoDeErro(e);
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        setState(() {
-          smsEnviado = true;
-        });
-
-        verificationIdToken = verificationId;
-      },
-      timeout: const Duration(seconds: 60),
-      codeAutoRetrievalTimeout: (String verificationId) {
-        setState(() {
-          smsEnviado = true;
-        });
-        verificationIdToken = verificationId;
-      },
-    );
-  }
-
-  Future<void> _phoneCredentialWithCodeSent(
-      String verificationId, int? resendToken) async {
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId, smsCode: resendToken.toString());
-
-    await _signInWithCredential(credential);
-
-    if (_classUser != null) {
-      _navegarParaTelaHome();
-    }
-  }
-
-  Future<void> _signInWithCredential(PhoneAuthCredential credential) async {
-    await autenticacao.auth
-        .signInWithCredential(credential)
-        .then((userCredetial) async {
-      _createUser(userCredetial.user!.phoneNumber.toString());
-      await _createUserDAO();
-    }).onError((error, stackTrace) {
-      print("codeSente: erro ao locar: ${error.toString()}");
-      _displayErrorWaringWhenRegistering(error.toString());
-    });
-  }
-
-  _displayErrorWaringWhenRegistering(String erro) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text(
-                "Erro ao tentar cadastrar! Entre em contato com o SAC!",
-                textAlign: TextAlign.center),
-            titlePadding: const EdgeInsets.all(20),
-            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black),
-            content: Text(erro),
-          );
-        });
-  }
-
-  _displayEmptyFieldWaring() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text("Dados inválidos!", textAlign: TextAlign.center),
-            titlePadding: EdgeInsets.all(20),
-            titleTextStyle: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          );
-        });
-  }
-
-  _navegarParaTelaHome() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TelaHome(
-                  usuario: _classUser,
-                )));
-  }
 }
