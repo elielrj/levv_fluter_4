@@ -1,7 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:levv4/api/codigo_do_pais/api_codigo_telefone_pais.dart';
-import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/view/cadastrar/acompanhar/phone_number_levv.dart';
 import '../../../controller/cadastrar/acompanhar/acompanhar_controller.dart';
 
