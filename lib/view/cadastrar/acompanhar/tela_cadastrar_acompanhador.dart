@@ -21,19 +21,7 @@ class TelaCadastrarAcompanhador extends StatefulWidget {
 
 class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   final AcompanharController acompanharController = AcompanharController();
-
-  //final autenticacao = Autenticacao();
-
-  @override
-  void initState() {
-    super.initState();
-
-    acompanharController.maskPhoneNumber.textEditingController
-        .addListener(() => setState(() {}));
-
-    acompanharController.controllerSmsMask.textEditingController
-        .addListener(() => setState(() {}));
-  }
+  final PhoneNumberLevv phoneNumberLevv = PhoneNumberLevv();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +65,8 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
           foregroundColor: Colors.black,
           alignment: Alignment.center,
         ),
-        onPressed: () async => await acompanharController.criarUsuario(context),
+        onPressed: () async =>
+            await acompanharController.criarUsuario(context, phoneNumberLevv),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -96,10 +85,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   _smsNaoEnviado() => Container(
         child: Column(
           children: [
-            PhoneNumberLevv(
-                maskPhoneNumber: acompanharController.maskPhoneNumber,
-                apiCoutryPhoneCode:
-                    acompanharController.apiCodigoTelefoneDoPais),
+            phoneNumberLevv,
             _textButton(),
           ],
         ),
@@ -111,11 +97,11 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
           children: [
             TextField(
               controller:
-                  acompanharController.controllerSmsMask.textEditingController,
+                  phoneNumberLevv.controllerSmsMask.textEditingController,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 counterText:
-                    CounterText(mask: acompanharController.controllerSmsMask)
+                    CounterText(mask: phoneNumberLevv.controllerSmsMask)
                         .contar(),
                 labelText: TextLevv.CODIGO_SMS,
                 labelStyle: const TextStyle(
@@ -128,7 +114,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                   Icons.sms_outlined,
                   color: Colors.black,
                 ),
-                suffixIcon: acompanharController.controllerSmsMask.formatter
+                suffixIcon: phoneNumberLevv.controllerSmsMask.formatter
                         .getFormatter()
                         .getUnmaskedText()
                         .isEmpty
@@ -136,7 +122,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                     : IconButton(
                         onPressed: () {
                           setState(() {
-                            acompanharController
+                            phoneNumberLevv
                                 .controllerSmsMask.textEditingController
                                 .clear();
                           });
@@ -150,7 +136,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                 filled: true,
               ),
               inputFormatters: [
-                acompanharController.controllerSmsMask.formatter.getFormatter()
+                phoneNumberLevv.controllerSmsMask.formatter.getFormatter()
               ],
               maxLength: 7,
               style: const TextStyle(fontSize: 14),
@@ -168,7 +154,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
               onPressed: () async {
                 await acompanharController.phoneCredentialWithCodeSent(
                     acompanharController.verificationIdToken,
-                    int.parse(acompanharController.controllerSmsMask.formatter
+                    int.parse(phoneNumberLevv.controllerSmsMask.formatter
                         .getFormatter()
                         .getUnmaskedText()),
                     context);

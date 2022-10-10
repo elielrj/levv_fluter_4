@@ -5,17 +5,15 @@ import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import '../../bo/usuario/perfil/acompanhar/acompanhar.dart';
 import '../interface/i_crud_usuario_dao.dart';
 
-class AcompanharDAO  implements ICrudUsuarioDAO<Acompanhar> {
-
+class AcompanharDAO implements ICrudUsuarioDAO<Acompanhar> {
   final bancoDeDados = BancoDeDados();
   final autenticacao = Autenticacao();
   final collectionPath = "acompanhar";
 
   @override
   Future<void> criar(Acompanhar object) async {
-
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -27,7 +25,8 @@ class AcompanharDAO  implements ICrudUsuarioDAO<Acompanhar> {
 
   @override
   Future<void> atualizar(Acompanhar object) async {
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
@@ -50,32 +49,26 @@ class AcompanharDAO  implements ICrudUsuarioDAO<Acompanhar> {
   }
 
   @override
-  Future<Acompanhar> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
-
+  Future<Acompanhar> buscarUmUsuarioPeloNomeDoDocumento(
+      String reference) async {
     var acompanhar;
 
-     await bancoDeDados
-         .db
-         .collection(collectionPath)
-         .doc(reference)
-         .get()
-         .then(
-           (DocumentSnapshot doc)  {
+    await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data() as Map<String, dynamic>;
 
-         final data =  doc.data() as Map<String, dynamic>;
+        acompanhar = fromMap(data);
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
 
-         acompanhar = fromMap(data);
-       },
-       onError: (e) => print("Error getting document: $e"),
-     );
-
-   return acompanhar;
+    return acompanhar;
   }
 
   @override
   Future<void> deletar(Acompanhar object) async {
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
+    String documentName = autenticacao
+        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
 
     await bancoDeDados.db
         .collection(collectionPath)
