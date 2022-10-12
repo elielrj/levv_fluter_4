@@ -3,7 +3,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'formatter.dart';
 
-class Mask {
+class Mask  {
 
   final TextEditingController textEditingController = TextEditingController();
   final Formatter formatter;

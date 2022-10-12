@@ -5,8 +5,8 @@ import 'package:levv4/api/cor/colors_levv.dart';
 
 ///https://pub.dev/packages/country_phone_code_picker
 
-class ApiCodigoTelefoneDoPais {
-  final CountryPhoneCodePicker _codigoDoTelefoneDoPais =
+class CodigoDoPais {
+  final CountryPhoneCodePicker _codigoDoPais =
       CountryPhoneCodePicker.withDefaultSelectedCountry(
     height: 60,
     searchSheetBackground: ColorsLevv.FUNDO_400,
@@ -20,5 +20,5 @@ class ApiCodigoTelefoneDoPais {
     searchBarHintText: 'Busque o pelo nome do seu País',
   );
 
-  CountryPhoneCodePicker get codigoDoTelefoneDoPais => _codigoDoTelefoneDoPais;
+  CountryPhoneCodePicker get codigoDoPais => _codigoDoPais;
 }
