@@ -4,7 +4,7 @@ import 'package:levv4/model/bo/usuario/perfil/enviar/entregar/entregar.dart';
 import 'package:levv4/model/bo/usuario/perfil/enviar/enviar.dart';
 import 'package:levv4/view/acompanhar/tela_acompanhar.dart';
 import 'package:levv4/view/cadastrar/entregar/tela_cadastrar_entregador.dart';
-import 'package:levv4/view/cadastrar/enviar/tela_cadastrar_enviar.dart';
+import 'package:levv4/view/cadastrar/enviar/tela_cadastrar_cliente.dart';
 import 'package:levv4/view/entregar/tela_entregar.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 
