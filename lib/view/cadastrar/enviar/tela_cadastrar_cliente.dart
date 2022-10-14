@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/api/mascara/mask.dart';
+import 'package:levv4/controller/cadastrar/enviar/cliente_controller.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
@@ -28,60 +29,46 @@ class TelaCadastrarCliente extends StatefulWidget {
 }
 
 class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
-  final controllerNome = TextEditingController();
-  final controllerSobrenome = TextEditingController();
-  final controllerMaskCpf = Mask(formatter: FormatterCpf());
-  final controllerMaskNascimento = Mask(formatter: FormatterDate());
-  final documentoDeIdentificacao = Arquivo();
+  final ClienteController _controller = ClienteController();
 
   String labelTextNome = "Nome";
   String labelTextSobrenome = "Sobrenome";
   String labelTextCpf = "Cpf";
   String labelTextNascimento = "Data de Nascimento";
-  bool documento = false;
 
   @override
   void initState() {
     super.initState();
-    controllerNome.addListener(() => setState(() {}));
-    controllerSobrenome.addListener(() => setState(() {}));
-    controllerMaskCpf.textEditingController.addListener(() => setState(() {}));
-    controllerMaskNascimento.textEditingController.addListener(() => setState(() {}));
-    documento;
+    _controller.controllerNome.addListener(() => setState(() {}));
+    _controller.controllerSobrenome.addListener(() => setState(() {}));
+    _controller.controllerMaskCpf.textEditingController
+        .addListener(() => setState(() {}));
+    _controller.controllerMaskNascimento.textEditingController
+        .addListener(() => setState(() {}));
+    _controller.documento;
     widget.usuario;
   }
 
-  _limparCampos() {
-    controllerNome.clear();
-    controllerSobrenome.clear();
-    controllerMaskCpf.textEditingController.clear();
-    controllerMaskNascimento.textEditingController.clear();
-
-    documento = false;
-
-  }
-
   _cadastrarPerfilEnviar() async {
-    if (controllerNome.text.isNotEmpty &&
-        controllerSobrenome.text.isNotEmpty &&
-        controllerMaskCpf.textEditingController.text.isNotEmpty &&
-        controllerMaskNascimento.textEditingController.text.isNotEmpty) {
-      if (!documento) {
+    if (_controller.camposEstaoValidos()) {
+      if (!_controller.documento) {
         _exibirMensagemDeFaltaDeUploadDeDocumento();
       } else {
         Enviar enviar = Enviar(
-          nome: controllerNome.text,
-          sobrenome: controllerSobrenome.text,
-          cpf: controllerMaskCpf.textEditingController.text.toString(),
+          nome: _controller.controllerNome.text,
+          sobrenome: _controller.controllerSobrenome.text,
+          cpf: _controller.controllerMaskCpf.textEditingController.text
+              .toString(),
           nascimento: DateFormat('dd/MM/yyyy')
-              .parse(controllerMaskNascimento.textEditingController.text)
+              .parse(_controller
+                  .controllerMaskNascimento.textEditingController.text)
               .toLocal(),
           documentoDeIdentificacao: true,
         );
 
         try {
           final arquivoDAO = ArquivoDAO();
-          arquivoDAO.upload(documentoDeIdentificacao);
+          arquivoDAO.upload(_controller.documentoDeIdentificacao);
 
           final enviarDAO = EnviarDAO();
           await enviarDAO.criar(enviar);
@@ -104,7 +91,11 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
   _navegarParaTelaEnviar(Usuario usuario) {
     Navigator.pushReplacement(
         context, //pushReplacement?? ou só push?
-        MaterialPageRoute(builder: (context) => TelaEnviar(usuario: usuario, pedido: Pedido(),)));
+        MaterialPageRoute(
+            builder: (context) => TelaEnviar(
+                  usuario: usuario,
+                  pedido: Pedido(),
+                )));
   }
 
   _exibirMensagemDeFaltaDeUploadDeDocumento() {
@@ -133,7 +124,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
         builder: (context) {
           return AlertDialog(
             title: const Text("Campo Vazio"),
-            titlePadding: EdgeInsets.all(20),
+            titlePadding: const EdgeInsets.all(20),
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
             content: const Text(
                 "Varifique os dados digitados, pois há 1 ou mais campos vazios!"),
@@ -142,7 +133,7 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Ok"))
+                  child: const Text("Ok"))
             ],
           );
         });
@@ -150,7 +141,6 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Cadastrar perfil: Enviar"),
@@ -166,12 +156,12 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
               children: [
                 TextField(
                   onTap: () {},
-                  controller: controllerNome,
+                  controller: _controller.controllerNome,
                   keyboardType: TextInputType.name,
                   decoration: InputDecoration(
-                    counterText: controllerNome.text.length <= 1
-                        ? "${controllerNome.text.length} caracter"
-                        : "${controllerNome.text.length} caracteres",
+                    counterText: _controller.controllerNome.text.length <= 1
+                        ? "${_controller.controllerNome.text.length} caracter"
+                        : "${_controller.controllerNome.text.length} caracteres",
                     labelText: labelTextNome,
                     labelStyle: const TextStyle(
                         backgroundColor: Colors.white, color: Colors.black),
@@ -187,13 +177,13 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                       Icons.account_circle,
                       color: Colors.black,
                     ),
-                    suffixIcon: controllerNome.text.isEmpty
+                    suffixIcon: _controller.controllerNome.text.isEmpty
                         ? Container(
                             width: 0,
                           )
                         : IconButton(
                             icon: const Icon(Icons.close, color: Colors.red),
-                            onPressed: () => controllerNome.clear(),
+                            onPressed: () => _controller.controllerNome.clear(),
                           ),
                     fillColor: Colors.white,
                     filled: true,
@@ -203,12 +193,13 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                 ),
                 TextField(
                   onTap: () {},
-                  controller: controllerSobrenome,
+                  controller: _controller.controllerSobrenome,
                   keyboardType: TextInputType.name,
                   decoration: InputDecoration(
-                    counterText: controllerSobrenome.text.length <= 1
-                        ? "${controllerSobrenome.text.length} caracter"
-                        : "${controllerSobrenome.text.length} caracteres",
+                    counterText: _controller.controllerSobrenome.text.length <=
+                            1
+                        ? "${_controller.controllerSobrenome.text.length} caracter"
+                        : "${_controller.controllerSobrenome.text.length} caracteres",
                     labelText: labelTextSobrenome,
                     labelStyle: const TextStyle(
                         backgroundColor: Colors.white, color: Colors.black),
@@ -224,13 +215,14 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                       Icons.account_circle,
                       color: Colors.black,
                     ),
-                    suffixIcon: controllerSobrenome.text.isEmpty
+                    suffixIcon: _controller.controllerSobrenome.text.isEmpty
                         ? Container(
                             width: 0,
                           )
                         : IconButton(
                             icon: const Icon(Icons.close, color: Colors.red),
-                            onPressed: () => controllerSobrenome.clear(),
+                            onPressed: () =>
+                                _controller.controllerSobrenome.clear(),
                           ),
                     fillColor: Colors.white,
                     filled: true,
@@ -240,14 +232,17 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                 ),
                 TextField(
                   onTap: () {},
-                  controller: controllerMaskCpf.textEditingController,
+                  controller:
+                      _controller.controllerMaskCpf.textEditingController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    counterText: controllerMaskCpf
-                                .formatter.getFormatter().getUnmaskedText().length <=
+                    counterText: _controller.controllerMaskCpf.formatter
+                                .getFormatter()
+                                .getUnmaskedText()
+                                .length <=
                             1
-                        ? "${controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length} caracter"
-                        : "${controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length} caracteres",
+                        ? "${_controller.controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length} caracter"
+                        : "${_controller.controllerMaskCpf.formatter.getFormatter().getUnmaskedText().length} caracteres",
                     labelText: labelTextCpf,
                     labelStyle: const TextStyle(
                         backgroundColor: Colors.white, color: Colors.black),
@@ -263,32 +258,39 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                       Icons.account_circle,
                       color: Colors.black,
                     ),
-                    suffixIcon: controllerMaskCpf
+                    suffixIcon: _controller.controllerMaskCpf
                             .textEditingController.text.isEmpty
                         ? Container(
                             width: 0,
                           )
                         : IconButton(
                             icon: const Icon(Icons.close, color: Colors.red),
-                            onPressed: () =>
-                                controllerMaskCpf.textEditingController.clear(),
+                            onPressed: () => _controller
+                                .controllerMaskCpf.textEditingController
+                                .clear(),
                           ),
-
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  inputFormatters: [controllerMaskCpf.formatter.getFormatter()],
+                  inputFormatters: [
+                    _controller.controllerMaskCpf.formatter.getFormatter()
+                  ],
                   maxLength: 100,
                   style: const TextStyle(fontSize: 18),
                 ),
                 TextField(
                   onTap: () {},
-                  controller: controllerMaskNascimento.textEditingController,
+                  controller: _controller
+                      .controllerMaskNascimento.textEditingController,
                   keyboardType: TextInputType.datetime,
                   decoration: InputDecoration(
-                    counterText: controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length <= 1
-                        ? "${controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length} caracter"
-                        : "${controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length} caracteres",
+                    counterText: _controller.controllerMaskNascimento.formatter
+                                .getFormatter()
+                                .getUnmaskedText()
+                                .length <=
+                            1
+                        ? "${_controller.controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length} caracter"
+                        : "${_controller.controllerMaskNascimento.formatter.getFormatter().getUnmaskedText().length} caracteres",
                     labelText: labelTextNascimento,
                     labelStyle: const TextStyle(
                         backgroundColor: Colors.white, color: Colors.black),
@@ -304,18 +306,24 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                       Icons.account_circle,
                       color: Colors.black,
                     ),
-                    suffixIcon: controllerMaskNascimento.textEditingController.text.isEmpty
+                    suffixIcon: _controller.controllerMaskNascimento
+                            .textEditingController.text.isEmpty
                         ? Container(
                             width: 0,
                           )
                         : IconButton(
                             icon: const Icon(Icons.close, color: Colors.red),
-                            onPressed: () => controllerMaskNascimento.textEditingController.clear(),
+                            onPressed: () => _controller
+                                .controllerMaskNascimento.textEditingController
+                                .clear(),
                           ),
                     fillColor: Colors.white,
                     filled: true,
                   ),
-                  inputFormatters: [controllerMaskNascimento.formatter.getFormatter()],
+                  inputFormatters: [
+                    _controller.controllerMaskNascimento.formatter
+                        .getFormatter()
+                  ],
                   maxLength: 100,
                   style: const TextStyle(fontSize: 18),
                 ),
@@ -338,36 +346,41 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                               width: 20,
                             ),
                             GestureDetector(
-                              onTap: () async  {
-                                await documentoDeIdentificacao.getImageCamera();
-                                documentoDeIdentificacao.descricao =
+                              onTap: () async {
+                                await _controller.documentoDeIdentificacao
+                                    .getImageCamera();
+                                _controller.documentoDeIdentificacao.descricao =
                                     "documentoDeIdentificacao";
-                                if(documentoDeIdentificacao.image != null){
-                                  documento = true;
+                                if (_controller
+                                        .documentoDeIdentificacao.image !=
+                                    null) {
+                                  _controller.documento = true;
                                 }
                               },
                               child: Icon(Icons.add_a_photo,
                                   size: 30,
-                                  color:
-                                      (documento
-                                          ? Colors.green
-                                          : Colors.red)),
+                                  color: (_controller.documento
+                                      ? Colors.green
+                                      : Colors.red)),
                             ),
                             const SizedBox(
                               width: 20,
                             ),
                             GestureDetector(
-                                onTap: () async  {
-                                  await documentoDeIdentificacao.getImageGallery();
-                                  documentoDeIdentificacao.descricao =
-                                      "documentoDeIdentificacao";
-                                  if(documentoDeIdentificacao.image != null){
-                                    documento = true;
+                                onTap: () async {
+                                  await _controller.documentoDeIdentificacao
+                                      .getImageGallery();
+                                  _controller.documentoDeIdentificacao
+                                      .descricao = "documentoDeIdentificacao";
+                                  if (_controller
+                                          .documentoDeIdentificacao.image !=
+                                      null) {
+                                    _controller.documento = true;
                                   }
                                 },
                                 child: Icon(Icons.file_upload,
                                     size: 30,
-                                    color: (documento
+                                    color: (_controller.documento
                                         ? Colors.green
                                         : Colors.red))),
                           ],
@@ -421,11 +434,11 @@ class _TelaCadastrarClienteState extends State<TelaCadastrarCliente> {
                         padding: const EdgeInsets.all(8),
                         minimumSize: const Size(190, 65),
                         elevation: 2,
-                        primary: Colors.black,
+                        foregroundColor: Colors.black,
                         alignment: Alignment.center,
                       ),
                       onPressed: () {
-                        _limparCampos();
+                        _controller.limparCampos();
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

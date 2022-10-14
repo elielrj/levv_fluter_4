@@ -39,7 +39,7 @@
             android:value="2" />
 
        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value= "AIzaSyCKwItuBvvu2i6M4Sjc48TtPl1roXZCDH4"/>
+           android:value= "AIzaSyBzUvSO4bX-xLvYymc_SoI3MiU7GEPhXsg"/>
         <!--
         itautec
         <meta-data android:name="com.google.android.geo.API_KEY"
