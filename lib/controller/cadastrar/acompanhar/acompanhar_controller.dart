@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:levv4/view/home/tela_home.dart';
 import '../../../api/codigo_do_pais/codigo_do_pais.dart';
 import '../../../api/mascara/formatter_phone.dart';
 import '../../../api/mascara/formatter_sms.dart';
@@ -11,177 +10,130 @@ import '../../../model/bo/usuario/usuario.dart';
 import '../../../model/dao/usuario/usuario_dao.dart';
 
 import '../../../model/dao/usuario/acompanhar_dao.dart';
-import '../../../view/cadastrar/acompanhar/erro_ao_tentar_cadastrar.dart';
-import '../../../view/cadastrar/acompanhar/mixin_criar_usuario_e_logar.dart';
-import '../../../view/cadastrar/acompanhar/numero_de_celular_invalido.dart';
-import '../../../view/cadastrar/acompanhar/verify_phone_number.dart';
 
-class AcompanharController extends ChangeNotifier with CriarUsuarioELogar {
+class AcompanharController extends ChangeNotifier {
   final AcompanharDAO acompanharDAO = AcompanharDAO();
-
+  final CodigoDoPais apiCodigoTelefoneDoPais = CodigoDoPais();
+  final telefone = Mask(formatter: FormatterPhone());
+  final sms = Mask(formatter: FormatterSms());
   Usuario? usuario;
   bool _smsEnviado = false;
+  String _verificationIdToken = "";
+  int? _resendToken;
 
   bool get smsEnviado => _smsEnviado;
 
-  mudarStatusDeSmsParaEnviado(){
+  String get verificationIdToken => _verificationIdToken;
+
+  mudarStatusDeSmsParaEnviado() {
     _smsEnviado = !smsEnviado;
     notifyListeners();
   }
 
-  String _verificationIdToken = "";
-
-  String get verificationIdToken => _verificationIdToken;
-
-  atualizarVerificationIdToken({required String novoVerificationIdToken}){
+  atualizarVerificationIdToken({required String novoVerificationIdToken}) {
     _verificationIdToken = novoVerificationIdToken;
     notifyListeners();
   }
 
-  int? _resendToken;
-
-
-  atualizarreSendToken(int? resendToken){
-    if(resendToken != null){
+  atualizarreSendToken(int? resendToken) {
+    if (resendToken != null) {
       _resendToken = resendToken;
       notifyListeners();
     }
   }
 
+  ///Chamado após clicar no botão p/ enviar o código do SMS
+  ///
+  PhoneAuthCredential phoneCredentialWithCodeSent() {
+    ///Método static do Firebase Auth para criar credencial
+    ///
+    return PhoneAuthProvider.credential(
+      verificationId: verificationIdToken,
+      smsCode: sms.formatter.getFormatter().getUnmaskedText(),
+    );
+  }
 
-  final CodigoDoPais apiCodigoTelefoneDoPais =
-      CodigoDoPais();
+  /// método para criar objeto Usuario e em seguida, logar com
+  /// a credencial e ir para a tela Home
+  ///
+  Future<void> signInWithCredential(
+      {required PhoneAuthCredential credential}) async {
+    await acompanharDAO.autenticacao.auth.signInWithCredential(credential);
+  }
 
-  final telefone = Mask(formatter: FormatterPhone());
-  final sms = Mask(formatter: FormatterSms());
+  Future<void> inserirUsuarioNoBancoDeDados() async {
+    final usuarioDAO = UsuarioDAO();
+    await usuarioDAO.criar(usuario!);
+  }
 
+  void criarObjetoUsuario() {
+    usuario = Usuario(
+      celular: apiCodigoTelefoneDoPais.codigoDoPais.defaultCountryCode.phoneCode + telefone.formatter.getFormatter().getUnmaskedText(),
+      perfil: Acompanhar(),
+    );
+  }
+
+  Future<void> verifyPhoneNumber() async {
+    await acompanharDAO.autenticacao.auth.verifyPhoneNumber(
+      /// 1 - Telefone
+      phoneNumber: _telefone(),
+
+      ///2 - Caso o SMS seja reconhecido automáticamente
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        //logar com credencial
+        await signInWithCredential(credential: credential);
+
+        //crial objeto Usuario Acompanhar
+        criarObjetoUsuario();
+
+        //inserir Usuario no DB
+        await inserirUsuarioNoBancoDeDados();
+
+        //todo notificar para mudar de tela
+
+        print('is verificationCompleted!');
+      },
+
+      ///3 - Caso o SMS não seja reconhecido automáticamente
+      verificationFailed: (FirebaseAuthException e) {
+        acompanharDAO.autenticacao.codigoDeErro(e);
+      },
+
+      ///4 - Caso o SMS seja digitado manualmente????
+      codeSent: (String verificationId, int? resendToken) async {
+        mudarStatusDeSmsParaEnviado();
+        atualizarVerificationIdToken(novoVerificationIdToken: verificationId);
+        atualizarreSendToken(resendToken);
+      },
+
+      ///5 - Tempo de espera para recebimento do SMS no aparelho
+      timeout: const Duration(seconds: 60),
+
+      ///6 - Caso o SMS seja digitado manualmente???
+      codeAutoRetrievalTimeout: (String verificationId) {
+        mudarStatusDeSmsParaEnviado();
+        atualizarVerificationIdToken(novoVerificationIdToken: verificationId);
+      },
+    );
+  }
+
+  ///Concatenar o Número de telefone com o código do país
+  String _telefone() {
+    return apiCodigoTelefoneDoPais.codigoDoPais.defaultCountryCode.phoneCode +
+        telefone.formatter.getFormatter().getMaskedText();
+  }
+
+  ///2
   bool numeroDeCelularEstaValido() {
     return telefone.formatter.getFormatter().getUnmaskedText().isNotEmpty &&
         telefone.formatter.getFormatter().getUnmaskedText().length == 11;
   }
 
-  Future<void> createUserDAO() async {
-    final usuarioDAO = UsuarioDAO();
-    await usuarioDAO.criar(usuario!);
-  }
-
-  _navegarParaTelaHome(BuildContext context) {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TelaHome(
-                  usuario: usuario!,
-                )));
-  }
-
-  Future<void> phoneCredentialWithCodeSent(BuildContext context) async {
-    ///Método static do Firebase Auth para criar credencial
-    ///
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: verificationIdToken,
-      smsCode: _resendToken.toString()?? "",
-    );
-
-
-    await _signInWithCredential(credential);
-
-    if (usuario != null) {
-      _navegarParaTelaHome(context);
-    }
-  }
-
-  Future<void> _signInWithCredential(PhoneAuthCredential credential) async {
-    try {
-      await criar(
-        acompanharDAO: acompanharDAO,
-        credential: credential,
-        usuario: usuario,
-      );
-    } catch (erro) {
-      ErroAoTentarCadastrar(mensagem: erro.toString());
-    }
-  }
-
-  Future<void> criarUsuario() async {
-    if (numeroDeCelularEstaValido()) {
-      final VerifyPhoneNumber verifyPhoneNumber =
-          VerifyPhoneNumber(controller: this );
-      await verifyPhoneNumber.verifyPhoneNumber();
+  existeUmUsuarioCorrente() {
+    if (acompanharDAO.autenticacao.auth.currentUser != null) {
+      return true;
     } else {
-      const NumeroDeCelularInvalido();
+      return false;
     }
   }
-
-/*
-  _numeroDeCelularInvalido(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text("Não é possível cadastrar! Números inválidos",
-                textAlign: TextAlign.center),
-            titlePadding: EdgeInsets.all(20),
-            titleTextStyle: TextStyle(fontSize: 20, color: Colors.black),
-          );
-        });
-  }*/
-/*
-  //1 - primeiro
-  _verifyPhoneNumber() async {
-    await acompnharDAO.autenticacao.auth.verifyPhoneNumber(
-      phoneNumber: apiCodigoTelefoneDoPais
-              .codigoDoTelefoneDoPais.defaultCountryCode.phoneCode +
-          telefone.formatter.getFormatter().getMaskedText(),
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await acompnharDAO.autenticacao.auth.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        acompnharDAO.autenticacao.codigoDeErro(e);
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        // setState(() {
-        smsEnviado = true;
-        verificationIdToken = verificationId;
-        // });
-      },
-      timeout: const Duration(seconds: 60),
-      codeAutoRetrievalTimeout: (String verificationId) {
-        //setState(() {
-        smsEnviado = true;
-        verificationIdToken = verificationId;
-        // });
-      },
-    );
-  }*/
-
-/*
-  _displayErrorWaringWhenRegistering(String erro, BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text(
-                "Erro ao tentar cadastrar! Entre em contato com o SAC!",
-                textAlign: TextAlign.center),
-            titlePadding: const EdgeInsets.all(20),
-            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black),
-            content: Text(erro),
-          );
-        });
-  }
-
-  _displayEmptyFieldWaring(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text("Dados inválidos!", textAlign: TextAlign.center),
-            titlePadding: EdgeInsets.all(20),
-            titleTextStyle: TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          );
-        });
-  }*/
 }

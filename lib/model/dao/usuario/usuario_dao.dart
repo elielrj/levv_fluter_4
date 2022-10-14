@@ -120,11 +120,13 @@ class UsuarioDAO
     DocumentReference documentReference = map["perfil"];
 
     await documentReference.get().then((DocumentSnapshot doc) async {
+
       final data = doc.data() as Map<String, dynamic>;
 
       perfil = await searchByReferencePerfil(data, data["perfil"]);
 
       print("filtro: sucess ao buscar perfil de user!");
+
     }).onError((error, stackTrace) {
       print("filtro: error ao buscar perfil de user! ${error.toString()}");
     });
