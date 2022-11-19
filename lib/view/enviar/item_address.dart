@@ -30,6 +30,8 @@ class _ItemAddressState extends State<ItemAddress> {
 
   @override
   void initState() {
+    super.initState();
+
     _controller.addListener(() {
       if(widget.labelText == TextLevv.ENDERECO_ENTREGA){
         widget.itemDoPedido.coleta;
@@ -37,12 +39,11 @@ class _ItemAddressState extends State<ItemAddress> {
         widget.itemDoPedido.entrega;
       }
     });
-
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
     setState(() {
       if (widget.limparControllers) {
         _controller.clear();

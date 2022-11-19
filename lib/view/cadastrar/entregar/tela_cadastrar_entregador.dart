@@ -24,7 +24,6 @@ import '../../../model/dao/arquivo/arquivo_dao.dart';
 import '../../../model/dao/usuario/entregar_dao.dart';
 import '../../../api/cor/colors_levv.dart';
 import '../../../api/imagem/image_levv.dart';
-import '../../componentes/erro/show_dialog_erro.dart';
 import '../../entregar/tela_entregar.dart';
 
 class TelaCadastrarEntregador extends StatefulWidget {
@@ -39,7 +38,7 @@ class TelaCadastrarEntregador extends StatefulWidget {
 }
 
 class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
-    with ShowDialogErro {
+     {
   final controllerNome = TextEditingController();
   final controllerSobrenome = TextEditingController();
   final controllerMaskCpf = Mask(formatter: FormatterCpf());
@@ -1105,7 +1104,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                                   geoPoit;
                                 });
                               } else {
-                                erroAoBuscarLocalizacao(context);
+                                _erroAoBuscarLocalizacao(context);
                               }
                             },
                             child: Icon(
@@ -1578,6 +1577,26 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador>
                     Navigator.pop(context);
                   },
                   child: Text("Ok"))
+            ],
+          );
+        });
+  }
+
+  _erroAoBuscarLocalizacao(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Erro"),
+            titlePadding: const EdgeInsets.all(20),
+            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
+            content: const Text("Não foi possível obter localização!"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Ok"))
             ],
           );
         });

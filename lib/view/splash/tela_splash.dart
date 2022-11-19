@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:levv4/model/bo/usuario/usuario.dart';
+import 'package:levv4/view/home/tela_home.dart';
 import '../../api/cor/colors_levv.dart';
 
 import '../../api/texto/text_levv.dart';
-import '../componentes/erro/show_dialog_erro.dart';
+import '../../model/dao/usuario/usuario_dao.dart';
+import '../cadastrar/acompanhar/tela_cadastrar_acompanhador.dart';
 
-import '../componentes/nevegacao/home/navegar_tela_home.dart';
 import '../componentes/logo/widget_logo_levv.dart';
-
-import '../../controller/usuario/usuario_controller.dart';
 
 class TelaSplash extends StatefulWidget {
   const TelaSplash({Key? key}) : super(key: key);
@@ -18,13 +18,13 @@ class TelaSplash extends StatefulWidget {
   State<TelaSplash> createState() => _TelaSplashState();
 }
 
-class _TelaSplashState extends State<TelaSplash> with Navegar, ShowDialogErro {
-  final UsuarioController usuarioController = UsuarioController();
+class _TelaSplashState extends State<TelaSplash> {
+  late final Usuario _user;
 
   @override
   void initState() {
     super.initState();
-    _inicializarCircularProgressIndicator();
+    _startCircularProgressIndicator();
   }
 
   @override
@@ -63,28 +63,26 @@ class _TelaSplashState extends State<TelaSplash> with Navegar, ShowDialogErro {
     );
   }
 
-  _inicializarCircularProgressIndicator() async {
+  _startCircularProgressIndicator() async {
     Timer(const Duration(seconds: 3), () async {
-      await _escolherProximaTela();
+      await _chooseNextScreen();
     });
   }
 
-  Future<void> _escolherProximaTela() async {
-    if (usuarioController.existeUsuarioFirebaseLogado()) {
+  Future<void> _chooseNextScreen() async {
+    if (_thereIsFirebaseUserLoggedIn()) {
       try {
-        await usuarioController.buscarUsuario();
-        usuarioController.navegarParaTelaHome(context: context);
-      } catch (erro) {
-        _erroAoBuscarUsuario();
-        print(
-            "erro -> tela splash -> escolher proxima tela: ${erro.toString()}");
+        await _fetchUser();
+        _navigateToHomeScreen();
+      } catch (error) {
+        _errorToFetchUser();
       }
     } else {
-      usuarioController.navegarParaTelaCadastrarAcompanhador(context: context);
+      _navigateToScreenAcompanhador();
     }
   }
 
-  _erroAoBuscarUsuario() {
+  _errorToFetchUser() {
     showDialog(
         context: context,
         builder: (context) {
@@ -96,5 +94,34 @@ class _TelaSplashState extends State<TelaSplash> with Navegar, ShowDialogErro {
             titleTextStyle: TextStyle(fontSize: 20, color: Colors.black26),
           );
         });
+  }
+
+  _navigateToScreenAcompanhador() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => const TelaCadastrarAcompanhador()));
+  }
+
+  _navigateToHomeScreen() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TelaHome(
+                  usuario: _user,
+                )));
+  }
+
+  Future<void> _fetchUser() async {
+    final usuarioDAO = UsuarioDAO();
+
+    _user = await usuarioDAO.buscarUmUsuarioPeloNomeDoDocumento(
+        usuarioDAO.autenticacao.nomeDoDocumentoDoUsuarioCorrente(
+            usuarioDAO.autenticacao.auth.currentUser!));
+  }
+
+  bool _thereIsFirebaseUserLoggedIn() {
+    final usuarioDAO = UsuarioDAO();
+    return usuarioDAO.autenticacao.auth.currentUser != null ? true : false;
   }
 }

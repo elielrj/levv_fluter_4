@@ -22,8 +22,11 @@ class FormatterCep implements Formatter {
 
   @override
   bool isValid(TextEditingController textEditingController) {
-    // TODO: implement getHint
-    throw UnimplementedError();
+    if(HINT == textEditingController.text){
+      return true;
+    }else{
+      return false;
+    }
   }
 
   @override

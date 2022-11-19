@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
-import 'package:levv4/view/componentes/erro/show_dialog_erro.dart';
 
 import '../../model/bo/endereco/endereco.dart';
 import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
@@ -22,15 +21,12 @@ class PedidoRota extends StatefulWidget {
   State<PedidoRota> createState() => _PedidoRotaState();
 }
 
-class _PedidoRotaState extends State<PedidoRota> with ShowDialogErro {
+class _PedidoRotaState extends State<PedidoRota>  {
 
 
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Column(
       children: [
         const Text(TextLevv.ROTA),
@@ -88,7 +84,7 @@ class _PedidoRotaState extends State<PedidoRota> with ShowDialogErro {
               });
             });
           } else {
-            erroAoRemoverItem(context);
+            _erroAoRemoverItem(context);
           }
         },
         padding: const EdgeInsets.only(left: 8, right: 8),
@@ -116,10 +112,48 @@ class _PedidoRotaState extends State<PedidoRota> with ShowDialogErro {
               });
             });
           } else {
-            erroAoAdicionarItem(context);
+            _erroAoAdicionarItem(context);
           }
         },
         padding: const EdgeInsets.only(left: 8, right: 8),
         iconSize: 25,
       );
+
+  _erroAoRemoverItem(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Erro ao excluir item do pedido"),
+            titlePadding: const EdgeInsets.all(20),
+            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+            content: const Text("Não é possível excluir o último item!\n"
+                "É necessário ter pelo menos 1 item!\n"),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Ok"))
+            ],
+          );
+        });
+  }
+
+  _erroAoAdicionarItem(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text("Erro ao adicionar item do pedido"),
+            titlePadding: const EdgeInsets.all(20),
+            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+            content: const Text(
+                "Não é possível adicionar mais de 10 itens no pedido"),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Ok"))
+            ],
+          );
+        });
+  }
 }

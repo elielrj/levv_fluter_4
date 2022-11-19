@@ -37,7 +37,10 @@ class TelaEnviar extends StatefulWidget {
 }
 
 class _TelaEnviarState extends State<TelaEnviar> {
-  //final pedido = Pedido();
+
+
+
+
   final controllerValor = Mask(formatter: FormatterValorEmReal());
   bool limparControllers = false;
 
@@ -59,6 +62,8 @@ class _TelaEnviarState extends State<TelaEnviar> {
         padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 8),
         child: SingleChildScrollView(
           child: Column(children: [
+
+            ///Logo Levv
             Padding(
               padding: const EdgeInsets.only(bottom: 32),
               child: logoLevv(),
@@ -67,23 +72,28 @@ class _TelaEnviarState extends State<TelaEnviar> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                //1 Peso
+
+                ///1 Peso
                 PedidoPeso(pedido: widget.pedido),
-                //2 Volume
+
+                ///2 Volume
                 PedidoVolume(pedido: widget.pedido),
-                //3 Meio de Transporte
+
+                ///3 Meio de Transporte
                 PedidoVeiculo(pedido: widget.pedido),
               ],
             ),
 
-            //4 Rota
+            ///4 Rota
             PedidoRota(
               pedido: widget.pedido,
               limparControllers: limparControllers,
             ),
-            // Valor
+
+            /// Valor
             PedidoValor(controllerValor: controllerValor),
-            //Botão
+
+            ///Botão
             PedidoBotoes(
                 pedido: widget.pedido, limparControllers: limparControllers),
           ]),

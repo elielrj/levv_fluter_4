@@ -13,6 +13,7 @@ class PedidoDAO implements ICrudPedidoDAO<Pedido> {
 
   @override
   Future<void> criar(Pedido object) async {
+
     await bancoDeDados.db
         .collection(collectionPath)
         .doc(object.numero)

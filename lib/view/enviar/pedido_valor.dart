@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/api/mascara/mask.dart';
+import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 
+import '../../model/bo/pedido/pedido.dart';
 
 class PedidoValor extends StatefulWidget {
-  const PedidoValor({Key? key, required this.controllerValor}) : super(key: key);
+  const PedidoValor(
+      {Key? key,
+        required this.controllerValor
+        })
+      : super(key: key);
 
   final Mask controllerValor;
 
@@ -12,6 +18,8 @@ class PedidoValor extends StatefulWidget {
 }
 
 class _PedidoValorState extends State<PedidoValor> {
+
+
   @override
   Widget build(BuildContext context) {
     return Column(

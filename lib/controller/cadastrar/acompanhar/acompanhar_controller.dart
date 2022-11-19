@@ -68,7 +68,9 @@ class AcompanharController extends ChangeNotifier {
 
   void criarObjetoUsuario() {
     usuario = Usuario(
-      celular: apiCodigoTelefoneDoPais.codigoDoPais.defaultCountryCode.phoneCode + telefone.formatter.getFormatter().getUnmaskedText(),
+      celular:
+          apiCodigoTelefoneDoPais.codigoDoPais.defaultCountryCode.phoneCode +
+              telefone.formatter.getFormatter().getUnmaskedText(),
       perfil: Acompanhar(),
     );
   }
@@ -83,11 +85,18 @@ class AcompanharController extends ChangeNotifier {
         //logar com credencial
         await signInWithCredential(credential: credential);
 
-        //crial objeto Usuario Acompanhar
-        criarObjetoUsuario();
+        //verifica se o Nr cel já possuí cadastro!
+        await _buscaUsuarioSeJaEsteveCadastrado();
 
-        //inserir Usuario no DB
-        await inserirUsuarioNoBancoDeDados();
+        //somente insere no banco, caso não haja cadastro anterior
+        if(usuario == null){
+
+          //crial objeto Usuario Acompanhar
+          criarObjetoUsuario();
+
+          //inserir Usuario no DB
+          await inserirUsuarioNoBancoDeDados();
+        }
 
         //todo notificar para mudar de tela
 
@@ -134,6 +143,49 @@ class AcompanharController extends ChangeNotifier {
       return true;
     } else {
       return false;
+    }
+  }
+
+  ///Cria um Usuario com código SMS manualmente
+  ///
+  Future<void> criarUsuarioComCodigoSMS() async {
+    //criar credencial
+    final credential = phoneCredentialWithCodeSent();
+
+    //logar com credencial
+    await signInWithCredential(credential: credential);
+
+    //verifica se o Nr cel já possuí cadastro!
+    await _buscaUsuarioSeJaEsteveCadastrado();
+
+    //somente insere no banco, caso não haja cadastro anterior
+    if(usuario == null){
+
+      //crial objeto Usuario Acompanhar
+      criarObjetoUsuario();
+
+      //inserir Usuario no DB
+      await inserirUsuarioNoBancoDeDados();
+    }
+
+  }
+
+
+  ///Faz consulta ao banco, caso já esteve cadastrado,
+  ///retorna um objeto usuário
+  ///
+  Future<void> _buscaUsuarioSeJaEsteveCadastrado() async {
+    String celular =
+        apiCodigoTelefoneDoPais.codigoDoPais.defaultCountryCode.phoneCode +
+            telefone.formatter.getFormatter().getUnmaskedText();
+
+    try {
+      final usuarioDAO = UsuarioDAO();
+      usuario = await usuarioDAO.buscarUmUsuarioPeloNomeDoDocumento(celular);
+    } catch (erro) {
+      print(
+          'erro ao verificar se  usuário estava cadastrado: ${erro.toString()}\n'
+              'ou usuário não esta cadastrado.');
     }
   }
 }

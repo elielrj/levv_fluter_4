@@ -57,6 +57,7 @@ class UsuarioDAO
     await bancoDeDados.db.collection(collectionPath).get().then(
       (res) {
         print("Successfully completed");
+        //todo: bucar todos usuários
         return res.docs;
       },
       onError: (e) => print("Error completing: $e"),

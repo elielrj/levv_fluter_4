@@ -137,22 +137,14 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
 
   _criarUsuarioComCodigoSMS() async {
     try {
-      //criar credencial
-      final credential = _controller.phoneCredentialWithCodeSent();
 
-      //logar com credencial
-      await _controller.signInWithCredential(credential: credential);
-
-      //crial objeto Usuario Acompanhar
-      _controller.criarObjetoUsuario();
-
-      //inserir Usuario no DB
-      await _controller.inserirUsuarioNoBancoDeDados();
+      await _controller.criarUsuarioComCodigoSMS();
 
       //navegar p/ Tela Home
       if (await _controller.existeUmUsuarioCorrente()) {
         _navegarParaTelaHome();
       }
+
     } catch (erro) {
       AlertDialog(
         title: const Text("Não foi possível confirmar o código",
