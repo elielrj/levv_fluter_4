@@ -36,6 +36,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
     controllerValor.textEditingController
         .addListener(() => setState(() {}));
     limparControllers;
+    widget.usuario.perfil;
   }
 
   @override
