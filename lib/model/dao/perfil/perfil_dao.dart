@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
 import 'package:levv4/model/bo/perfil/perfil.dart';
+import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/perfil/interface_perfil_dao.dart';
 import 'package:levv4/model/dao/perfil/mixin_criar_objeto_perfil_com_map.dart';
 import 'package:levv4/model/dao/perfil/mixin_deletar_perfil.dart';
@@ -39,11 +40,11 @@ class PerfilDAO
   @override
   Future<void> criar(Perfil perfil) async {
     try {
+      await createPerfil(perfil);
       print(documentSucessfullyCreate);
     } catch (erro) {
       print("$documentErrorUpdate--> ${erro.toString()}");
     }
-    await createPerfil(perfil);
   }
 
   @override
@@ -88,9 +89,14 @@ class PerfilDAO
 
           print("PerfilDAO: document exists = true");
           perfil = await toMapComPerfil(data, data["perfil"]);
-        }else{
+        } else {
           print("PerfilDAO: document exists = false");
-          await criar(perfil);
+
+          final usuarioDAO = UsuarioDAO();
+          await usuarioDAO.criar(Usuario(
+            celular: nomeDoDocumentoDoUsuarioCorrente(),
+            perfil: perfil,
+          ));
         }
       });
       print(documentSucessfullyRetrive);
