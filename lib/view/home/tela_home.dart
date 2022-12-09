@@ -26,7 +26,7 @@ class _TelaHomeState extends State<TelaHome> {
   @override
   Widget build(BuildContext context) {
     setState(() {
-      widget.usuario;
+      widget.usuario.perfil;
     });
     return Scaffold(
       backgroundColor: ColorsLevv.FUNDO_400,
