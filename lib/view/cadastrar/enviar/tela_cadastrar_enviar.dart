@@ -26,7 +26,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
   @override
   void initState() {
     super.initState();
-    widget.usuario;
+    widget.usuario.perfil;
   }
 
   @override
