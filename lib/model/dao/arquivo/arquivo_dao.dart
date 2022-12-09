@@ -23,7 +23,7 @@ class ArquivoDAO
 
     if (file != null) {
       String reference =
-          "$collectionPath/$nomeDoDocumentoDoUsuarioCorrente/${object.descricao}${DateTime.now().toString()}.jpg";
+          "$collectionPath/${nomeDoDocumentoDoUsuarioCorrente()}/${object.descricao}${DateTime.now().toString()}.jpg";
 
       await FirebaseStorage.instance
           .ref(reference)
@@ -36,7 +36,7 @@ class ArquivoDAO
   @override
   Future<void> delete(Arquivo object) async {
     String reference =
-        "$collectionPath/$nomeDoDocumentoDoUsuarioCorrente/${object.descricao}.jpg";
+        "$collectionPath/${nomeDoDocumentoDoUsuarioCorrente()}/${object.descricao}.jpg";
 
     await FirebaseStorage.instance
         .ref(reference)
