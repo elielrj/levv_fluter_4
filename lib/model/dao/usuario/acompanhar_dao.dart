@@ -29,36 +29,45 @@ class AcompanharDAO
 
   @override
   Future<void> criar(Acompanhar object) async {
-    await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .set(await toMap(object))
-        .then((value) => print(documentSucessfullyCreate),
-            onError: (e) => print("$documentErrorCreate --> ${e.toString()}"));
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .set(await toMap(object));
+      print(documentSucessfullyCreate);
+    } catch (erro) {
+      print("$documentErrorCreate --> ${erro.toString()}");
+    }
   }
 
   @override
   Future<void> atualizar(Acompanhar object) async {
-    await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .update(await toMap(object))
-        .then((value) => print(documentSucessfullyUpdate),
-            onError: (e) => print("$documentErrorUpdate --> ${e.toString()}"));
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .update(await toMap(object));
+      print(documentSucessfullyUpdate);
+    } catch (erro) {
+      print("$documentErrorUpdate --> ${erro.toString()}");
+    }
   }
 
   @override
   Future<List<Acompanhar>> buscarTodos() async {
     List<Acompanhar> usuariosAcompanhadores = [];
-
-    await FirebaseFirestore.instance.collection(collectionPath).get().then(
-      (res) {
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .get()
+          .then((res) {
         res.docs.map(
             (e) async => usuariosAcompanhadores.add(await fromMap(e.data())));
-        print(documentSucessfullyRetriveAll);
-      },
-      onError: (e) => print("$documentErrorRetriveAll --> ${e.toString()}"),
-    );
+      });
+      print(documentSucessfullyRetriveAll);
+    } catch (erro) {
+      print("$documentErrorRetriveAll --> ${erro.toString()}");
+    }
 
     return usuariosAcompanhadores;
   }
@@ -67,33 +76,30 @@ class AcompanharDAO
   Future<Acompanhar> buscar() async {
     Acompanhar acompanhar = Acompanhar();
 
-    await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .get()
-        .then(
-      (DocumentSnapshot doc) async {
-        final data = doc.data() as Map<String, dynamic>;
-
-        acompanhar = await fromMap(data);
-        print(documentSucessfullyRetrive);
-      },
-      onError: (e) => print("$documentErrorRetrive --> $e"),
-    );
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .get();
+      print(documentSucessfullyRetrive);
+    } catch (erro) {
+      print("$documentErrorRetrive --> ${erro.toString()}");
+    }
 
     return acompanhar;
   }
 
   @override
   Future<void> deletar(Acompanhar object) async {
-    await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .delete()
-        .then(
-          (doc) => print(documentSucessfullyDelete),
-          onError: (e) => print("$documentErrorDelete --> ${e.toString()}"),
-        );
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .delete();
+      print(documentSucessfullyDelete);
+    } catch (erro) {
+      print("$documentErrorDelete --> ${erro.toString()}");
+    }
   }
 
   @override
