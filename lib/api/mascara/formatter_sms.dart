@@ -4,34 +4,30 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'formatter.dart';
 
 class FormatterSms implements Formatter {
-
-  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "### ###");
-
-  static String HINT = "000 000";
-
-  final TextInputType textInputType = TextInputType.number;
-
-  FormFieldValidator<String>? validator = (value) {//todo
-  };
+  final MaskTextInputFormatter _maskTextInputFormatter =
+      MaskTextInputFormatter(mask: "### ###");
 
   @override
-  MaskTextInputFormatter getFormatter() {
-    return formatter;
+  MaskTextInputFormatter getMaskTextInputFormatter() {
+    return _maskTextInputFormatter;
   }
 
   @override
-  bool isValid(TextEditingController textEditingController) {
-    // TODO: implement getHint
-    throw UnimplementedError();
+  bool isValid() {
+    if (_maskTextInputFormatter.getUnmaskedText().length == 6) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
   String getHint() {
-    return HINT;
+    return "000 000";
   }
 
   @override
   TextInputType getTextInputType() {
-   return textInputType;
+    return TextInputType.number;
   }
 }

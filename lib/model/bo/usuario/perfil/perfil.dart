@@ -1,5 +1,0 @@
-abstract class Perfil{
-
-  exibirPerfil();
-
-}

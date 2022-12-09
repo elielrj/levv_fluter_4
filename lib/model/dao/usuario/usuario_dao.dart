@@ -1,142 +1,159 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
+import 'package:levv4/model/bo/perfil/perfil.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
-import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
-import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/model/dao/perfil/perfil_dao.dart';
 
-import '../interface/i_crud_usuario_dao.dart';
-import 'mixin_buscar_referencia_perfil.dart';
-import 'mixin_criar_perfil.dart';
-import 'mixin_deletar_perfil.dart';
-
+import 'interface_usuario_dao.dart';
 
 class UsuarioDAO
-    with CriarPerfil, SearchByReferencePerfil, DeletePerfil
-    implements ICrudUsuarioDAO<Usuario> {
+    with NomeDoDocumentoDoUsuarioCorrente
+    implements InterfaceUsuarioDAO<Usuario> {
+  static const collectionPath = "usuarios";
 
-  final bancoDeDados = BancoDeDados();
+  static const documentSucessfullyCreate =
+      "UsuarioDAO: DocumentSnapshot successfully create!";
+  static const documentSucessfullyUpdate =
+      "UsuarioDAO: DocumentSnapshot successfully update!";
+  static const documentSucessfullyRetrive =
+      "UsuarioDAO: DocumentSnapshot successfully retrive!";
+  static const documentSucessfullyRetriveAll =
+      "UsuarioDAO: DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyDelete =
+      "UsuarioDAO: DocumentSnapshot successfully delete!";
 
-  final autenticacao = Autenticacao();
-
-  static String collectionPath = "usuarios";
+  static const documentErrorCreate = "UsuarioDAO: Error crete document!";
+  static const documentErrorUpdate = "UsuarioDAO: Error update document!";
+  static const documentErrorRetrive = "UsuarioDAO: Error retrive document!";
+  static const documentErrorRetriveAll =
+      "UsuarioDAO: Error retrive all document!";
+  static const documentErrorDelete = "UsuarioDAO: Error delete document!";
 
   @override
-  Future<void> criar(Usuario object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await createPerfil(object.perfil);
-
-    await bancoDeDados.db
-        .collection(collectionPath)
-        .doc(documentName)
-        .set(await toMap(object))
-        .then((value) => print("DocumentSnapshot successfully create!"),
-            onError: (e) => print("Error updating document $e"));
+  Future<void> criar(Usuario usuario) async {
+    final perfilDAO = PerfilDAO();
+    await perfilDAO.criar(usuario.perfil!);
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .set(await toMap(usuario));
+      print(documentSucessfullyCreate);
+    } catch (erro) {
+      print('$documentErrorCreate --> ${erro.toString()}');
+    }
   }
 
   @override
-  Future<void> atualizar(Usuario object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+  Future<void> atualizar(Usuario usuario) async {
+    try {
+      ///1.0 - Atualizar Objeto Perfil
+      final perfilDAO = PerfilDAO();
 
-    //todo arrumar update p/ Perfil
+      ///1.1 - Buscar perfil anterior
+      Perfil perfil = await perfilDAO.buscar();
 
-    await bancoDeDados.db
-        .collection(collectionPath)
-        .doc(documentName)
-        .update(await toMap(object))
-        .then((value) => print("DocumentSnapshot successfully updated!"),
-            onError: (e) => print("Error updating document $e"));
+      ///1.2 - Deletar perfil anterior buscado
+      await perfilDAO.deletar(perfil);
+
+      ///1.3 - Criar novo perfil
+      await perfilDAO.criar(usuario.perfil!);
+
+      ///2.0 - Atualizar Objeto Usuario
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .update(await toMap(usuario));
+      print(documentSucessfullyCreate);
+    } catch (erro) {
+      print('$documentErrorCreate --> ${erro.toString()}');
+    }
   }
 
   @override
-  Future<Usuario?> buscarTodos() async {
-    //todo buscar todos, ver como fazer isso
-    await bancoDeDados.db.collection(collectionPath).get().then(
-      (res) {
-        print("Successfully completed");
-        //todo: bucar todos usuários
-        return res.docs;
-      },
-      onError: (e) => print("Error completing: $e"),
-    );
+  Future<List<Usuario>> buscarTodos() async {
+    List<Usuario> usuarios = [];
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .get()
+          .then((res) async {
+        res.docs.map((e) async => usuarios.add(await fromMap(e.data())));
+      });
+      print(documentSucessfullyRetrive);
+    } catch (erro) {
+      print("$documentErrorRetriveAll --> $erro");
+    }
+
+    return usuarios;
   }
 
   @override
-  Future<Usuario> buscarUmUsuarioPeloNomeDoDocumento(String nomeDoDocumento) async {
-    var usuario;
+  Future<Usuario?> buscar() async {
+    Usuario? usuario;
 
-    await bancoDeDados.db
-        .collection(collectionPath)
-        .doc(nomeDoDocumento)
-        .get()
-        .then(
-      (DocumentSnapshot doc) async {
-        final data = doc.data() as Map<String, dynamic>;
-
-        usuario = await fromMap(data);
-      },
-      onError: (e) => print("Error getting document: $e"),
-    );
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .get()
+          .then((DocumentSnapshot doc) async {
+        if (doc.exists) {
+          final data = doc.data() as Map<String, dynamic>;
+          usuario = await fromMap(data);
+          print("UsuarioDAO: docs.exist = true");
+        } else {
+          print("UsuarioDAO: dodocs.exist = false");
+        }
+      });
+      print(documentSucessfullyRetrive);
+    } catch (erro) {
+      print('$documentErrorRetrive -->${erro.toString()}');
+    }
 
     return usuario;
   }
 
   @override
   Future<void> deletar(Usuario object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+    try {
+      final perfilDAO = PerfilDAO();
+      await perfilDAO.deletar(object.perfil!);
 
-    await deletePerfil(object.perfil);
-
-    await bancoDeDados.db
-        .collection(collectionPath)
-        .doc(documentName)
-        .delete()
-        .then(
-          (doc) => print("Document deleted"),
-          onError: (e) => print("Error updating document $e"),
-        );
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .delete();
+      print(documentSucessfullyDelete);
+    } catch (erro) {
+      print("$documentErrorDelete --> ${erro.toString()}");
+    }
   }
 
   @override
   Future<Map<String, dynamic>> toMap(Usuario object) async {
-    DocumentReference documentReference = bancoDeDados.db.doc(
+    DocumentReference documentReference = FirebaseFirestore.instance.doc(
         "${object.perfil!.exibirPerfil().toString().toLowerCase()}/${object.celular}");
 
     return {
       if (object.celular != null) "celular": object.celular,
       if (object.perfil != null) "perfil": documentReference,
-      //todo ver como receber List de Map
-      // if (object.listaDePedidos != null) "listaDePedidos": object.listaDePedidos
     };
   }
 
   @override
   Future<Usuario> fromMap(Map<String, dynamic> map) async {
-    var perfil;
 
-    DocumentReference documentReference = map["perfil"];
-
-    await documentReference.get().then((DocumentSnapshot doc) async {
-
-      final data = doc.data() as Map<String, dynamic>;
-
-      perfil = await searchByReferencePerfil(data, data["perfil"]);
-
-      print("filtro: sucess ao buscar perfil de user!");
-
-    }).onError((error, stackTrace) {
-      print("filtro: error ao buscar perfil de user! ${error.toString()}");
-    });
+    final perfilDAO = PerfilDAO();
+    Perfil perfil = await perfilDAO.buscarComDocumentReference(map["perfil"]);
 
     return Usuario(
       celular: map["celular"],
-      perfil: await perfil,
+      perfil: perfil,
       listaDePedidos: null,
     );
   }
-
 }

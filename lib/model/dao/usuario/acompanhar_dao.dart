@@ -1,65 +1,84 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
-import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
 
-import '../../bo/usuario/perfil/acompanhar/acompanhar.dart';
-import '../interface/i_crud_usuario_dao.dart';
+import 'interface_usuario_dao.dart';
 
-class AcompanharDAO implements ICrudUsuarioDAO<Acompanhar> {
-  final bancoDeDados = BancoDeDados();
-  final autenticacao = Autenticacao();
+class AcompanharDAO
+    with NomeDoDocumentoDoUsuarioCorrente
+    implements InterfaceUsuarioDAO<Acompanhar> {
   final collectionPath = "acompanhar";
+
+  static const documentSucessfullyCreate =
+      "AcompanharDAO: DocumentSnapshot successfully create!";
+  static const documentSucessfullyUpdate =
+      "AcompanharDAO: DocumentSnapshot successfully update!";
+  static const documentSucessfullyRetrive =
+      "AcompanharDAO: DocumentSnapshot successfully retrive!";
+  static const documentSucessfullyRetriveAll =
+      "AcompanharDAO: DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyDelete =
+      "AcompanharDAO: DocumentSnapshot successfully delete!";
+
+  static const documentErrorCreate = "AcompanharDAO: Error crete document!";
+  static const documentErrorUpdate = "AcompanharDAO: Error update document!";
+  static const documentErrorRetrive = "AcompanharDAO: Error retrive document!";
+  static const documentErrorRetriveAll =
+      "AcompanharDAO: Error retrive all document!";
+  static const documentErrorDelete = "AcompanharDAO: Error delete document!";
 
   @override
   Future<void> criar(Acompanhar object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .set(await toMap(object))
-        .then((value) => print("DocumentSnapshot successfully create!"),
-            onError: (e) => print("Error updating document $e"));
+        .then((value) => print(documentSucessfullyCreate),
+            onError: (e) => print("$documentErrorCreate --> ${e.toString()}"));
   }
 
   @override
   Future<void> atualizar(Acompanhar object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .update(await toMap(object))
-        .then((value) => print("DocumentSnapshot successfully updated!"),
-            onError: (e) => print("Error updating document $e"));
+        .then((value) => print(documentSucessfullyUpdate),
+            onError: (e) => print("$documentErrorUpdate --> ${e.toString()}"));
   }
 
   @override
-  Future<Acompanhar?> buscarTodos() async {
-    //todo buscar todos, ver como fazer isso
-    await bancoDeDados.db.collection(collectionPath).get().then(
+  Future<List<Acompanhar>> buscarTodos() async {
+    List<Acompanhar> usuariosAcompanhadores = [];
+
+    await FirebaseFirestore.instance.collection(collectionPath).get().then(
       (res) {
-        print("Successfully completed");
-        return res.docs;
+        res.docs.map(
+            (e) async => usuariosAcompanhadores.add(await fromMap(e.data())));
+        print(documentSucessfullyRetriveAll);
       },
-      onError: (e) => print("Error completing: $e"),
+      onError: (e) => print("$documentErrorRetriveAll --> ${e.toString()}"),
     );
+
+    return usuariosAcompanhadores;
   }
 
   @override
-  Future<Acompanhar> buscarUmUsuarioPeloNomeDoDocumento(
-      String reference) async {
-    var acompanhar;
+  Future<Acompanhar> buscar() async {
+    Acompanhar acompanhar = Acompanhar();
 
-    await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
-      (DocumentSnapshot doc) {
+    await FirebaseFirestore.instance
+        .collection(collectionPath)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
+        .get()
+        .then(
+      (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
-        acompanhar = fromMap(data);
+        acompanhar = await fromMap(data);
+        print(documentSucessfullyRetrive);
       },
-      onError: (e) => print("Error getting document: $e"),
+      onError: (e) => print("$documentErrorRetrive --> $e"),
     );
 
     return acompanhar;
@@ -67,30 +86,25 @@ class AcompanharDAO implements ICrudUsuarioDAO<Acompanhar> {
 
   @override
   Future<void> deletar(Acompanhar object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .delete()
         .then(
-          (doc) => print("Document deleted"),
-          onError: (e) => print("Error updating document $e"),
+          (doc) => print(documentSucessfullyDelete),
+          onError: (e) => print("$documentErrorDelete --> ${e.toString()}"),
         );
   }
 
   @override
   Future<Map<String, dynamic>> toMap(Acompanhar object) async {
     return {
-      if (object.perfil != null) "perfil": object.perfil,
+      if (object.exibirPerfil() != null) "perfil": object.exibirPerfil(),
     };
   }
 
   @override
   Future<Acompanhar> fromMap(Map<String, dynamic> map) async {
-    Acompanhar acompanhar = Acompanhar();
-    acompanhar.perfil = map["perfil"];
-    return acompanhar;
+    return Acompanhar();
   }
 }

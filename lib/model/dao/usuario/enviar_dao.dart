@@ -1,88 +1,107 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
-import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/model/bo/enviar/enviar.dart';
+import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
+import 'interface_usuario_dao.dart';
 
-import '../../bo/usuario/perfil/enviar/enviar.dart';
-import '../interface/i_crud_usuario_dao.dart';
-
-class EnviarDAO implements ICrudUsuarioDAO<Enviar> {
-  final bancoDeDados = BancoDeDados();
-  final autenticacao = Autenticacao();
+class EnviarDAO
+    with NomeDoDocumentoDoUsuarioCorrente
+    implements InterfaceUsuarioDAO<Enviar> {
   final collectionPath = "enviar";
+
+  static const documentSucessfullyCreate =
+      "EnviarDAO: DocumentSnapshot successfully create!";
+  static const documentSucessfullyUpdate =
+      "EnviarDAO: DocumentSnapshot successfully update!";
+  static const documentSucessfullyRetrive =
+      "EnviarDAO: DocumentSnapshot successfully retrive!";
+  static const documentSucessfullyRetriveAll =
+      "EnviarDAO: DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyDelete =
+      "EnviarDAO: DocumentSnapshot successfully delete!";
+
+  static const documentErrorCreate = "EnviarDAO: Error crete document!";
+  static const documentErrorUpdate = "EnviarDAO: Error update document!";
+  static const documentErrorRetrive = "EnviarDAO: Error retrive document!";
+  static const documentErrorRetriveAll =
+      "EnviarDAO: Error retrive all document!";
+  static const documentErrorDelete = "EnviarDAO: Error delete document!";
 
   @override
   Future<void> criar(Enviar object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .set(await toMap(object))
-        .then((value) => print("DocumentSnapshot successfully create!"),
-            onError: (e) => print("Error updating document $e"));
+        .then((value) => print(documentSucessfullyCreate),
+            onError: (e) => print("$documentErrorCreate --> ${e.toString()}"));
   }
 
   @override
   Future<void> atualizar(Enviar object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .update(await toMap(object))
-        .then((value) => print("DocumentSnapshot successfully updated!"),
-            onError: (e) => print("Error updating document $e"));
+        .then((value) => print(documentSucessfullyUpdate),
+            onError: (e) => print("$documentErrorUpdate --> ${e.toString()}"));
   }
 
   @override
-  Future<Enviar?> buscarTodos() async {
-    //todo buscar todos, ver como fazer isso
-    await bancoDeDados.db.collection(collectionPath).get().then(
-      (res) {
-        print("Successfully completed");
-        return res.docs;
-      },
-      onError: (e) => print("Error completing: $e"),
-    );
-  }
+  Future<Enviar> buscar() async {
+    Enviar enviar = Enviar();
 
-  @override
-  Future<Enviar> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
-    var enviar;
-
-    await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
-      (DocumentSnapshot doc) {
+    await FirebaseFirestore.instance
+        .collection(collectionPath)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
+        .get()
+        .then(
+      (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
-        enviar = fromMap(data);
+        enviar = await fromMap(data);
+        print(documentSucessfullyRetrive);
       },
-      onError: (e) => print("Error getting document: $e"),
+      onError: (e) => print("$documentErrorRetrive --> ${e.toString()}"),
     );
 
     return enviar;
   }
 
   @override
-  Future<void> deletar(Enviar object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
+  Future<List<Enviar>> buscarTodos() async {
+    List<Enviar> enviadoresDePedido = [];
 
-    await bancoDeDados.db
+    await FirebaseFirestore.instance.collection(collectionPath).get().then(
+      (res) {
+        res.docs
+            .map((e) async => enviadoresDePedido.add(await fromMap(e.data())));
+        print(documentSucessfullyRetriveAll);
+      },
+      onError: (e) => print("$documentErrorRetriveAll --> $e"),
+    );
+    return enviadoresDePedido;
+  }
+
+  @override
+  Future<void> deletar(Enviar object) async {
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .delete()
         .then(
-          (doc) => print("Document deleted"),
-          onError: (e) => print("Error updating document $e"),
+          (doc) => print(documentSucessfullyDelete),
+          onError: (e) => print("$documentErrorDelete --> ${e.toString()}"),
         );
   }
 
   @override
   Future<Map<String, dynamic>> toMap(Enviar object) async {
+    final arquivoDAO = ArquivoDAO();
+    await arquivoDAO.upload(object.documentoDeIdentificacao!);
+
     return {
-      if (object.perfil != null) "perfil": object.perfil,
+      if (object.exibirPerfil() != null) "perfil": object.exibirPerfil(),
       if (object.nome != null) "nome": object.nome,
       if (object.sobrenome != null) "sobrenome": object.sobrenome,
       if (object.cpf != null) "cpf": object.cpf,
@@ -93,8 +112,6 @@ class EnviarDAO implements ICrudUsuarioDAO<Enviar> {
         "enderecosFavoritos": object.enderecosFavoritos,
       if (object.casa != null) "casa": object.casa,
       if (object.trabalho != null) "trabalho": object.trabalho,
-      if (object.documentoDeIdentificacao != null)
-        "documentoDeIdentificacao": object.documentoDeIdentificacao,
     };
   }
 
@@ -111,7 +128,6 @@ class EnviarDAO implements ICrudUsuarioDAO<Enviar> {
       enderecosFavoritos: map["enderecosFavoritos"],
       casa: map["casa"],
       trabalho: map["trabalho"],
-      documentoDeIdentificacao: map["documentoDeIdentificacao"],
     );
   }
 }

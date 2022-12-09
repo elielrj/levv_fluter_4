@@ -1,65 +1,71 @@
 import 'dart:async';
 
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
-import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
-import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
-import 'package:levv4/model/dao/interface/i_crud_endereco_dao.dart';
+import 'package:levv4/model/dao/endereco/i_crud_endereco_dao.dart';
 
-class EnderecoDAO implements ICrudEnderecoDAO<Endereco> {
-  final bancoDeDados = BancoDeDados();
 
-  final autenticacao = Autenticacao();
-
+class EnderecoDAO
+    with NomeDoDocumentoDoUsuarioCorrente
+    implements ICrudEnderecoDAO<Endereco> {
   final collectionPath = "enderecos";
+
+  static const documentSucessfullyCreate =
+      "EnderecoDAO: DocumentSnapshot successfully create!";
+  static const documentSucessfullyUpdate =
+      "EnderecoDAO: DocumentSnapshot successfully update!";
+  static const documentSucessfullyRetrive =
+      "EnderecoDAO: DocumentSnapshot successfully retrive!";
+  static const documentSucessfullyRetriveAll =
+      "EnderecoDAO: DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyDelete =
+      "EnderecoDAO: DocumentSnapshot successfully delete!";
+
+  static const documentErrorCreate = "EnderecoDAO: Error crete document!";
+  static const documentErrorUpdate = "EnderecoDAO: Error update document!";
+  static const documentErrorRetrive = "EnderecoDAO: Error retrive document!";
+  static const documentErrorRetriveAll =
+      "EnderecoDAO: Error retrive all document!";
+  static const documentErrorDelete = "EnderecoDAO: Error delete document!";
 
   @override
   Future<void> criar(Map<String, dynamic> object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .set(toMapToMap(object))
-        .then((value) => print("DocumentSnapshot successfully create!"),
-            onError: (e) => print("Error updating document $e"));
+        .then((value) => print(documentSucessfullyCreate),
+            onError: (e) => print("$documentErrorCreate--> ${e.toString()}"));
   }
 
   @override
   Future<void> atualizar(Map<String, dynamic> object) async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .update(toMapToMap(object))
-        .then((value) => print("DocumentSnapshot successfully updated!"),
-            onError: (e) => print("Error updating document $e"));
+        .then((value) => print(documentSucessfullyUpdate),
+            onError: (e) => print("$documentErrorUpdate--> ${e.toString()}"));
   }
 
   @override
   Future<dynamic> buscarEnderecosDoUsuarioCorrente() async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
     Map<String, dynamic> listaDeMaps = {};
 
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .get()
         .then(
       (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
         listaDeMaps = fromMapFromMap(data);
+        print(documentSucessfullyRetrive);
       },
-      onError: (e) => print("Error getting document: $e"),
+      onError: (e) => print("$documentErrorRetrive--> ${e.toString()}"),
     );
 
     return listaDeMaps;
@@ -67,16 +73,13 @@ class EnderecoDAO implements ICrudEnderecoDAO<Endereco> {
 
   @override
   Future<void> deletar() async {
-    String documentName = autenticacao
-        .nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .delete()
         .then(
-          (doc) => print("Document deleted"),
-          onError: (e) => print("Error updating document $e"),
+          (doc) => print(documentSucessfullyDelete),
+          onError: (e) => print("$documentErrorDelete--> ${e.toString()}"),
         );
   }
 

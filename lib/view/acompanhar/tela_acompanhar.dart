@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
+import 'package:levv4/controller/acompanhar/tela_acompanhar_controller.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
 import '../../api/cor/colors_levv.dart';
@@ -16,33 +17,11 @@ class TelaAcompanhar extends StatefulWidget {
   State<TelaAcompanhar> createState() => _TelaAcompanharState();
 }
 
-class _TelaAcompanharState extends State<TelaAcompanhar>
-     {
-  final pedidoDAO = PedidoDAO();
+class _TelaAcompanharState extends State<TelaAcompanhar> {
+  final controller = TelaAcompanharController();
 
-  var listaDePedidosDoUsuario;
-
-  final autenticacao = Autenticacao();
-
-  Future<User> _buscarUsuarioCorrente() async {
-    return await autenticacao.auth.currentUser!;
-  }
-
-  _buscarNumeroDeTelefoneDoUsuario() async {
-    return autenticacao.nomeDoDocumentoDoUsuarioCorrente(await _buscarUsuarioCorrente());
-  }
-
-  _buscarListaDePedidosDoUsuario() async {
-
-    try{
-
-      listaDePedidosDoUsuario = await pedidoDAO
-          .buscarPedidosDoUsuario(await _buscarNumeroDeTelefoneDoUsuario());
-
-    }catch(error){
-      print("Erro ao buscar pedidos do usuário!");
-    }
-
+  Future<void> _buscarListaDePedidosDoUsuario() async {
+    await controller.buscarListaDePedidosDoUsuario();
   }
 
   @override
@@ -68,7 +47,7 @@ class _TelaAcompanharState extends State<TelaAcompanhar>
               //lista de pedidos
               ListagemDePedidos(
                 usuario: widget.usuario,
-                listaDePedidosDoUsuario: listaDePedidosDoUsuario,
+                listaDePedidosDoUsuario: controller.listaDePedidosDoUsuario,
                 listaDeStatusDosBotoes: listaDeStatusDosBotoes,
               )
             ])));

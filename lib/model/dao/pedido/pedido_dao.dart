@@ -1,108 +1,165 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
-import '../interface/i_crud_pedido_dao.dart';
+import 'i_crud_pedido_dao.dart';
 
-
-
-class PedidoDAO implements ICrudPedidoDAO<Pedido> {
-  final bancoDeDados = BancoDeDados();
-
+class PedidoDAO
+    with NomeDoDocumentoDoUsuarioCorrente
+    implements ICrudPedidoDAO<Pedido> {
   final collectionPath = "pedidos";
+
+  static const documentSucessfullyCreate =
+      "PedidoDAO: DocumentSnapshot successfully create!";
+  static const documentSucessfullyUpdate =
+      "PedidoDAO: DocumentSnapshot successfully update!";
+  static const documentSucessfullyRetrive =
+      "PedidoDAO: DocumentSnapshot successfully retrive!";
+  static const documentSucessfullyRetriveAll = "PedidoDAO: DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyRetriveAllCities = "PedidoDAO: DocumentSnapshot successfully retrive all cities!";
+  static const documentSucessfullyRetriveAllCurrentUser = "PedidoDAO: DocumentSnapshot successfully retrive all current user!";
+  static const documentSucessfullyDelete =
+      "PedidoDAO: DocumentSnapshot successfully delete!";
+
+  static const documentErrorCreate = "PedidoDAO: Error crete document!";
+  static const documentErrorUpdate = "PedidoDAO: Error update document!";
+  static const documentErrorRetrive = "PedidoDAO: Error retrive document!";
+  static const documentErrorRetriveAll = "PedidoDAO: Error retrive all document!";
+  static const documentErrorRetriveAllCities = "PedidoDAO: Error retrive all document cities!";
+  static const documentErrorRetriveAllCurrentUser = "PedidoDAO: Error retrive all document current user!";
+  static const documentErrorDelete = "PedidoDAO: Error delete document!";
 
   @override
   Future<void> criar(Pedido object) async {
-
-    await bancoDeDados.db
-        .collection(collectionPath)
-        .doc(object.numero)
-        .set(toMap(object))
-        .then((value) => print("DocumentSnapshot successfully create!"),
-            onError: (e) => print("Error updating document $e"));
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(object.numero)
+          .set(toMap(object));
+      print(documentSucessfullyCreate);
+    } catch (erro) {
+      print("$documentErrorCreate--> ${erro.toString()}");
+    }
   }
 
   @override
   Future<void> atualizar(Pedido object) async {
-    await bancoDeDados.db
-        .collection(collectionPath)
-        .doc(object.numero)
-        .update(toMap(object))
-        .then((value) => print("DocumentSnapshot successfully updated!"),
-            onError: (e) => print("Error updating document $e"));
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(object.numero)
+          .update(toMap(object));
+      print(documentSucessfullyUpdate);
+    } catch (erro) {
+      print("$documentErrorUpdate--> ${erro.toString()}");
+    }
   }
 
   @override
-  Future<Pedido?> buscarTodos() async {
-    await bancoDeDados.db.collection(collectionPath).get().then(
-      (res) {
-        print("Successfully completed");
-        return res.docs;
-      },
-      onError: (e) => print("Error completing: $e"),
-    );
+  Future<List<Pedido>> buscarTodos() async {
+    List<Pedido> pedidos = [];
+
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .get()
+          .then((res) {
+        res.docs.map((e) => pedidos.add(fromMap(e.data())));
+      });
+      print(documentSucessfullyRetriveAll);
+    } catch (erro) {
+      print("$documentErrorRetriveAll --> ${erro.toString()}");
+    }
+
+    return pedidos;
   }
 
+/*
   @override
   Future<Pedido?> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
-    await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
+    await FirebaseFirestore.instance.collection(collectionPath).doc(reference).get().then(
       (DocumentSnapshot doc) {
         final data = doc.data() as Map<String, dynamic>;
 
         return fromMap(data);
       },
-      onError: (e) => print("Error getting document: $e"),
+      onError: (e) => print("Error getting document: ${e.toString()}"),
     );
   }
+*/
 
-  Future<List<Pedido>?> buscarPedidosDoUsuario(String celular) async {
-    await bancoDeDados
-        .db
-        .collection(collectionPath)
-        .where("usuarioDonoDoPedido", isEqualTo: celular)
-        .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
-        .limit(10)
-        .get()
-        .then(
-          (res) async {
+  Future<List<Pedido>> buscarPedidosDoUsuario({int limite = 10}) async {
+    List<Pedido> pedidos = [];
 
-        final data = res as Map<String, dynamic>;
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .where("usuarioDonoDoPedido",
+              isEqualTo: nomeDoDocumentoDoUsuarioCorrente())
+          .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
+          .limit(limite)
+          .get()
+          .then((res) async {
+            if(res.docs.isNotEmpty){
+              final data = res as Map<String, dynamic>;
 
-        return fromListMaps(data);
-      },
-      onError: (e) => print("Error getting document: $e"),
-    );
+              pedidos = fromListMaps(data);
+            }else{
+              print("PedidoDAO: não há peidos do usuário!");
+            }
 
-    //todo W/Firestore( 1800): (24.2.1) [Firestore]: Listen for Query(target=Query(pedidos where usuarioDonoDoPedido==+5548988302492 order by -dataHoraDeCriacaoDoPedido, -__name__);limitType=LIMIT_TO_FIRST) failed: Status{code=FAILED_PRECONDITION, description=The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/levv4-35095/firestore/indexes?create_composite=Cktwcm9qZWN0cy9sZXZ2NC0zNTA5NS9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvcGVkaWRvcy9pbmRleGVzL18QARoXChN1c3VhcmlvRG9ub0RvUGVkaWRvEAEaHQoZZGF0YUhvcmFEZUNyaWFjYW9Eb1BlZGlkbxACGgwKCF9fbmFtZV9fEAI, cause=null}
-    //todo I/flutter ( 1800): Error getting document: [cloud_firestore/failed-precondition] The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/levv4-35095/firestore/indexes?create_composite=Cktwcm9qZWN0cy9sZXZ2NC0zNTA5NS9kYXRhYmFzZXMvKGRlZmF1bHQpL2NvbGxlY3Rpb25Hcm91cHMvcGVkaWRvcy9pbmRleGVzL18QARoXChN1c3VhcmlvRG9ub0RvUGVkaWRvEAEaHQoZZGF0YUhvcmFEZUNyaWFjYW9Eb1BlZGlkbxACGgwKCF9fbmFtZV9fEAI
+      });
+      print(documentSucessfullyRetriveAllCurrentUser);
+    } catch (erro) {
+      print("$documentErrorRetriveAllCurrentUser --> ${erro.toString()}");
+    }
+
+    return pedidos;
   }
 
-  Future<List<Pedido>?> buscarPedidoPorCidade(String cidade) async {
-    await bancoDeDados.db.collection(collectionPath)
-        .where("cidade", isEqualTo: cidade)
-        .orderBy("dataHoraDeCriacaoDoPedido", descending:  true)
-        .limit(10)
-        .get()
-        .then((res) async {
-          final data = res as Map<String,dynamic>;
+  Future<List<Pedido>> buscarPedidosPorCidade(String cidade,
+      {int limite = 20}) async {
+    List<Pedido> pedidos = [];
 
-          return fromListMaps(data);
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .where("cidade", isEqualTo: cidade)
+          .where("pedidoEstaDisponivelParaEntrega", isEqualTo: true)
+          .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
+          .limit(limite)
+          .get()
+          .then((res) async {
 
-    }, onError: (e) => print("Error getting documents: $e"),
-    );
+            if(res.docs.isNotEmpty){
+              final data = res as Map<String, dynamic>;
 
+              pedidos = fromListMaps(data);
+            }else{
+              print("PedidoDAO: não há peidos na cidade atual!");
+            }
+
+      });
+      print(documentSucessfullyRetriveAllCities);
+    } catch (erro) {
+      print("$documentErrorRetriveAllCities--> ${erro.toString()}");
+    }
+
+    return pedidos;
   }
 
   @override
   Future<void> deletar(Pedido object) async {
-    await bancoDeDados.db
-        .collection(collectionPath)
-        .doc(object.numero)
-        .delete()
-        .then(
-          (doc) => print("Document deleted"),
-          onError: (e) => print("Error updating document $e"),
-        );
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(object.numero)
+          .delete();
+      print(documentSucessfullyDelete);
+    } catch (erro) {
+      print("$documentErrorDelete ${erro.toString()}");
+    }
   }
 
   @override
@@ -147,11 +204,10 @@ class PedidoDAO implements ICrudPedidoDAO<Pedido> {
     );
   }
 
-  List<Pedido>? fromListMaps(Map<String, dynamic> map) {
-
+  List<Pedido> fromListMaps(Map<String, dynamic> map) {
     List<Pedido> listPedidos = [];
 
-    for ( var item in map.values){
+    for (var item in map.values) {
       listPedidos.add(fromMap(item));
     }
     return listPedidos;

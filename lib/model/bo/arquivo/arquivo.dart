@@ -4,23 +4,25 @@ import 'package:image_picker/image_picker.dart';
 class Arquivo {
 
   String? descricao;
-  XFile? image;
+  XFile? file;
 
   Arquivo({
     this.descricao,
-    this.image
+    this.file
   });
 
   Future<XFile?> getImageCamera() async {
     final ImagePicker _picker = ImagePicker();
 
-    image = await _picker.pickImage(source: ImageSource.camera);
+    file = await _picker.pickImage(source: ImageSource.camera);
   }
 
   Future<XFile?> getImageGallery() async {
     final ImagePicker _picker = ImagePicker();
 
-    image = await _picker.pickImage(source: ImageSource.gallery);
+    file = await _picker.pickImage(source: ImageSource.gallery);
   }
+
+
 
 }

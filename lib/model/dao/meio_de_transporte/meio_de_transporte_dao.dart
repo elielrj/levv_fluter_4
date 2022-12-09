@@ -1,85 +1,97 @@
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
-import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
-import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
+import 'package:levv4/model/dao/meio_de_transporte/i_crud_meio_de_transporte_dao.dart';
+import 'package:levv4/model/dao/meio_de_transporte/mixin_meio_de_transporte_create.dart';
+import 'package:levv4/model/dao/meio_de_transporte/mixin_meio_de_transporte_delete.dart';
+import 'package:levv4/model/dao/meio_de_transporte/mixin_meio_de_transporte_retrive.dart';
+import 'package:levv4/model/dao/meio_de_transporte/mixin_meio_de_transporte_update.dart';
 
-import '../../bo/meio_de_transporte/carro.dart';
-import 'a_pe_dao.dart';
-import 'bike_dao.dart';
-import 'carro_dao.dart';
-import 'moto_dao.dart';
+class MeioDeTransporteDAO with MixinMeioDeTransporteCreate,
+    MixinMeioDeTransporteUpdate,
+    MixinMeioDeTransporteDelete,
+    MixinMeioDeTransporteRetrive
+    implements ICrudMeioDeTransporteDAO<MeioDeTransporte>{
 
-mixin CreateMeioDeTransporteDAO{
-  Future<void> createMeioDeTransporteDAO(MeioDeTransporte object) async {
-    if (object is APe) {
-      final aPeDAO = APeDAO();
-      await aPeDAO.criar(object);
-    } else if (object is Bike) {
-      final bikeDAO = BikeDAO();
-      await bikeDAO.criar(object);
-    } else if (object is Moto) {
-      final motoDAO = MotoDAO();
-      await motoDAO.criar(object);
-    } else if (object is Carro){
-      final carroDAO = CarroDAO();
-      await carroDAO.criar(object);
+  final collectionPath = "meio_de_transporte";
+
+  static const documentSucessfullyCreate =
+      "MeioDeTransporteDAO: DocumentSnapshot successfully create!";
+  static const documentSucessfullyUpdate =
+      "MeioDeTransporteDAO: DocumentSnapshot successfully update!";
+  static const documentSucessfullyRetrive =
+      "MeioDeTransporteDAO: DocumentSnapshot successfully retrive!";
+  static const documentSucessfullyRetriveAll =
+      "MeioDeTransporteDAO: DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyDelete =
+      "MeioDeTransporteDAO: DocumentSnapshot successfully delete!";
+
+  static const documentErrorCreate = "MeioDeTransporteDAO: Error crete document!";
+  static const documentErrorUpdate = "MeioDeTransporteDAO: Error update document!";
+  static const documentErrorRetrive = "MeioDeTransporteDAO: Error retrive document!";
+  static const documentErrorRetriveAll =
+      "MeioDeTransporteDAO: Error retrive all document!";
+  static const documentErrorDelete = "MeioDeTransporteDAO: Error delete document!";
+  
+  @override
+  Future<void> criar(MeioDeTransporte object) async {
+    try{
+      await createMeioDeTransporte(object);
+      print(documentSucessfullyCreate);
+    }catch(erro){
+      print("$documentErrorCreate--> ${erro.toString()}");
+    }
+
+  }
+
+  @override
+  Future<void> atualizar(MeioDeTransporte object)async  {
+    try{
+      await updateMeioDeTransporte(object);
+      print(documentSucessfullyCreate);
+    }catch(erro){
+      print("$documentErrorCreate--> ${erro.toString()}");
+    }
+    
+  }
+
+  @override
+  Future<MeioDeTransporte> buscar(String nomeDoMeioDeTransporte) async {
+    MeioDeTransporte meioDeTransporte = APe();
+    try{
+      meioDeTransporte = await retriveMeioDeTransporte(nomeDoMeioDeTransporte);
+      print(documentSucessfullyCreate);
+    }catch(erro){
+      print("$documentErrorCreate--> ${erro.toString()}");
+    }
+    return meioDeTransporte;
+  }
+
+  @override
+  Future<List<MeioDeTransporte>> buscarTodos() {
+    // TODO: implement buscarTodos
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deletar(MeioDeTransporte object) async {
+    try{
+      await deleteMeioDeTransporte(object);
+      print(documentSucessfullyCreate);
+    }catch(erro){
+      print("$documentErrorCreate--> ${erro.toString()}");
     }
   }
-}
 
-mixin UpdateMeioDeTransporteDAO{
-  Future<void> updateMeioDeTransporteDAO(MeioDeTransporte object) async {
-    if (object is APe) {
-      final aPeDAO = APeDAO();
-      await aPeDAO.atualizar(object);
-    } else if (object is Bike) {
-      final bikeDAO = BikeDAO();
-      await bikeDAO.atualizar(object);
-    } else if (object is Moto) {
-      final motoDAO = MotoDAO();
-      await motoDAO.atualizar(object);
-    } else if (object is Carro){
-      final carroDAO = CarroDAO();
-      await carroDAO.atualizar(object);
-    }
+  @override
+  MeioDeTransporte fromMap(Map<String, dynamic> map) {
+    // TODO: implement fromMap
+    throw UnimplementedError();
   }
-}
 
-mixin RetriveMeioDeTransporteDAO{
-  Future<dynamic> retriveMeioDeTransporteDAO(String nomeDoMeioDeTransporte) async {
-
-
-    if (nomeDoMeioDeTransporte == "A pé") {
-      final aPeDAO = APeDAO();
-      return await aPeDAO.retrive();
-    } else if (nomeDoMeioDeTransporte == "Bike") {
-      final bikeDAO = BikeDAO();
-      return await bikeDAO.retrive();
-    } else if (nomeDoMeioDeTransporte == "Moto") {
-      final motoDAO = MotoDAO();
-      return await motoDAO.retrive();
-    } else if (nomeDoMeioDeTransporte == "Carro"){
-      final carroDAO = CarroDAO();
-      return await carroDAO.retrive();
-    }
+  @override
+  Map<String, dynamic> toMap(MeioDeTransporte object) {
+    // TODO: implement toMap
+    throw UnimplementedError();
   }
+  
 }
-
-mixin DeleteMeioDeTransporteDAO{
-  Future<void> delete(MeioDeTransporte object) async {
-    if (object is APe) {
-      final aPeDAO = APeDAO();
-      await aPeDAO.deletar(object);
-    } else if (object is Bike) {
-      final bikeDAO = BikeDAO();
-      await bikeDAO.deletar(object);
-    } else if (object is Moto) {
-      final motoDAO = MotoDAO();
-      await motoDAO.deletar(object);
-    } else if (object is Carro){
-      final carroDAO = CarroDAO();
-      await carroDAO.deletar(object);
-    }
-  }
-}
-

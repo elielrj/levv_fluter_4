@@ -3,7 +3,7 @@ import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
-import 'package:levv4/view/mapa/mapa.dart';
+import 'package:levv4/view/localizar/mapa.dart';
 
 import '../../../../../model/bo/pedido/pedido.dart';
 
@@ -61,7 +61,8 @@ class _ListaComDetalhesDosPedidosState
 
   Widget _localDeColetaDoPedido({required Pedido pedido}) => Row(
         children: [
-          Text("${TextLevv.COLETA}\n${pedido.itensDoPedido![0].coleta.toString()}"),
+          Text(
+              "${TextLevv.COLETA}\n${pedido.itensDoPedido![0].coleta.toString()}"),
         ],
       );
 
@@ -118,8 +119,7 @@ class _ListaComDetalhesDosPedidosState
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        TelaEnviar(usuario: widget.usuario, pedido: pedido)));
+                    builder: (context) => TelaEnviar(usuario: widget.usuario)));
           } catch (error) {
             showDialog(
                 context: context,

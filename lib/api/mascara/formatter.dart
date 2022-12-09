@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 abstract class Formatter {
-  MaskTextInputFormatter getFormatter();
+  MaskTextInputFormatter getMaskTextInputFormatter();
 
-  bool isValid(TextEditingController textEditingController);
+  bool isValid();
 
   String getHint();
 

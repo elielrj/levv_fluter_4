@@ -3,35 +3,31 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'formatter.dart';
 
-class FormatterPhone implements Formatter {
-
-  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "(##) #####-####");
-
-  static String HINT = "(00) 00000 0000";
-
-  final TextInputType textInputType = TextInputType.phone;
-
-  FormFieldValidator<String>? validator = (value) {//todo
-  };
+ class FormatterPhone implements Formatter {
+  final MaskTextInputFormatter _maskTextInputFormatter =
+      MaskTextInputFormatter(mask: "(##) #####-####");
 
   @override
-  MaskTextInputFormatter getFormatter() {
-    return formatter;
+  MaskTextInputFormatter getMaskTextInputFormatter() {
+    return _maskTextInputFormatter;
   }
 
   @override
-  bool isValid(TextEditingController textEditingController) {
-    // TODO: implement getHint
-    throw UnimplementedError();
+  bool isValid() {
+    if (_maskTextInputFormatter.getUnmaskedText().length == 11) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
   String getHint() {
-    return HINT;
+    return "(00) 00000 0000";
   }
 
   @override
   TextInputType getTextInputType() {
-   return textInputType;
+    return TextInputType.phone;
   }
 }

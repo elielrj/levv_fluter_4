@@ -1,7 +1,5 @@
 import 'package:levv4/model/bo/pedido/pedido.dart';
-import 'package:levv4/model/bo/usuario/perfil/perfil.dart';
-
-import '../endereco/endereco.dart';
+import 'package:levv4/model/bo/perfil/perfil.dart';
 
 class Usuario {
   String? celular;
@@ -9,10 +7,5 @@ class Usuario {
   Perfil? perfil;
   List<Pedido>? listaDePedidos;
 
-  Usuario({
-    this.celular,
-    this.perfil,
-    this.listaDePedidos
-  });
-
+  Usuario({this.celular, this.perfil, this.listaDePedidos});
 }

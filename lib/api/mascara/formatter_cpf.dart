@@ -1,38 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/validador_cnpj_cpf/validador_cnpj_cpf.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'formatter.dart';
 
-class FormatterCpf implements Formatter {
-
-  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "###.###.###-##");
-
-  static String HINT = "000.000.000-00";
-
-  final TextInputType textInputType = TextInputType.number;
-
-  FormFieldValidator<String>? validator = (value) {
-    //todo
-  };
+ class FormatterCpf implements Formatter {
+  final MaskTextInputFormatter _maskTextInputFormatter =
+      MaskTextInputFormatter(mask: "###.###.###-##");
 
   @override
-  MaskTextInputFormatter getFormatter() {
-    return formatter;
+  MaskTextInputFormatter getMaskTextInputFormatter() {
+    return _maskTextInputFormatter;
   }
 
   @override
-  bool isValid(TextEditingController textEditingController) {
-    // TODO: implement getHint
-    throw UnimplementedError();
+  bool isValid() {
+    return ValidadorCnpjCpf.isValidCpf(
+        _maskTextInputFormatter.getMaskedText().toString());
   }
 
   @override
   String getHint() {
-    return HINT;
+    return "000.000.000-00";
   }
 
   @override
   TextInputType getTextInputType() {
-   return textInputType;
+    return TextInputType.number;
   }
 }

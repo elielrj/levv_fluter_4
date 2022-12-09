@@ -1,4 +1,18 @@
 class TextLevv {
+
+
+  ///TELA SPLASH
+  static const ERRO_BUSCAR_USUARIO = "Erro ao buscar o seu usuário! Entre em contato com o SAC!";
+  ///TELA
+
+  ///TELA
+
+  ///TELA
+
+  ///TELA
+
+  ///TELA
+
   static const String NOME_DO_APP = "LEVV";
 
   static const String TITULO_ENTREGAR = "ENTREGAR PRODUTO";

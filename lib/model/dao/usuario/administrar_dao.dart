@@ -1,101 +1,108 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
-import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 
-import '../../bo/usuario/perfil/administrar/administrar.dart';
-import '../interface/i_crud_usuario_dao.dart';
+import 'package:levv4/model/bo/administrar/administrar.dart';
+import 'interface_usuario_dao.dart';
 
-class AdministrarDAO  implements ICrudUsuarioDAO<Administrar> {
-
-  final bancoDeDados = BancoDeDados();
-  final autenticacao = Autenticacao();
+class AdministrarDAO
+    with NomeDoDocumentoDoUsuarioCorrente
+    implements InterfaceUsuarioDAO<Administrar> {
   final collectionPath = "administrar";
+
+  static const documentSucessfullyCreate =
+      "AdministrarDAO DocumentSnapshot successfully create!";
+  static const documentSucessfullyUpdate =
+      "AdministrarDAO DocumentSnapshot successfully update!";
+  static const documentSucessfullyRetrive =
+      "AdministrarDAO DocumentSnapshot successfully retrive!";
+  static const documentSucessfullyRetriveAll =
+      "AdministrarDAO DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyDelete =
+      "AdministrarDAO DocumentSnapshot successfully delete!";
+
+  static const documentErrorCreate = "AdministrarDAO Error crete document!";
+  static const documentErrorUpdate = "AdministrarDAO Error update document!";
+  static const documentErrorRetrive = "AdministrarDAO Error retrive document!";
+  static const documentErrorRetriveAll =
+      "AdministrarDAO Error retrive all document!";
+  static const documentErrorDelete = "AdministrarDAO Error delete document!";
 
   @override
   Future<void> criar(Administrar object) async {
-
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .set(await toMap(object))
-        .then((value) => print("DocumentSnapshot successfully create!"),
-            onError: (e) => print("Error updating document $e"));
+        .then((value) => print(documentSucessfullyCreate),
+            onError: (e) => print("$documentErrorCreate --> ${e.toString()}"));
   }
 
   @override
   Future<void> atualizar(Administrar object) async {
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .update(await toMap(object))
-        .then((value) => print("DocumentSnapshot successfully updated!"),
-            onError: (e) => print("Error updating document $e"));
+        .then((value) => print(documentSucessfullyUpdate),
+            onError: (e) => print("$documentErrorUpdate --> ${e.toString()}"));
   }
 
   @override
   Future<Administrar?> buscarTodos() async {
-    //todo buscar todos, ver como fazer isso
-    await bancoDeDados.db.collection(collectionPath).get().then(
+    List<Administrar> usuariosAdministradores = [];
+
+    await FirebaseFirestore.instance.collection(collectionPath).get().then(
       (res) {
-        print("Successfully completed");
-        return res.docs;
+        res.docs.map(
+            (e) async => usuariosAdministradores.add(await fromMap(e.data())));
+        print(documentSucessfullyRetriveAll);
       },
-      onError: (e) => print("Error completing: $e"),
+      onError: (e) => print("$documentErrorRetriveAll--> ${e.toString()}"),
     );
   }
 
   @override
-  Future<Administrar> buscarUmUsuarioPeloNomeDoDocumento(String reference) async {
+  Future<Administrar> buscar() async {
+    Administrar administrar = Administrar();
 
-    var administrar;
+    await FirebaseFirestore.instance
+        .collection(collectionPath)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
+        .get()
+        .then(
+      (DocumentSnapshot doc) async {
+        final data = doc.data() as Map<String, dynamic>;
 
-      await bancoDeDados.db.collection(collectionPath).doc(reference).get().then(
-            (DocumentSnapshot doc) {
-
-          final data = doc.data() as Map<String, dynamic>;
-
-          administrar = fromMap(data);
-        },
-        onError: (e) => print("Error getting document: $e"),
-      );
+        administrar = await fromMap(data);
+        print(documentSucessfullyRetrive);
+      },
+      onError: (e) => print("$documentErrorRetrive --> $e"),
+    );
 
     return administrar;
   }
 
   @override
   Future<void> deletar(Administrar object) async {
-    String documentName = autenticacao.nomeDoDocumentoDoUsuarioCorrente(autenticacao.auth.currentUser!);
-
-    await bancoDeDados.db
+    await FirebaseFirestore.instance
         .collection(collectionPath)
-        .doc(documentName)
+        .doc(nomeDoDocumentoDoUsuarioCorrente())
         .delete()
         .then(
-          (doc) => print("Document deleted"),
-          onError: (e) => print("Error updating document $e"),
+          (doc) => print(documentSucessfullyDelete),
+          onError: (e) => print("$documentErrorDelete--> ${e.toString()}"),
         );
   }
 
   @override
   Future<Map<String, dynamic>> toMap(Administrar object) async {
     return {
-      if (object.perfil != null) "perfil": object.perfil,
+      if (object.exibirPerfil() != null) "perfil": object.exibirPerfil(),
     };
   }
 
   @override
-  Future<Administrar> fromMap(Map<String, dynamic> map) async{
-    Administrar administrar = Administrar();
-    administrar.perfil = map["perfil"];
-    return administrar;
+  Future<Administrar> fromMap(Map<String, dynamic> map) async {
+    return Administrar();
   }
-
-
-
-
 }

@@ -6,44 +6,30 @@ import '../arquivo/arquivo.dart';
 import 'a_pe.dart';
 
 abstract class Motorizado {
+  String? modelo;
+  String? marca;
+  String? cor;
+  String? placa;
+  String? renavam;
+  Arquivo? documentoDoVeiculo;
 
-   String? modelo;
-   String? marca;
-   String? cor;
-   String? placa;
-   String? renavam;
-   bool? documentoDoVeiculo;
-
-   Motorizado(
+  Motorizado(
       {this.modelo,
       this.marca,
       this.cor,
       this.placa,
       this.renavam,
-      this.documentoDoVeiculo
-      });
+      this.documentoDoVeiculo});
 
-   cadastrarDocumentoDoVeiculoFromGallery() async {
+  void cadastrarDocumentoDoVeiculoFromGallery() async {
+    documentoDoVeiculo = Arquivo(descricao: "documentoDoVeiculo");
 
-      final arquivo = Arquivo(descricao: "documentoDoVeiculo");
+    await documentoDoVeiculo!.getImageGallery();
+  }
 
-      arquivo.image = await arquivo.getImageGallery();
+  void cadastrarDocumentoDoVeiculoFromCamera() async {
+    documentoDoVeiculo = Arquivo(descricao: "documentoDoVeiculo");
 
-      final arquivoDAO = ArquivoDAO();
-
-      await arquivoDAO.upload(arquivo);
-   }
-
-   cadastrarDocumentoDoVeiculoFromCamera() async {
-
-      final arquivo = Arquivo(descricao: "documentoDoVeiculo");
-
-      arquivo.image = await arquivo.getImageCamera();
-
-      final arquivoDAO = ArquivoDAO();
-
-      await arquivoDAO.upload(arquivo);
-   }
-
-
+    await documentoDoVeiculo!.getImageCamera();
+  }
 }

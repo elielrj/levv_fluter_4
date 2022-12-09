@@ -5,33 +5,27 @@ import 'formatter.dart';
 
 class FormatterValorEmReal implements Formatter {
 
-  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "# ###,##");
+  final MaskTextInputFormatter _maskTextInputFormatter = MaskTextInputFormatter(mask: "# ###,##");
 
-  static String HINT = "0,00";
 
-  final TextInputType textInputType = TextInputType.number;
-
-  FormFieldValidator<String>? validator = (value) {//todo
-  };
 
   @override
-  MaskTextInputFormatter getFormatter() {
-    return formatter;
+  MaskTextInputFormatter getMaskTextInputFormatter() {
+    return _maskTextInputFormatter;
   }
 
   @override
-  bool isValid(TextEditingController textEditingController) {
-    // TODO: implement getHint
-    throw UnimplementedError();
+  bool isValid() {
+    return true;
   }
 
   @override
   String getHint() {
-    return HINT;
+    return "0,00";
   }
 
   @override
   TextInputType getTextInputType() {
-   return textInputType;
+   return TextInputType.number;
   }
 }

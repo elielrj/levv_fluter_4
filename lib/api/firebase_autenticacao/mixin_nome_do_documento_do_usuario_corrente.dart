@@ -1,21 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
-mixin NomeDoDocumentoDoUsuarioCorrente{
-  String nomeDoDocumentoDoUsuarioCorrente( User currentUser)  {
-    var celular =  currentUser.phoneNumber;
-    var email =  currentUser.email;
+mixin NomeDoDocumentoDoUsuarioCorrente {
+  String nomeDoDocumentoDoUsuarioCorrente() {
+    var celular = FirebaseAuth.instance.currentUser?.phoneNumber;
+    var email = FirebaseAuth.instance.currentUser?.email;
 
     String documentName = "";
 
-    if(celular != null && celular != ""){
+    if (celular != null && celular != "") {
       documentName = celular.toString();
     }
-    if(email != null && email != ""){
+    if (email != null && email != "") {
       documentName = email.toString();
     }
 
     return documentName;
   }
-
 }

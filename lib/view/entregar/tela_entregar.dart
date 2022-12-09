@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:levv4/controller/entregar/tela_entregar_controller.dart';
 
 import '../../api/firebase_autenticacao/autenticacao.dart';
 import '../../model/bo/endereco/endereco.dart';
@@ -19,40 +20,21 @@ class TelaEntregar extends StatefulWidget {
 }
 
 class _TelaEntregarState extends State<TelaEntregar> {
-
-  final pedidoDAO = PedidoDAO();
-
-  var listaDePedidosDoUsuario;
-
-  final autenticacao = Autenticacao();
-
-  //4 - quarto
-  Future<User> _buscarUsuarioCorrente() async {
-    return await autenticacao.auth.currentUser!;
-  }
-
-
-  //3 - terceiro
-  _buscarNumeroDeTelefoneDoUsuario() async {
-    return autenticacao.nomeDoDocumentoDoUsuarioCorrente(await _buscarUsuarioCorrente());
-  }
+  final controller = TelaEntregarController();
 
   //2 - segundo
-  _buscarListaDePedidosDoUsuario() async {
-    listaDePedidosDoUsuario = await pedidoDAO
-        .buscarPedidosDoUsuario(_buscarNumeroDeTelefoneDoUsuario());
+  Future<void> _buscarListaDePedidosDoUsuario() async {
+    await controller.buscarListaDePedidosDoUsuario();
   }
 
   @override
   void initState() {
     super.initState();
-
     // 1- primeiro
     _buscarListaDePedidosDoUsuario();
   }
 
   final List<bool> listaDeStatusDosBotoes = [true, false, false];
-
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +51,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
               //lista de pedidos
               ListagemDePedidos(
                 usuario: widget.usuario,
-                listaDePedidosDoUsuario: listaDePedidosDoUsuario,
+                listaDePedidosDoUsuario: controller.listaDePedidosDoUsuario,
                 listaDeStatusDosBotoes: listaDeStatusDosBotoes,
               )
             ])));

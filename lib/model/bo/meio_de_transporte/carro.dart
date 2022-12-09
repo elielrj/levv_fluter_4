@@ -1,11 +1,12 @@
+import 'package:levv4/model/bo/arquivo/arquivo.dart';
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/bo/meio_de_transporte/motorizado.dart';
 
-class Carro extends Motorizado  implements MeioDeTransporte{
-  static const int VALUE = 3;
-  String? nome= "Carro";
-  double? peso= 25;
-  double? volume= 3600;
+class Carro extends Motorizado implements MeioDeTransporte {
+  static const VALUE = 3;
+  static const nome = "Carro";
+  static const peso = 25;
+  static const volume = 3600;
 
   Carro(
       {String? modelo,
@@ -13,24 +14,17 @@ class Carro extends Motorizado  implements MeioDeTransporte{
       String? cor,
       String? placa,
       String? renavam,
-      bool? documentoDoVeiculo,
-      this.nome,
-      this.peso,
-      this.volume}): super(
+      Arquivo? documentoDoVeiculo})
+      : super(
             modelo: modelo,
             marca: marca,
             cor: cor,
             placa: placa,
             renavam: renavam,
-            documentoDoVeiculo: documentoDoVeiculo
-  ) {
-    nome = nome;
-    peso = peso;
-    volume = volume;
-  }
+            documentoDoVeiculo: documentoDoVeiculo);
 
   @override
-  exibirMeioDeTransporte() {
+  String exibirMeioDeTransporte() {
     return nome;
   }
 }

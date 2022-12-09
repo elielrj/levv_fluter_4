@@ -3,39 +3,31 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'formatter.dart';
 
-class FormatterCep implements Formatter {
-
-  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "#####-###");
-
-  static String HINT = "00000-000";
-
-  final TextInputType textInputType = TextInputType.number;
-
-  FormFieldValidator<String>? validator = (value) {
-    //todo
-  };
+ class FormatterCep implements Formatter {
+  final MaskTextInputFormatter _maskTextInputFormatter =
+      MaskTextInputFormatter(mask: "#####-###");
 
   @override
-  MaskTextInputFormatter getFormatter() {
-    return formatter;
+  MaskTextInputFormatter getMaskTextInputFormatter() {
+    return _maskTextInputFormatter;
   }
 
   @override
-  bool isValid(TextEditingController textEditingController) {
-    if(HINT == textEditingController.text){
+  bool isValid() {
+    if (_maskTextInputFormatter.getUnmaskedText().length == 8) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
 
   @override
   String getHint() {
-    return HINT;
+    return "00000-000";
   }
 
   @override
   TextInputType getTextInputType() {
-   return textInputType;
+    return TextInputType.number;
   }
 }

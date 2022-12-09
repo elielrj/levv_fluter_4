@@ -4,34 +4,34 @@ mixin CodigoDeErroDoFirebaseAuth {
   codigoDeErro(FirebaseAuthException e) {
     switch (e.code) {
       case "quotaExceeded":
-        print('quotaExceeded.');
+        print('CodigoDeErroDoFirebaseAuth--> quotaExceeded.');
         break;
       case "invalid-phone-number":
-        print('The provided phone number is not valid.');
+        print('CodigoDeErroDoFirebaseAuth--> The provided phone number is not valid.');
         break;
       case "too-many-requests":
-        print("Excesso de tentativas, tente mais tarde!");
+        print("CodigoDeErroDoFirebaseAuth--> Excesso de tentativas, tente mais tarde!");
         break;
       case 'invalid-email':
-        print("E-mail inválido!");
+        print("CodigoDeErroDoFirebaseAuth--> E-mail inválido!");
         break;
       case 'user-disabled':
-        print("Usuário dasabilitado!");
+        print("CodigoDeErroDoFirebaseAuth--> Usuário dasabilitado!");
         break;
       case 'user-not-found':
-        print("Usuário não encontrado!");
+        print("CodigoDeErroDoFirebaseAuth--> Usuário não encontrado!");
         break;
       case 'wrong-password':
-        print("Senha inválida!");
+        print("CodigoDeErroDoFirebaseAuth--> Senha inválida!");
         break;
       case 'email-already-in-use':
-        print("E-mail já cadastrado!");
+        print("CodigoDeErroDoFirebaseAuth--> E-mail já cadastrado!");
         break;
       case 'invalid-verification-id':
-        print("invalid-verification-id");
+        print("CodigoDeErroDoFirebaseAuth--> invalid-verification-id");
         break;
       default:
-        print("Falha ao logar! Code: \"${e.code}\" - Menssage: \"${e.message}\"");
+        print("CodigoDeErroDoFirebaseAuth--> Falha ao logar! Code: \"${e.code}\" - Menssage: \"${e.message}\"");
         break;
     }
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../api/imagem/image_levv.dart';
 import '../../../api/texto/text_levv.dart';
-import '../../../controller/cadastrar/acompanhar/acompanhar_controller.dart';
+import '../../../controller/cadastrar/acompanhar/tela_cadastrar_acompanhar_controller.dart';
 
 import '../../../api/cor/colors_levv.dart';
 import '../../componentes/counter_text/mixin_counter_text.dart';
@@ -18,7 +18,8 @@ class TelaCadastrarAcompanhador extends StatefulWidget with CounterText {
 }
 
 class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
-  final AcompanharController _controller = AcompanharController();
+  final TelaCadastrarAcompanharController _controller =
+      TelaCadastrarAcompanharController();
 
   @override
   void initState() {
@@ -88,7 +89,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
             color: Colors.black,
           ),
           suffixIcon:
-              _controller.sms.formatter.getFormatter().getUnmaskedText().isEmpty
+              _controller.sms.formatter.getMaskTextInputFormatter().getUnmaskedText().isEmpty
                   ? Container(width: 0)
                   : IconButton(
                       onPressed: () {
@@ -104,7 +105,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
           fillColor: Colors.white,
           filled: true,
         ),
-        inputFormatters: [_controller.sms.formatter.getFormatter()],
+        inputFormatters: [_controller.sms.formatter.getMaskTextInputFormatter()],
         maxLength: 7,
         style: const TextStyle(fontSize: 14),
       );
@@ -137,14 +138,14 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
 
   _criarUsuarioComCodigoSMS() async {
     try {
-
       await _controller.criarUsuarioComCodigoSMS();
 
       //navegar p/ Tela Home
       if (await _controller.existeUmUsuarioCorrente()) {
+//todo antes de navegar, verificar se tem user no banco!!
+        await _controller.cadastrarUsuarioNoBanco();
         _navegarParaTelaHome();
       }
-
     } catch (erro) {
       AlertDialog(
         title: const Text("Não foi possível confirmar o código",
@@ -153,6 +154,8 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         titlePadding: const EdgeInsets.all(20),
         titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black),
       );
+      print(
+          'tela cadastrar acompanhador, método _criarUsuarioComCodigoSMS(): --> ${erro.toString()}');
     }
   }
 
@@ -171,6 +174,8 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
 
       //navegar p/ Tela Home
       if (await _controller.existeUmUsuarioCorrente()) {
+        //todo antes de navegar, verificar se tem user no banco!!
+        await _controller.cadastrarUsuarioNoBanco();
         _navegarParaTelaHome();
       }
     } catch (erro) {
@@ -181,6 +186,8 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         titlePadding: const EdgeInsets.all(20),
         titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black),
       );
+      print(
+          'tela cadastrar acompanhador, método _criarUsuarioAtomaticamente(): --> ${erro.toString()}');
     }
   }
 
@@ -212,7 +219,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
             fillColor: Colors.white,
             filled: true,
             hintText: _controller.telefone.formatter.getHint()),
-        inputFormatters: [_controller.telefone.formatter.getFormatter()],
+        inputFormatters: [_controller.telefone.formatter.getMaskTextInputFormatter()],
         maxLength: 20,
         style: const TextStyle(fontSize: 18),
       );
@@ -220,7 +227,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   ///Campo para código do País
   ///
   _campoParaCodigoDoPais() =>
-      Expanded(child: _controller.apiCodigoTelefoneDoPais.codigoDoPais);
+      Expanded(child: _controller.codigoDoPais.codigoDoPais);
 
   ///Botao cadastrar Nr Celular
   ///

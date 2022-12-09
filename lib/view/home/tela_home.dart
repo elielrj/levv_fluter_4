@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
-import 'package:levv4/model/bo/usuario/perfil/enviar/entregar/entregar.dart';
-import 'package:levv4/model/bo/usuario/perfil/enviar/enviar.dart';
+import 'package:levv4/model/bo/entregar/entregar.dart';
+import 'package:levv4/model/bo/enviar/enviar.dart';
 import 'package:levv4/view/acompanhar/tela_acompanhar.dart';
 import 'package:levv4/view/cadastrar/entregar/tela_cadastrar_entregador.dart';
-import 'package:levv4/view/cadastrar/enviar/tela_cadastrar_cliente.dart';
+import 'package:levv4/view/cadastrar/enviar/tela_cadastrar_enviar.dart';
 import 'package:levv4/view/entregar/tela_entregar.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 
@@ -103,7 +103,7 @@ class _TelaHomeState extends State<TelaHome> {
                           )
                         ],
                       ),
-                      onPressed: () => _navigatorToScreenFollow(),
+                      onPressed: () => _navegarParaTelaAcompanhar(),
                     ),
                   ),
                 ),
@@ -118,7 +118,7 @@ class _TelaHomeState extends State<TelaHome> {
                           shadowColor: Colors.black,
                           elevation: 3,
                           primary: Colors.white),
-                      onPressed: () => _navigatorToScreenSubmit(),
+                      onPressed: () => _navegarParaTelaEnviar(),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -191,7 +191,7 @@ class _TelaHomeState extends State<TelaHome> {
                             )
                           ],
                         ),
-                        onPressed: () => _navigatorToScreenDeliver()),
+                        onPressed: () => _navegarParaTelaEntregar()),
                   ),
                 ),
               ],
@@ -202,44 +202,41 @@ class _TelaHomeState extends State<TelaHome> {
         elevation: 5,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
-        onPressed: () => _navigatorToScreenSubmit(),
+        onPressed: () => _navegarParaTelaEnviar(),
       ),
     );
   }
 
-  _navigatorToScreenSubmit() {
+  _navegarParaTelaEnviar() {
     if (widget.usuario.perfil is Enviar) {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => TelaEnviar(
-                    usuario: widget.usuario,
-                    pedido: Pedido(),
-                  )));
+              builder: (context) => TelaEnviar(usuario: widget.usuario)));
     } else {
-      _displayErrorMenssageToAcessSendScreen();
+      _exibirMensagemDeErroParaAcessarTelaEnviar();
     }
   }
 
-  _navigatorToScreenFollow() {
+  _navegarParaTelaAcompanhar() {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => TelaAcompanhar(usuario: widget.usuario)));
   }
 
-  _navigatorToScreenDeliver() {
+  _navegarParaTelaEntregar() {
     if (widget.usuario.perfil is Entregar) {
       Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => TelaEntregar(usuario: widget.usuario)));
     } else {
-      _displayErrorMessageToAcessDeliverScreen();
+      _exibirMensagemDeErroParaAcessarTelaEntregar();
     }
   }
 
-  _displayErrorMenssageToAcessSendScreen() {
+  _exibirMensagemDeErroParaAcessarTelaEnviar() {
     showDialog(
         context: context,
         builder: (context) {
@@ -258,7 +255,7 @@ class _TelaHomeState extends State<TelaHome> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => TelaCadastrarCliente(
+                            builder: (context) => TelaCadastrarEnviar(
                                   usuario: widget.usuario,
                                 )));
                   },
@@ -271,7 +268,7 @@ class _TelaHomeState extends State<TelaHome> {
         });
   }
 
-  _displayErrorMessageToAcessDeliverScreen() {
+  _exibirMensagemDeErroParaAcessarTelaEntregar() {
     showDialog(
         context: context,
         builder: (context) {
