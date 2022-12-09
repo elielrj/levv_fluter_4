@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:levv4/api/mascara/formatter_cpf.dart';
-import 'package:levv4/api/mascara/formatter_date.dart';
-import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/controller/cadastrar/enviar/tela_cadastrar_enviar_controller.dart';
-import 'package:levv4/model/bo/arquivo/arquivo.dart';
 import 'package:levv4/view/componentes/documento_de_identificacao/documento_de_identificacao.dart';
 import 'package:levv4/view/componentes/text_field/text_field_customized_for_cpf.dart';
 import 'package:levv4/view/componentes/text_field/text_field_customized_for_date.dart';
