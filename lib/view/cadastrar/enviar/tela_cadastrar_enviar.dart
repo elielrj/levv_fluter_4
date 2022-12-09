@@ -3,11 +3,6 @@ import 'package:levv4/controller/cadastrar/enviar/tela_cadastrar_enviar_controll
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/view/cadastrar/botoes/botoes_cadastrar_limpar.dart';
 import 'package:levv4/view/cadastrar/nivel_1/cadastro_nivel_1.dart';
-import 'package:levv4/view/componentes/botoes/botao_cadastrar.dart';
-import 'package:levv4/view/componentes/botoes/botao_limpar.dart';
-
-import 'package:levv4/view/enviar/tela_enviar.dart';
-
 import '../../../api/cor/colors_levv.dart';
 
 class TelaCadastrarEnviar extends StatefulWidget {

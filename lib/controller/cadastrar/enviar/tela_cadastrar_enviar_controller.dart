@@ -39,11 +39,11 @@ class TelaCadastrarEnviarController {
   }
 
   bool validarNome() {
-    return controllerNome.text.isEmpty;
+    return controllerNome.text.isNotEmpty;
   }
 
   bool validarSobrenome() {
-    return controllerSobrenome.text.isEmpty;
+    return controllerSobrenome.text.isNotEmpty;
   }
 
   bool validarCpf() {

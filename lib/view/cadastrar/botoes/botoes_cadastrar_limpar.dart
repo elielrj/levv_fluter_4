@@ -137,15 +137,15 @@ class _BotoesCadastrarLimparState extends State<BotoesCadastrarLimpar> {
       /// 02 - exibir msg erro
     } else {
 
-      if(widget.controller.validarNome()){
+      if(!widget.controller.validarNome()){
         _exibirMensagemDeCampoNomeVazio();
-      }else if(widget.controller.validarSobrenome()){
+      }else if(!widget.controller.validarSobrenome()){
         _exibirMensagemDeCampoSobrenomeVazio();
-      }else if(widget.controller.validarCpf()){
-        _exibirMensagemDeCampoCpfVazio();
-      }else if( widget.controller.validarDataNascimento()){
-        _exibirMensagemDeCampoDataDeNascimentoVazio();
-      }else if(widget.controller.validarDocumentoDeIdentificacao()){
+      }else if(!widget.controller.validarCpf()){
+        _exibirMensagemDeCampoCpfInvalido();
+      }else if(!widget.controller.validarDataNascimento()){
+        _exibirMensagemDeCampoDataDeNascimentoInvalido();
+      }else if(!widget.controller.validarDocumentoDeIdentificacao()){
         _exibirMensagemDeCampoDocumentoVazio();
       }
 
@@ -158,11 +158,11 @@ class _BotoesCadastrarLimparState extends State<BotoesCadastrarLimpar> {
   _exibirMensagemDeCampoSobrenomeVazio() =>
       _exibirMensagemDeErro("O campo de sobrenome está vazio!");
 
-  _exibirMensagemDeCampoCpfVazio() =>
-      _exibirMensagemDeErro("O campo de CPF está vazio!");
+  _exibirMensagemDeCampoCpfInvalido() =>
+      _exibirMensagemDeErro("O campo de CPF está inválido!");
 
-  _exibirMensagemDeCampoDataDeNascimentoVazio() =>
-      _exibirMensagemDeErro("O campo de Data de Nascimento está vazio!");
+  _exibirMensagemDeCampoDataDeNascimentoInvalido() =>
+      _exibirMensagemDeErro("O campo de Data de Nascimento está inválido!");
 
   _exibirMensagemDeCampoDocumentoVazio() =>
       _exibirMensagemDeErro("O campo de documento está vazio!");
