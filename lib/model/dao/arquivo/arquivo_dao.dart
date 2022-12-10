@@ -12,8 +12,9 @@ class ArquivoDAO
   static const fileSucessfullyUpload = "ArquivoDAO: file successfully upload!";
   static const fileErrorUpload = "ArquivoDAO: file erro upload!";
 
-  static const fileSucessfullyDelete =       "ArquivoDAO: file successfully upload delete!";
-  static const fileErrorDelete =       "ArquivoDAO: file erro upload delete!";
+  static const fileSucessfullyDelete =
+      "ArquivoDAO: file successfully upload delete!";
+  static const fileErrorDelete = "ArquivoDAO: file erro upload delete!";
 
   @override
   Future<void> upload(Arquivo object) async {
@@ -22,26 +23,33 @@ class ArquivoDAO
     File file = File(path);
 
     if (file != null) {
-      String reference =
-          "$collectionPath/${nomeDoDocumentoDoUsuarioCorrente()}/${object.descricao}${DateTime.now().toString()}.jpg";
+      String reference = "$collectionPath/";
+      reference += "${nomeDoDocumentoDoUsuarioCorrente()}/";
+      reference += "${object.descricao}";
+      reference += "${DateTime.now().toString()}.jpg";
+      reference = reference.replaceAll(" ", "");
 
-      await FirebaseStorage.instance
-          .ref(reference)
-          .putFile(file)
-          .then((p0) => print(fileSucessfullyUpload))
-          .onError((error, stackTrace) => print("$fileErrorUpload--> ${error.toString()}"));
+      try {
+        await FirebaseStorage.instance.ref(reference).putFile(file);
+        print(fileSucessfullyUpload);
+      } catch (erro) {
+        print("$fileErrorUpload--> ${erro.toString()}");
+      }
     }
   }
 
   @override
   Future<void> delete(Arquivo object) async {
-    String reference =
-        "$collectionPath/${nomeDoDocumentoDoUsuarioCorrente()}/${object.descricao}.jpg";
+    String reference = "$collectionPath/";
+    reference += "${nomeDoDocumentoDoUsuarioCorrente()}/";
+    reference += "${object.descricao}.jpg";
+    reference = reference.replaceAll(" ", "");
 
-    await FirebaseStorage.instance
-        .ref(reference)
-        .delete()
-        .then((value) => print(fileSucessfullyDelete))
-        .onError((error, stackTrace) => print("$fileErrorDelete ${error.toString()}"));
+    try {
+      await FirebaseStorage.instance.ref(reference).delete();
+      print(fileSucessfullyDelete);
+    } catch (erro) {
+      print("$fileErrorDelete ${erro.toString()}");
+    }
   }
 }

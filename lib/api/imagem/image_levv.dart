@@ -14,6 +14,9 @@ class ImageLevv{
   static const String ICON_ACTIVE = "imagens/icon_active.png";
   static const String ICON_FINISHED = "imagens/icon_finished.png";
   static const String ICON_PENDING = "imagens/icon_pending.png";
+  static const String ICON_TRASH = "imagens/icon_trash.png";
+
+
 
 
 }

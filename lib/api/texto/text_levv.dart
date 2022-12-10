@@ -55,5 +55,6 @@ class TextLevv {
   static const COLETA = "Coleta";
   static const DISTANCIA = "Distância";
   static const ENVIAR_CODIGO_SMS = "Enviar Código SMS";
+  static const LIMPAR = "Limpar";
 
 }

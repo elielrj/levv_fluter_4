@@ -24,8 +24,7 @@ class TelaEnviar extends StatefulWidget {
 }
 
 class _TelaEnviarState extends State<TelaEnviar> {
-  final controllerValor =
-  Mask(formatter: FormatterValorEmReal());
+  final controllerValor = Mask(formatter: FormatterValorEmReal());
   bool limparControllers = false;
 
   Pedido pedido = Pedido();
