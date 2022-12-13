@@ -5,10 +5,14 @@ import 'package:levv4/controller/cadastrar/enviar/tela_cadastrar_enviar_controll
 import 'package:levv4/view/cadastrar/enviar/tela_cadastrar_enviar.dart';
 
 
-class BotaoCadastrarTelaEnviar extends StatelessWidget {
+class BotaoCadastrarTelaEnviar extends StatefulWidget {
    const BotaoCadastrarTelaEnviar({Key? key}) : super(key: key);
 
+  @override
+  State<BotaoCadastrarTelaEnviar> createState() => _BotaoCadastrarTelaEnviarState();
+}
 
+class _BotaoCadastrarTelaEnviarState extends State<BotaoCadastrarTelaEnviar> {
   @override
   Widget build(BuildContext context) {
     return TextButton(

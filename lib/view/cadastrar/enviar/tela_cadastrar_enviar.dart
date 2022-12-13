@@ -57,8 +57,8 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
                   children: [
                     ///botão Cadastrar
                     GestureDetector(
-                        onTap: ()  {print("clicado!");},
-                        child: const BotaoCadastrarTelaEnviar()),
+                        onTap: () async => await cadastrarPerfilEnviar(),
+                        child: const  BotaoCadastrarTelaEnviar()),
 
                     ///botão limpar
                     GestureDetector(
@@ -192,7 +192,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
                 usuario: widget.usuario,
               )));
 
-  limparCampos() {
+  void limparCampos() {
     cadastroNivel1Controller.limparCampos();
   }
 }

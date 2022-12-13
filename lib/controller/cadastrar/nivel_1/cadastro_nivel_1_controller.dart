@@ -20,7 +20,7 @@ class CadastroNivel1Controller {
   Arquivo documentoDeIdentificacao =
       Arquivo(descricao: TextLevv.DOCUMENTO_IDENTIFICACAO);
 
-  limparCampos() {
+  void limparCampos() {
     controllerNome.clear();
     controllerSobrenome.clear();
     controllerMaskCpf.textEditingController.clear();
