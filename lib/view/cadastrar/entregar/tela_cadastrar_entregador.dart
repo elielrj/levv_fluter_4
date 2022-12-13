@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/cadastrar/endereco/tela_cadastrar_endereco_controller.dart';
 import 'package:levv4/controller/cadastrar/meio_de_transporte/tela_cadastrar_meio_de_transporte_controller.dart';
 import 'package:levv4/controller/cadastrar/nivel_1/cadastro_nivel_1_controller.dart';
@@ -41,11 +42,6 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
   final controllerMeioDeTransportes = TelaCadastrarMeioDeTransporteController();
   final controllerEndereco = TelaCadastrarEnderecoController();
 
-  final String cpf = "CPF";
-  final String sobrenome = "Sobrenome";
-  final String nome = "Nome";
-  final String dataNascimento = "Data de nascimento";
-
   @override
   void initState() {
     super.initState();
@@ -56,7 +52,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cadastrar perfil: Entregar"),
+        title: const Text(TextLevv.CADASTRAR_PERFIL_ENTREGADOR),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -76,7 +72,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                 const Padding(
                   padding: EdgeInsets.only(top: 16.0),
                   child: Text(
-                    "Meio que utilizará para transportar pedidos",
+                    TextLevv.MEIO_PARA_TRANSPORTAR_PEDIDOS,
                     style: TextStyle(fontSize: 22, color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
@@ -265,61 +261,61 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
   }
 
   _exibirMensagemDeCampoNomeVazio() =>
-      _exibirMensagemDeErro("O campo de nome está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_NOME_INVALIDO);
 
   _exibirMensagemDeCampoSobrenomeVazio() =>
-      _exibirMensagemDeErro("O campo de sobrenome está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_SOBRENOME_INVALIDO);
 
   _exibirMensagemDeCampoCpfInvalido() =>
-      _exibirMensagemDeErro("O campo de CPF está inválido!");
+      _exibirMensagemDeErro(TextLevv.ERRO_CPF_INVALIDA);
 
   _exibirMensagemDeCampoDataDeNascimentoInvalido() =>
-      _exibirMensagemDeErro("O campo de Data de Nascimento está inválido!");
+      _exibirMensagemDeErro(TextLevv.ERRO_DATA_NASCIMENTO_INVALIDA);
 
   _exibirMensagemDeCampoDocumentoVazio() =>
-      _exibirMensagemDeErro("O campo de documento está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_DOCUMENTO_IDENTIFICACAO_INVALIDO);
 
   _exibirMensagemDeCampoModelo() =>
-      _exibirMensagemDeErro("O campo de modelo está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_MODELO_INVALIDO);
 
   _exibirMensagemDeCampoMarca() =>
-      _exibirMensagemDeErro("O campo de marca está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_MARCA_INVALIDO);
 
   _exibirMensagemDeCampoCor() =>
-      _exibirMensagemDeErro("O campo de cor está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_COR_INVALIDO);
 
   _exibirMensagemDeCampoLogradouro() =>
-      _exibirMensagemDeErro("O campo de logradouro está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_LOGRADOURO_INVALIDO);
 
   _exibirMensagemDeCampoGeolocalizacao() =>
-      _exibirMensagemDeErro("O campo de GPS está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_GEO_INVALIDO);
 
   _exibirMensagemDeCampoEstado() =>
-      _exibirMensagemDeErro("O campo de estado está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_ESTADO_INVALIDO);
 
   _exibirMensagemDeCampoCidade() =>
-      _exibirMensagemDeErro("O campo de cidade está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_CIDADE_INVALIDO);
 
   _exibirMensagemDeCampoBairro() =>
-      _exibirMensagemDeErro("O campo de bairro está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_BAIRRO_INVALIDO);
 
   _exibirMensagemDeCampoComplemento() =>
-      _exibirMensagemDeErro("O campo de complemento está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_COMPLEMENTO_INVALIDO);
 
   _exibirMensagemDeCampoNumero() =>
-      _exibirMensagemDeErro("O campo de numero está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_NUMERO_INVALIDO);
 
   _exibirMensagemDeCampoDocumentoDoVeiculo() =>
-      _exibirMensagemDeErro("O campo de veículo está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_DOCUMENTO_VEICULO_INVALIDO);
 
   _exibirMensagemDeCampoPlaca() =>
-      _exibirMensagemDeErro("O campo de placa está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_PLACA_INVALIDO);
 
   _exibirMensagemDeErro(String mensagem) => showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Campo Vazio"),
+          title: const Text(TextLevv.CAMPO_VAZIO),
           titlePadding: const EdgeInsets.all(20),
           titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
           content: Text(mensagem),
@@ -328,7 +324,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("Ok"))
+                child: const Text(TextLevv.OK))
           ],
         );
       });
@@ -337,7 +333,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Erro ao tentar cadastrar!"),
+          title: const Text(TextLevv.ERRO_AO_TENTAR_CADASTRAR),
           titlePadding: const EdgeInsets.all(20),
           titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
           content: Text(mensagem),
@@ -346,7 +342,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("Ok"))
+                child: const Text(TextLevv.OK))
           ],
         );
       });

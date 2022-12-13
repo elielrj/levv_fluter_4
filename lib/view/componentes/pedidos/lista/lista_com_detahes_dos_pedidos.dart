@@ -81,7 +81,7 @@ class _ListaComDetalhesDosPedidosState
       );
 
   Widget _botaoAcompanhar({required Pedido pedido}) => TextButton(
-        child: const Text(TextLevv.TO_ACCOMPANY),
+        child: const Text(TextLevv.ACOMPANHAR),
         onPressed: () {
           Navigator.push(
               context,
@@ -95,7 +95,7 @@ class _ListaComDetalhesDosPedidosState
       );
 
   Widget _botaoFinalizados({required Pedido pedido}) => TextButton(
-        child: const Text(TextLevv.TO_VIEW),
+        child: const Text(TextLevv.VISUALIZAR),
         onPressed: () {
           Navigator.push(
               context,

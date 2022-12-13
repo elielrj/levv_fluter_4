@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/cadastrar/nivel_1/cadastro_nivel_1_controller.dart';
 import 'package:levv4/model/bo/enviar/enviar.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
@@ -33,7 +34,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cadastrar perfil: Enviar"),
+        title: const Text(TextLevv.CADASTRAR_PERFIL_ENVIAR),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -134,25 +135,25 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
   }
 
   _exibirMensagemDeCampoNomeVazio() =>
-      _exibirMensagemDeErro("O campo de nome está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_NOME_INVALIDO);
 
   _exibirMensagemDeCampoSobrenomeVazio() =>
-      _exibirMensagemDeErro("O campo de sobrenome está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_SOBRENOME_INVALIDO);
 
   _exibirMensagemDeCampoCpfInvalido() =>
-      _exibirMensagemDeErro("O campo de CPF está inválido!");
+      _exibirMensagemDeErro(TextLevv.ERRO_CPF_INVALIDA);
 
   _exibirMensagemDeCampoDataDeNascimentoInvalido() =>
-      _exibirMensagemDeErro("O campo de Data de Nascimento está inválido!");
+      _exibirMensagemDeErro(TextLevv.ERRO_DATA_NASCIMENTO_INVALIDA);
 
   _exibirMensagemDeCampoDocumentoVazio() =>
-      _exibirMensagemDeErro("O campo de documento está vazio!");
+      _exibirMensagemDeErro(TextLevv.ERRO_DOCUMENTO_IDENTIFICACAO_INVALIDO);
 
   _exibirMensagemDeErro(String mensagem) => showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Campo Vazio"),
+          title: const Text(TextLevv.CAMPO_VAZIO),
           titlePadding: const EdgeInsets.all(20),
           titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
           content: Text(mensagem),
@@ -161,7 +162,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("Ok"))
+                child: const Text(TextLevv.OK))
           ],
         );
       });
@@ -170,7 +171,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Erro ao tentar cadastrar!"),
+          title: const Text(TextLevv.ERRO_AO_TENTAR_CADASTRAR),
           titlePadding: const EdgeInsets.all(20),
           titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
           content: Text(mensagem),
@@ -179,7 +180,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text("Ok"))
+                child: const Text(TextLevv.OK))
           ],
         );
       });
