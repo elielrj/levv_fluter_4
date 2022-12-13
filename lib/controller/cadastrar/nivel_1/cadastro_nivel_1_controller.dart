@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/texto/text_levv.dart';
 
 import 'package:levv4/api/validador_cnpj_cpf/validador_cnpj_cpf.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
@@ -17,7 +18,7 @@ class CadastroNivel1Controller {
   Mask controllerMaskNascimento = Mask(formatter: FormatterDate());
 
   Arquivo documentoDeIdentificacao =
-      Arquivo(descricao: "Documento de Identificação");
+      Arquivo(descricao: TextLevv.DOCUMENTO_IDENTIFICACAO);
 
   limparCampos() {
     controllerNome.clear();

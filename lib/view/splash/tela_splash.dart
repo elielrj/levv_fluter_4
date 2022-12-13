@@ -1,14 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:levv4/controller/splash/tela_splash_controller.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/view/home/tela_home.dart';
 import '../../api/cor/colors_levv.dart';
-
 import '../../api/texto/text_levv.dart';
 import '../cadastrar/acompanhar/tela_cadastrar_acompanhador.dart';
-
 import '../componentes/logo/widget_logo_levv.dart';
 
 class TelaSplash extends StatefulWidget {

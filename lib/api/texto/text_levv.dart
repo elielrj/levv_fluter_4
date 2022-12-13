@@ -19,6 +19,7 @@ class TextLevv {
   ///
   static const DISTANCIA = "Distância";
   static const DATA_NASCIMENTO = "Data de nascimento";
+  static const DOCUMENTO_IDENTIFICACAO = "Documento de Identificação";
 
   ///E
   ///
