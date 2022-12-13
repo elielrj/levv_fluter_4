@@ -15,7 +15,7 @@ class TelaCadastrarMeioDeTransporteController {
   final controllerRenavan = TextEditingController();
   final documentoDoVeiculo = Arquivo(descricao: "Documento do Veículo");
 
-  limparTodosOsCampos() {
+  void limparTodosOsCampos() {
     valueMeioDeTransporte = 0;
     controllerMarca.clear();
     controllerCor.clear();

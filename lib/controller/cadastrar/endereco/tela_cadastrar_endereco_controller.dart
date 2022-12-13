@@ -27,7 +27,7 @@ class TelaCadastrarEnderecoController {
     }
   }
 
-  limparTodosOsCampos() {
+  void limparTodosOsCampos() {
     logradouro.clear();
     numero.clear();
     complemento.clear();

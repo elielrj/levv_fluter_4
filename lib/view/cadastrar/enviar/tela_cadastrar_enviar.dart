@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:levv4/controller/cadastrar/enviar/tela_cadastrar_enviar_controller.dart';
 import 'package:levv4/controller/cadastrar/nivel_1/cadastro_nivel_1_controller.dart';
 import 'package:levv4/model/bo/enviar/enviar.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
@@ -22,7 +21,6 @@ class TelaCadastrarEnviar extends StatefulWidget {
 }
 
 class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
-
   final cadastroNivel1Controller = CadastroNivel1Controller();
 
   @override
@@ -48,8 +46,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
               children: [
                 /// Campos de 1 à 5
                 ///
-                CadastroNivel1(
-                    controller: cadastroNivel1Controller),
+                CadastroNivel1(controller: cadastroNivel1Controller),
 
                 /// Campo 6
                 ///
@@ -64,7 +61,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
 
                     ///botão limpar
                     GestureDetector(
-                        onTap:() => limparCampos(),
+                        onTap: () => limparCampos(),
                         child: const BotaoLimparTelaEnviar())
                   ],
                 )
@@ -77,20 +74,19 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
     );
   }
 
-
   Enviar montarObjetoEnviar() => Enviar(
-    nome: cadastroNivel1Controller.controllerNome.text,
-    sobrenome: cadastroNivel1Controller.controllerSobrenome.text,
-    cpf: cadastroNivel1Controller.controllerMaskCpf
-        .textEditingController.text
-        .toString(),
-    nascimento: DateFormat('dd/MM/yyyy')
-        .parse(cadastroNivel1Controller.controllerMaskNascimento
-        .textEditingController.text)
-        .toLocal(),
-    documentoDeIdentificacao:
-    cadastroNivel1Controller.documentoDeIdentificacao,
-  );
+        nome: cadastroNivel1Controller.controllerNome.text,
+        sobrenome: cadastroNivel1Controller.controllerSobrenome.text,
+        cpf: cadastroNivel1Controller
+            .controllerMaskCpf.textEditingController.text
+            .toString(),
+        nascimento: DateFormat('dd/MM/yyyy')
+            .parse(cadastroNivel1Controller
+                .controllerMaskNascimento.textEditingController.text)
+            .toLocal(),
+        documentoDeIdentificacao:
+            cadastroNivel1Controller.documentoDeIdentificacao,
+      );
 
   Future<void> atualizarCadastrarDoUsuarioComPerfilDeEnviar(
       Usuario usuario) async {
@@ -131,8 +127,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
         _exibirMensagemDeCampoCpfInvalido();
       } else if (!cadastroNivel1Controller.validarDataNascimento()) {
         _exibirMensagemDeCampoDataDeNascimentoInvalido();
-      } else if (!cadastroNivel1Controller
-          .validarDocumentoDeIdentificacao()) {
+      } else if (!cadastroNivel1Controller.validarDocumentoDeIdentificacao()) {
         _exibirMensagemDeCampoDocumentoVazio();
       }
     }
@@ -193,11 +188,10 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
       context, //pushReplacement?? ou só push?
       MaterialPageRoute(
           builder: (context) => TelaEnviar(
-            usuario: widget.usuario,
-          )));
+                usuario: widget.usuario,
+              )));
 
   limparCampos() {
     cadastroNivel1Controller.limparCampos();
   }
-
 }
