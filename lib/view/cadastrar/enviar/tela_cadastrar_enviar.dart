@@ -57,7 +57,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
                   children: [
                     ///botão Cadastrar
                     GestureDetector(
-                        onTap: () => cadastrarPerfilEnviar(),
+                        onTap: ()  {print("clicado!");},
                         child: const BotaoCadastrarTelaEnviar()),
 
                     ///botão limpar
