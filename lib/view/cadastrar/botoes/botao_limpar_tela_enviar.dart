@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/api/imagem/image_levv.dart';
 import 'package:levv4/api/texto/text_levv.dart';
-import 'package:levv4/controller/cadastrar/enviar/tela_cadastrar_enviar_controller.dart';
 
-class BotaoLimparTelaEnviar extends StatefulWidget {
-  const BotaoLimparTelaEnviar({Key? key, required this.controller})
-      : super(key: key);
 
-  final TelaCadastrarEnviarController controller;
 
-  @override
-  State<BotaoLimparTelaEnviar> createState() => _BotaoLimparTelaEnviarState();
-}
 
-class _BotaoLimparTelaEnviarState extends State<BotaoLimparTelaEnviar> {
+class BotaoLimparTelaEnviar extends StatelessWidget {
+  const BotaoLimparTelaEnviar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -26,7 +20,9 @@ class _BotaoLimparTelaEnviarState extends State<BotaoLimparTelaEnviar> {
         foregroundColor: Colors.black,
         alignment: Alignment.center,
       ),
-      onPressed: () => widget.controller.limparCampos(),
+      onPressed: () {
+        //vazio
+      },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,3 +44,4 @@ class _BotaoLimparTelaEnviarState extends State<BotaoLimparTelaEnviar> {
     );
   }
 }
+

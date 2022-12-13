@@ -2,19 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:levv4/api/imagem/image_levv.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/cadastrar/enviar/tela_cadastrar_enviar_controller.dart';
+import 'package:levv4/view/cadastrar/enviar/tela_cadastrar_enviar.dart';
 
-class BotaoCadastrarTelaEnviar extends StatefulWidget {
-  const BotaoCadastrarTelaEnviar({Key? key, required this.controller})
-      : super(key: key);
 
-  final TelaCadastrarEnviarController controller;
+class BotaoCadastrarTelaEnviar extends StatelessWidget {
+   const BotaoCadastrarTelaEnviar({Key? key}) : super(key: key);
 
-  @override
-  State<BotaoCadastrarTelaEnviar> createState() =>
-      _BotaoCadastrarTelaEnviarState();
-}
 
-class _BotaoCadastrarTelaEnviarState extends State<BotaoCadastrarTelaEnviar> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
@@ -27,7 +21,9 @@ class _BotaoCadastrarTelaEnviarState extends State<BotaoCadastrarTelaEnviar> {
         foregroundColor: Colors.black,
         alignment: Alignment.center,
       ),
-      onPressed: () => widget.controller.cadastrarPerfilEnviar(),
+      onPressed: () {
+        //vazio
+      },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,3 +45,4 @@ class _BotaoCadastrarTelaEnviarState extends State<BotaoCadastrarTelaEnviar> {
     );
   }
 }
+
