@@ -24,18 +24,11 @@ class TelaCadastrarEnviar extends StatefulWidget {
 
 class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
   final cadastroNivel1Controller = CadastroNivel1Controller();
-  bool limparDados= false;
-  bool cadastrarDados= false;
-
 
   @override
   void initState() {
     super.initState();
     widget.usuario.perfil;
-    if(limparDados){
-      limparCampos();
-      limparDados = false;
-    }
   }
 
   @override
@@ -64,11 +57,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ///botão Cadastrar
-                    GestureDetector(
-                        onTap: () async => await cadastrarPerfilEnviar(),
-                        child: const  BotaoCadastrarTelaEnviar()),
-
-
+                    _botaoCadastrar(),
 
                     ///botão limpar
                     _botaoLimpar(),
@@ -83,36 +72,67 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
     );
   }
 
-  Widget _botaoLimpar()=>TextButton(
-    style: TextButton.styleFrom(
-      backgroundColor: Colors.white,
-      textStyle: const TextStyle(color: Colors.black, fontSize: 18),
-      padding: const EdgeInsets.all(8),
-      minimumSize: const Size(190, 65),
-      elevation: 2,
-      foregroundColor: Colors.black,
-      alignment: Alignment.center,
-    ),
-    onPressed: () => limparCampos(),
-    child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Center(
-          widthFactor: 1,
-          child: Image.asset(
-            ImageLevv.ICON_TRASH,
-            width: 20,
-            height: 20,
-          ),
+  Widget _botaoCadastrar() => TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: Colors.white,
+          textStyle: const TextStyle(color: Colors.black, fontSize: 18),
+          padding: const EdgeInsets.all(8),
+          minimumSize: const Size(190, 65),
+          elevation: 2,
+          foregroundColor: Colors.black,
+          alignment: Alignment.center,
         ),
-        const Center(
-          widthFactor: 2,
-          child: Text(TextLevv.LIMPAR),
+        onPressed: () => cadastrarPerfilEnviar(),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Center(
+              widthFactor: 1,
+              child: Image.asset(
+                ImageLevv.REGISTER,
+                width: 20,
+                height: 20,
+              ),
+            ),
+            const Center(
+              widthFactor: 2,
+              child: Text(TextLevv.CADASTRAR),
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
+
+  Widget _botaoLimpar() => TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: Colors.white,
+          textStyle: const TextStyle(color: Colors.black, fontSize: 18),
+          padding: const EdgeInsets.all(8),
+          minimumSize: const Size(190, 65),
+          elevation: 2,
+          foregroundColor: Colors.black,
+          alignment: Alignment.center,
+        ),
+        onPressed: () => limparCampos(),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Center(
+              widthFactor: 1,
+              child: Image.asset(
+                ImageLevv.ICON_TRASH,
+                width: 20,
+                height: 20,
+              ),
+            ),
+            const Center(
+              widthFactor: 2,
+              child: Text(TextLevv.LIMPAR),
+            ),
+          ],
+        ),
+      );
 
   Enviar montarObjetoEnviar() => Enviar(
         nome: cadastroNivel1Controller.controllerNome.text,
