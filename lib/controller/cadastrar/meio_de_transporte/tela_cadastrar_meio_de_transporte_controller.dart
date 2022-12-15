@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/model/bo/arquivo/arquivo.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
@@ -13,7 +14,9 @@ class TelaCadastrarMeioDeTransporteController {
   final controllerCor = TextEditingController();
   final controllerPlaca = TextEditingController();
   final controllerRenavan = TextEditingController();
-  final documentoDoVeiculo = Arquivo(descricao: "Documento do Veículo");
+  final documentoDoVeiculo =
+      Arquivo(descricao: TextLevv.DOCUMENTO_VEICULO.replaceAll(" ", ""));
+  Color colorDocumentoDoVeiculo = Colors.red;
 
   void limparTodosOsCampos() {
     valueMeioDeTransporte = 0;
@@ -22,14 +25,20 @@ class TelaCadastrarMeioDeTransporteController {
     controllerPlaca.clear();
     controllerRenavan.clear();
     documentoDoVeiculo.file = null;
+    colorDocumentoDoVeiculo = Colors.red;
   }
 
   bool validador() {
-    return validarModelo() &
-    validarMarca() &
-    validarCor() &
-    validarPlaca() &
-    validarRenavan() & validarDocumentoDoVeiculo();
+    if (valueMeioDeTransporte == 0 || valueMeioDeTransporte == 1) {
+      return true;
+    } else {
+      return validarModelo() &
+          validarMarca() &
+          validarCor() &
+          validarPlaca() &
+          validarRenavan() &
+          validarDocumentoDoVeiculo();
+    }
   }
 
   bool validarModelo() {

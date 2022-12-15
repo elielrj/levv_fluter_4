@@ -1,11 +1,9 @@
 import 'dart:async';
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/dao/endereco/i_crud_endereco_dao.dart';
-
 
 class EnderecoDAO
     with NomeDoDocumentoDoUsuarioCorrente
@@ -32,55 +30,63 @@ class EnderecoDAO
 
   @override
   Future<void> criar(Map<String, dynamic> object) async {
-    await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .set(toMapToMap(object))
-        .then((value) => print(documentSucessfullyCreate),
-            onError: (e) => print("$documentErrorCreate--> ${e.toString()}"));
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .set(toMapToMap(object));
+      print(documentSucessfullyCreate);
+    } catch (erro) {
+      print("$documentErrorCreate--> ${erro.toString()}");
+    }
   }
 
   @override
   Future<void> atualizar(Map<String, dynamic> object) async {
-    await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .update(toMapToMap(object))
-        .then((value) => print(documentSucessfullyUpdate),
-            onError: (e) => print("$documentErrorUpdate--> ${e.toString()}"));
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .update(toMapToMap(object));
+      print(documentSucessfullyUpdate);
+    } catch (erro) {
+      print("$documentErrorUpdate--> ${erro.toString()}");
+    }
   }
 
   @override
   Future<dynamic> buscarEnderecosDoUsuarioCorrente() async {
     Map<String, dynamic> listaDeMaps = {};
 
-    await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .get()
-        .then(
-      (DocumentSnapshot doc) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .get()
+          .then((DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
         listaDeMaps = fromMapFromMap(data);
         print(documentSucessfullyRetrive);
-      },
-      onError: (e) => print("$documentErrorRetrive--> ${e.toString()}"),
-    );
+      });
+    } catch (erro) {
+      print("$documentErrorRetrive--> ${erro.toString()}");
+    }
 
     return listaDeMaps;
   }
 
   @override
   Future<void> deletar() async {
-    await FirebaseFirestore.instance
-        .collection(collectionPath)
-        .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .delete()
-        .then(
-          (doc) => print(documentSucessfullyDelete),
-          onError: (e) => print("$documentErrorDelete--> ${e.toString()}"),
-        );
+    try {
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .doc(nomeDoDocumentoDoUsuarioCorrente())
+          .delete();
+      print(documentSucessfullyDelete);
+    } catch (erro) {
+      print("$documentErrorDelete--> ${erro.toString()}");
+    }
   }
 
   @override

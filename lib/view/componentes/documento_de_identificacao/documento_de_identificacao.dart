@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/model/bo/arquivo/arquivo.dart';
 
-class DocumentoDeIdentificacao extends StatelessWidget {
-  const DocumentoDeIdentificacao({Key? key, required this.documento})
+class DocumentoDeIdentificacao extends StatefulWidget {
+   DocumentoDeIdentificacao(
+      {Key? key, required this.documento,
+        required this.color})
       : super(key: key);
 
   final Arquivo documento;
+  Color color;
+
+  @override
+  State<DocumentoDeIdentificacao> createState() =>
+      _DocumentoDeIdentificacaoState();
+}
+
+class _DocumentoDeIdentificacaoState extends State<DocumentoDeIdentificacao> {
+  @override
+  void initState() {
+    super.initState();
+    widget.documento.file;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +32,7 @@ class DocumentoDeIdentificacao extends StatelessWidget {
         children: [
           ///1 Descrição do documento a ser enviado
           Text(
-            documento.descricao.toString(),
+            widget.documento.descricao.toString(),
             style: const TextStyle(fontSize: 20),
           ),
 
@@ -44,15 +59,21 @@ class DocumentoDeIdentificacao extends StatelessWidget {
   }
 
   Widget _buscarImagemDaGaleriaDeImagemDoSmartphone() => GestureDetector(
-      onTap: () async => await documento.getImageGallery(),
-      child: Icon(Icons.file_upload,
-          size: 30,
-          color: (documento.file != null ? Colors.green : Colors.red)));
+      onTap: () async {
+        await widget.documento.getImageGallery();
+        setState(() {
+          widget.color = widget.documento.file != null ? Colors.green : Colors.red;
+        });
+      },
+      child: Icon(Icons.file_upload, size: 30, color: widget.color));
 
   Widget _buscarImagemDaCameraoSmartphone() => GestureDetector(
-        onTap: () async => await documento.getImageCamera(),
-        child: Icon(Icons.add_a_photo,
-            size: 30,
-            color: (documento.file != null ? Colors.green : Colors.red)),
+        onTap: () async {
+          await widget.documento.getImageCamera();
+          setState(() {
+            widget.color = widget.documento.file != null ? Colors.green : Colors.red;
+          });
+        },
+        child: Icon(Icons.add_a_photo, size: 30, color: widget.color),
       );
 }

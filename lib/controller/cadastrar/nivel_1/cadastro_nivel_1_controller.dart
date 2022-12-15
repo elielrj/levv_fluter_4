@@ -19,13 +19,17 @@ class CadastroNivel1Controller {
 
   Arquivo documentoDeIdentificacao =
       Arquivo(descricao: TextLevv.DOCUMENTO_IDENTIFICACAO);
+  Color colorDocumentoDeIdentificacao = Colors.red;
 
   void limparCampos() {
     controllerNome.clear();
     controllerSobrenome.clear();
     controllerMaskCpf.textEditingController.clear();
+    controllerMaskCpf.formatter.getMaskTextInputFormatter().clear();
     controllerMaskNascimento.textEditingController.clear();
+    controllerMaskNascimento.formatter.getMaskTextInputFormatter().clear();
     documentoDeIdentificacao.file = null;
+colorDocumentoDeIdentificacao = Colors.red;
   }
 
   bool validador() {

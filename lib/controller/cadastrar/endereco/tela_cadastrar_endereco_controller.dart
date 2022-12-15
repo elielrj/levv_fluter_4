@@ -13,6 +13,7 @@ class TelaCadastrarEnderecoController {
   final bairro = TextEditingController();
   final cidade = TextEditingController();
   final estado = TextEditingController();
+  Color color = Colors.red;
 
   //todo mudar isso no geopoint
   GeoPoint geoPoint = const GeoPoint(0.0, 0.0);
@@ -20,7 +21,7 @@ class TelaCadastrarEnderecoController {
   Future<void> buscarLocalizacaoAtual() async {
     final localizar = Localizar();
 
-    Position? position = await localizar.ultimaPosicao();
+    Position? position = await localizar.determinarPosicao();
 
     if (position != null) {
       geoPoint = GeoPoint(position.latitude, position.longitude);
@@ -32,10 +33,12 @@ class TelaCadastrarEnderecoController {
     numero.clear();
     complemento.clear();
     cepMask.textEditingController.clear();
+    cepMask.formatter.getMaskTextInputFormatter().clear();
     bairro.clear();
     cidade.clear();
     estado.clear();
     geoPoint = const GeoPoint(0.0, 0.0);
+    color = Colors.red;
   }
 
   bool validador() {

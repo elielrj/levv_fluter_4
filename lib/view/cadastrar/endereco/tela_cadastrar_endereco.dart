@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/cadastrar/endereco/tela_cadastrar_endereco_controller.dart';
 import 'package:levv4/view/componentes/text_field/text_field_customized_for_cep.dart';
 import 'package:levv4/view/componentes/text_field/text_field_customized_for_name.dart';
@@ -14,20 +15,23 @@ class TelaCadastrarEndereco extends StatefulWidget {
 }
 
 class _TelaCadastrarEnderecoState extends State<TelaCadastrarEndereco> {
+
+
+
   @override
   void initState() {
     super.initState();
     widget.controller.logradouro.addListener(() => setState(() {}));
     widget.controller.numero.addListener(() => setState(() {}));
     widget.controller.complemento.addListener(() => setState(() {}));
-    widget.controller.cepMask.textEditingController
-        .addListener(() => setState(() {}));
+    widget.controller.bairro.addListener(() => setState(() {}));
     widget.controller.cidade.addListener(() => setState(() {}));
     widget.controller.estado.addListener(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       children: [
         /// Campo 1
@@ -38,11 +42,12 @@ class _TelaCadastrarEnderecoState extends State<TelaCadastrarEndereco> {
         TextFieldCustomizedForNumber(widget.controller.numero, "Número"),
 
         /// Campo 3
-        TextFieldCustomizedForNumber(
-            widget.controller.complemento, "Complemento"),
+        TextFieldCustomizedForName(
+            widget.controller.complemento, "Complemento",
+        maxLength: 10),
 
         /// Campo 4
-        TextFieldCustomizedForCep(widget.controller.cepMask),
+        TextFieldCustomizedForCep(controller: widget.controller.cepMask),
 
         /// Campo 5
         TextFieldCustomizedForName(
@@ -54,7 +59,7 @@ class _TelaCadastrarEnderecoState extends State<TelaCadastrarEndereco> {
 
         /// Campo 7
         TextFieldCustomizedForName(
-            widget.controller.cidade,  "Estado"),
+            widget.controller.estado,  "Estado"),
 
         /// Campo 8
         _campoDeGeolocalizacao(),
@@ -69,13 +74,20 @@ class _TelaCadastrarEnderecoState extends State<TelaCadastrarEndereco> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () async => await _buscarLocalizacao(),
+              onTap: () async  {
+                await _buscarLocalizacao();
+
+                setState(() {
+                  (widget.controller.geoPoint.latitude == 0.0 &&
+                      widget.controller.geoPoint.longitude == 0.0)
+                      ? widget.controller.color = Colors.red
+                      : widget.controller.color = Colors.green;
+                });
+
+                },
               child: Icon(
                 Icons.location_on,
-                color: (widget.controller.geoPoint.latitude == 0.0 &&
-                        widget.controller.geoPoint.longitude == 0.0
-                    ? Colors.black
-                    : Colors.green),
+                color: widget.controller.color,
                 size: 30,
               ),
             ),
@@ -94,8 +106,12 @@ class _TelaCadastrarEnderecoState extends State<TelaCadastrarEndereco> {
   Future<void> _buscarLocalizacao() async {
     try {
       await widget.controller.buscarLocalizacaoAtual();
+      setState(() {
+        widget.controller.geoPoint;
+      });
     } catch (erro) {
       _erroAoBuscarLocalizacao();
+      print("TelaCadastrarEndereco() --> erro: ${erro.toString()}");
     }
   }
 
@@ -104,14 +120,14 @@ class _TelaCadastrarEnderecoState extends State<TelaCadastrarEndereco> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Erro"),
+            title: const Text(TextLevv.ERRO),
             titlePadding: const EdgeInsets.all(20),
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.orange),
-            content: const Text("Não foi possível buscar sua localização"),
+            content: const Text(TextLevv.ERRO_BUSCAR_LOCALIZACAO),
             actions: [
               TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("Ok"))
+                  child: const Text(TextLevv.OK))
             ],
           );
         });

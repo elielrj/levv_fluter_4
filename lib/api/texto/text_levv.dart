@@ -14,12 +14,15 @@ class TextLevv {
   static const CADASTRAR_PERFIL_ENVIAR = "Cadastrar perfil: Enviar";
   static const CADASTRAR_PERFIL_ENTREGADOR = "Cadastrar perfil: Entregar";
   static const CPF = "CPF";
+  static const CARACTER = "caracter";
+  static const CARACTERES = "caracteres";
 
   ///D
   ///
   static const DISTANCIA = "Distância";
   static const DATA_NASCIMENTO = "Data de nascimento";
   static const DOCUMENTO_IDENTIFICACAO = "Documento de Identificação";
+  static const DOCUMENTO_VEICULO = "Documento do Veículo";
 
   ///E
   ///
@@ -46,6 +49,7 @@ class TextLevv {
       "O campo de veículo está vazio!";
   static const ERRO_NUMERO_INVALIDO = "O campo de numero está vazio!";
   static const ERRO_COMPLEMENTO_INVALIDO = "O campo de complemento está vazio!";
+  static const ERRO_CEP_INVALIDO = "O campo de cep está inválido!";
   static const ERRO_BAIRRO_INVALIDO = "O campo de bairro está vazio!";
   static const ERRO_CIDADE_INVALIDO = "O campo de cidade está vazio!";
   static const ERRO_ESTADO_INVALIDO = "O campo de estado está vazio!";
@@ -54,6 +58,7 @@ class TextLevv {
   static const ERRO_COR_INVALIDO = "O campo de cor está vazio!";
   static const ERRO_MARCA_INVALIDO = "O campo de marca está vazio!";
   static const ERRO_MODELO_INVALIDO = "O campo de modelo está vazio!";
+  static const ERRO_BUSCAR_LOCALIZACAO = "Não foi possível buscar sua localização";
 
   ///L
   ///
@@ -110,5 +115,5 @@ class TextLevv {
 
   ///Z
   ///
-  static const ZERO_CARACTER = " caracter";
+
 }

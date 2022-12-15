@@ -127,7 +127,12 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
           foregroundColor: Colors.black,
           alignment: Alignment.center,
         ),
-        onPressed: () => _cadastrarPerfilEntregador(),
+        onPressed: () async {
+          if (!controllerEndereco.validarGeolocalizacao()) {
+            await controllerEndereco.buscarLocalizacaoAtual();
+          }
+          _cadastrarPerfilEntregador();
+        },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -183,6 +188,9 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
     cadastroNivel1Controller.limparCampos();
     controllerMeioDeTransportes.limparTodosOsCampos();
     controllerEndereco.limparTodosOsCampos();
+    setState(() {
+      controllerEndereco.color;
+    });
   }
 
   bool validarDados() {
@@ -237,7 +245,9 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
       final entregador = montarObjetoEntregar();
 
       /// 04 - atualizar o perfil do usuario
-      widget.usuario.perfil = entregador;
+      setState(() {
+        widget.usuario.perfil = entregador;
+      });
       try {
         /// 05 - atualizar o novo perfil no banco por meio do controller
         await atualizarCadastroDoUsuarioComPerfilDeEntregador(widget.usuario);
@@ -266,47 +276,40 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
       }
 
       ///Mensagem de erro p/ campos de meio de transporte
-      controllerMeioDeTransportes.validarModelo()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoModelo();
-      controllerMeioDeTransportes.validarMarca()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoMarca();
-      controllerMeioDeTransportes.validarCor()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoCor();
-      controllerMeioDeTransportes.validarPlaca()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoPlaca();
-      controllerMeioDeTransportes.validarDocumentoDoVeiculo()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoDocumentoDoVeiculo();
+      else if (controllerMeioDeTransportes.valueMeioDeTransporte != 0 &&
+          controllerMeioDeTransportes.valueMeioDeTransporte != 1) {
+
+        if(!controllerMeioDeTransportes.validarModelo()) {
+          _exibirMensagemDeCampoModelo();
+        }else if(!controllerMeioDeTransportes.validarMarca()){
+          _exibirMensagemDeCampoMarca();
+        }else if(!controllerMeioDeTransportes.validarCor()){
+          _exibirMensagemDeCampoCor();
+        }else if(!controllerMeioDeTransportes.validarPlaca()){
+          _exibirMensagemDeCampoPlaca();
+        }else if(!controllerMeioDeTransportes.validarDocumentoDoVeiculo()){
+          _exibirMensagemDeCampoDocumentoDoVeiculo();
+        }
+      }
 
       ///Mensagem de erro p/ campos de Endereco
-      controllerEndereco.validarLogradouro()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoLogradouro();
-      controllerEndereco.validarNumero()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoNumero();
-      controllerEndereco.validarComplemento()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoComplemento();
-      controllerEndereco.validarCep()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoCor();
-      controllerEndereco.validarBairro()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoBairro();
-      controllerEndereco.validarCidade()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoCidade();
-      controllerEndereco.validarEstado()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoEstado();
-      controllerEndereco.validarGeolocalizacao()
-          ? Container(width: 0)
-          : _exibirMensagemDeCampoGeolocalizacao();
+      else if(!controllerEndereco.validarLogradouro()){
+        _exibirMensagemDeCampoLogradouro();
+      }else if(!controllerEndereco.validarNumero()){
+        _exibirMensagemDeCampoNumero();
+      }else if( !controllerEndereco.validarComplemento()){
+        _exibirMensagemDeCampoComplemento();
+      }else if(!controllerEndereco.validarCep()){
+        _exibirMensagemDeCampoCep();
+      }else if( !controllerEndereco.validarBairro()){
+        _exibirMensagemDeCampoBairro();
+      }else if(!controllerEndereco.validarCidade()){
+        _exibirMensagemDeCampoCidade();
+      }else if(!controllerEndereco.validarEstado()){
+        _exibirMensagemDeCampoEstado();
+      }else if(!controllerEndereco.validarGeolocalizacao()){
+        _exibirMensagemDeCampoGeolocalizacao();
+      }
     }
   }
 
@@ -360,6 +363,9 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
 
   _exibirMensagemDeCampoComplemento() =>
       _exibirMensagemDeErro(TextLevv.ERRO_COMPLEMENTO_INVALIDO);
+
+  _exibirMensagemDeCampoCep() =>
+      _exibirMensagemDeErro(TextLevv.ERRO_CEP_INVALIDO);
 
   _exibirMensagemDeCampoNumero() =>
       _exibirMensagemDeErro(TextLevv.ERRO_NUMERO_INVALIDO);

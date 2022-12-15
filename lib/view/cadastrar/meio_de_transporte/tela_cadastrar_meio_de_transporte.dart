@@ -122,7 +122,8 @@ class _TelaCadastrarMeioDeTransporteState extends State<TelaCadastrarMeioDeTrans
 
                   ///6
                   DocumentoDeIdentificacao(
-                      documento: widget.controller.documentoDoVeiculo),
+                      documento: widget.controller.documentoDoVeiculo,
+                  color: widget.controller.colorDocumentoDoVeiculo,),
                 ],
               ),
       ],

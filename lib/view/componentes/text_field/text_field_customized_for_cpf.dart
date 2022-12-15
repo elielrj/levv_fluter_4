@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/api/mascara/mask.dart';
+import 'package:levv4/api/texto/text_levv.dart';
 
 Widget TextFieldCustomizedForCpf(
         Mask controller) =>
@@ -19,11 +20,11 @@ Widget TextFieldCustomizedForCpf(
                     .getUnmaskedText()
                     .length <=
                 1
-            ? "${controller.formatter.getMaskTextInputFormatter().getUnmaskedText().length} caracter"
-            : "${controller.formatter.getMaskTextInputFormatter().getUnmaskedText().length} caracteres",
+            ? "${controller.formatter.getMaskTextInputFormatter().getUnmaskedText().length} ${TextLevv.CARACTER}"
+            : "${controller.formatter.getMaskTextInputFormatter().getUnmaskedText().length} ${TextLevv.CARACTERES}",
 
         ///3
-        labelText: "CPF",
+        labelText: TextLevv.CPF,
         labelStyle:
             const TextStyle(backgroundColor: Colors.white, color: Colors.black),
         enabledBorder: OutlineInputBorder(
@@ -44,7 +45,10 @@ Widget TextFieldCustomizedForCpf(
               )
             : IconButton(
                 icon: const Icon(Icons.close, color: Colors.red),
-                onPressed: () => controller.textEditingController.clear(),
+                onPressed: () {
+                  controller.textEditingController.clear();
+                  controller.formatter.getMaskTextInputFormatter().clear();
+                },
               ),
         fillColor: Colors.white,
         filled: true,

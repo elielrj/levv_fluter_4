@@ -45,7 +45,10 @@ Widget TextFieldCustomizedForDate(
               )
             : IconButton(
                 icon: const Icon(Icons.close, color: Colors.red),
-                onPressed: () => controller.textEditingController.clear(),
+                onPressed: () {
+                  controller.textEditingController.clear();
+                  controller.formatter.getMaskTextInputFormatter().clear();
+                },
               ),
         fillColor: Colors.white,
         filled: true,

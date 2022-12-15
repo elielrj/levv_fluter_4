@@ -30,6 +30,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
   @override
   void initState() {
     super.initState();
+    widget.usuario.perfil;
     // 1- primeiro
     _buscarListaDePedidosDoUsuario();
   }

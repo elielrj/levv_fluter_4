@@ -162,7 +162,9 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
       final enviar = montarObjetoEnviar();
 
       /// 04 - atualizar o perfil do usuario
-      widget.usuario.perfil = enviar;
+      setState(() {
+        widget.usuario.perfil = enviar;
+      });
 
       try {
         /// 05 - atualizar o novo perfil no banco por meio do controller

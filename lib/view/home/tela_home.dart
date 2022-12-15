@@ -23,11 +23,18 @@ class TelaHome extends StatefulWidget {
 }
 
 class _TelaHomeState extends State<TelaHome> {
+
+  String perfil = "";
+
+
+
   @override
   Widget build(BuildContext context) {
+
     setState(() {
-      widget.usuario.perfil;
+      perfil  = widget.usuario.perfil!.exibirPerfil();
     });
+
     return Scaffold(
       backgroundColor: ColorsLevv.FUNDO_400,
       appBar: AppBar(
@@ -38,7 +45,7 @@ class _TelaHomeState extends State<TelaHome> {
               width: 10,
             ),
             const Icon(Icons.admin_panel_settings),
-            Text(widget.usuario.perfil!.exibirPerfil()),
+            Text(perfil),
           ],
         ),
         actions: const [

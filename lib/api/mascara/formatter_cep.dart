@@ -3,9 +3,10 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'formatter.dart';
 
- class FormatterCep implements Formatter {
+ class FormatterCep  implements Formatter {
   final MaskTextInputFormatter _maskTextInputFormatter =
       MaskTextInputFormatter(mask: "#####-###");
+
 
   @override
   MaskTextInputFormatter getMaskTextInputFormatter() {

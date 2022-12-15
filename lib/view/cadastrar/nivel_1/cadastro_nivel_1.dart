@@ -29,9 +29,10 @@ class _CadastroNivel1State extends State<CadastroNivel1> {
     widget.controller.controllerSobrenome.addListener(() => setState(() {}));
     widget.controller.controllerMaskCpf.textEditingController
         .addListener(() => setState(() {}));
+
     widget.controller.controllerMaskNascimento.textEditingController
         .addListener(() => setState(() {}));
-    widget.controller.documentoDeIdentificacao;
+    widget.controller.documentoDeIdentificacao.file;
   }
 
   @override
@@ -55,7 +56,8 @@ class _CadastroNivel1State extends State<CadastroNivel1> {
 
         /// Campo 5
         DocumentoDeIdentificacao(
-            documento: widget.controller.documentoDeIdentificacao),
+            documento: widget.controller.documentoDeIdentificacao,
+            color: widget.controller.colorDocumentoDeIdentificacao),
       ],
     );
   }
