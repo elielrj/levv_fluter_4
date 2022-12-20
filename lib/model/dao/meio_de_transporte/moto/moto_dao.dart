@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/api/texto/text_banco_de_dados.dart';
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/bo/meio_de_transporte/motorizado.dart';
+import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
 import 'package:levv4/model/dao/meio_de_transporte/motorizado/i_crud_motorizado_dao.dart';
 import '../../../../api/firebase_autenticacao/autenticacao.dart';
 import '../../../bo/meio_de_transporte/moto.dart';
@@ -36,7 +38,7 @@ class MotoDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .set(toMap(object))
+          .set(await toMap(object))
           .then((value) => print(documentSucessfullyCreate),
               onError: (e) => print("$documentErrorCreate--> ${e.toString}"));
       print(documentSucessfullyCreate);
@@ -51,7 +53,7 @@ class MotoDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .update(toMap(object))
+          .update(await toMap(object))
           .then((value) => print(documentSucessfullyUpdate),
               onError: (e) => print("$documentErrorUpdate--> ${e.toString}"));
       print(documentSucessfullyUpdate);
@@ -123,27 +125,28 @@ class MotoDAO
   }
 
   @override
-  Map<String, dynamic> toMap(Moto object) {
+  Future<Map<String, dynamic>> toMap(Moto object) async {
+
+    final arquivoDAO = ArquivoDAO();
+    await arquivoDAO.upload(object.documentoDoVeiculo!);
+
     return {
-      if (object.modelo != null) "modelo": object.modelo,
-      if (object.marca != null) "marca": object.marca,
-      if (object.cor != null) "cor": object.cor,
-      if (object.placa != null) "placa": object.placa,
-      if (object.renavam != null) "renavam": object.renavam,
-      if (object.documentoDoVeiculo != null)
-        "documentoDoVeiculo": object.documentoDoVeiculo
+      if (object.modelo != null) TextBancoDeDados.MODELO: object.modelo,
+      if (object.marca != null) TextBancoDeDados.MARCA: object.marca,
+      if (object.cor != null) TextBancoDeDados.COR: object.cor,
+      if (object.placa != null) TextBancoDeDados.PLACA: object.placa,
+      if (object.renavam != null) TextBancoDeDados.RENAVAN: object.renavam,
     };
   }
 
   @override
   Moto fromMap(Map<String, dynamic> map) {
     return Moto(
-      modelo: map["modelo"],
-      marca: map["marca"],
-      cor: map["cor"],
-      placa: map["placa"],
-      renavam: map["renavam"],
-      documentoDoVeiculo: map["documentoDoVeiculo"],
+      modelo: map[TextBancoDeDados.MODELO],
+      marca: map[TextBancoDeDados.MARCA],
+      cor: map[TextBancoDeDados.COR],
+      placa: map[TextBancoDeDados.PLACA],
+      renavam: map[TextBancoDeDados.RENAVAN],
     );
   }
 }

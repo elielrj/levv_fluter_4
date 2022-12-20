@@ -28,7 +28,6 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
     _controller.telefone.textEditingController
         .addListener(() => setState(() {}));
     _controller.sms.textEditingController.addListener(() => setState(() {}));
-    _controller.addListener(() => setState(() {}));
   }
 
   @override
@@ -62,6 +61,14 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
     );
   }
 
+  Future<void> _verificarSeExisteUsuarioNoBancoENavegarParaTelaHome() async {
+    if (!await _controller.verificarSeExisteUsuarioNoBanco()) {
+      await _controller.cadastrarUsuarioNoBanco();
+    }
+
+    _navegarParaTelaHome();
+  }
+
   _navegarParaTelaHome() {
     Navigator.pushReplacement(
         context,
@@ -88,24 +95,28 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
             Icons.sms_outlined,
             color: Colors.black,
           ),
-          suffixIcon:
-              _controller.sms.formatter.getMaskTextInputFormatter().getUnmaskedText().isEmpty
-                  ? Container(width: 0)
-                  : IconButton(
-                      onPressed: () {
-                        //setState(() {
-                        _controller.sms.textEditingController.clear();
-                        // });
-                      },
-                      icon: const Icon(
-                        Icons.close,
-                        color: Colors.red,
-                      ),
-                    ),
+          suffixIcon: _controller.sms.formatter
+                  .getMaskTextInputFormatter()
+                  .getUnmaskedText()
+                  .isEmpty
+              ? Container(width: 0)
+              : IconButton(
+                  onPressed: () {
+                    //setState(() {
+                    _controller.sms.textEditingController.clear();
+                    // });
+                  },
+                  icon: const Icon(
+                    Icons.close,
+                    color: Colors.red,
+                  ),
+                ),
           fillColor: Colors.white,
           filled: true,
         ),
-        inputFormatters: [_controller.sms.formatter.getMaskTextInputFormatter()],
+        inputFormatters: [
+          _controller.sms.formatter.getMaskTextInputFormatter()
+        ],
         maxLength: 7,
         style: const TextStyle(fontSize: 14),
       );
@@ -141,10 +152,9 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
       await _controller.criarUsuarioComCodigoSMS();
 
       //navegar p/ Tela Home
-      if (await _controller.existeUmUsuarioCorrente()) {
-//todo antes de navegar, verificar se tem user no banco!!
-        await _controller.cadastrarUsuarioNoBanco();
-        _navegarParaTelaHome();
+      if (_controller.existeUmUsuarioCorrente()) {
+        /// Navegar p/ Tela Home c/ verificação de usuário no banco de Dados
+        await _verificarSeExisteUsuarioNoBancoENavegarParaTelaHome();
       }
     } catch (erro) {
       AlertDialog(
@@ -172,12 +182,8 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         await _controller.verifyPhoneNumber();
       }
 
-      //navegar p/ Tela Home
-      if (await _controller.existeUmUsuarioCorrente()) {
-        //todo antes de navegar, verificar se tem user no banco!!
-        await _controller.cadastrarUsuarioNoBanco();
-        _navegarParaTelaHome();
-      }
+      /// Navegar p/ Tela Home c/ verificação de usuário no banco de Dados
+      await _verificarSeExisteUsuarioNoBancoENavegarParaTelaHome();
     } catch (erro) {
       AlertDialog(
         title: const Text("Não foi possível confirmar o código",
@@ -219,7 +225,9 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
             fillColor: Colors.white,
             filled: true,
             hintText: _controller.telefone.formatter.getHint()),
-        inputFormatters: [_controller.telefone.formatter.getMaskTextInputFormatter()],
+        inputFormatters: [
+          _controller.telefone.formatter.getMaskTextInputFormatter()
+        ],
         maxLength: 20,
         style: const TextStyle(fontSize: 18),
       );

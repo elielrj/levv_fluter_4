@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/api/mascara/formatter_cep.dart';
 import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/view/localizar/localizar/localizar.dart';
 
-class TelaCadastrarEnderecoController {
+class TelaCadastrarEnderecoController with NomeDoDocumentoDoUsuarioCorrente {
   final logradouro = TextEditingController();
   final numero = TextEditingController();
   final complemento = TextEditingController();
@@ -13,6 +14,8 @@ class TelaCadastrarEnderecoController {
   final bairro = TextEditingController();
   final cidade = TextEditingController();
   final estado = TextEditingController();
+  final pais = TextEditingController();
+
   Color color = Colors.red;
 
   //todo mudar isso no geopoint
@@ -25,6 +28,7 @@ class TelaCadastrarEnderecoController {
 
     if (position != null) {
       geoPoint = GeoPoint(position.latitude, position.longitude);
+      pais.text = nomeDoDocumentoDoUsuarioCorrente().substring(0,3);
     }
   }
 

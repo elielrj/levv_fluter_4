@@ -1,4 +1,7 @@
+import 'package:levv4/api/texto/text_banco_de_dados.dart';
+
 class TextLevv {
+
   ///A
   ///
   static const ACOMPANHAR = "Acompanhar";
@@ -44,9 +47,10 @@ class TextLevv {
   static const ERRO_CPF_INVALIDA = "O campo de CPF está inválido!";
   static const ERRO_SOBRENOME_INVALIDO = "O campo de sobrenome está vazio!";
   static const ERRO_NOME_INVALIDO = "O campo de nome está vazio!";
-  static const ERRO_PLACA_INVALIDO = "O campo de placa está vazio!";
+  static const ERRO_PLACA_INVALIDO = "O campo de placa está inválida!";
+  static const ERRO_RENAVAN_INVALIDO = "O campo de renavan está inválida!";
   static const ERRO_DOCUMENTO_VEICULO_INVALIDO =
-      "O campo de veículo está vazio!";
+      "O campo de documento do veículo está vazio!";
   static const ERRO_NUMERO_INVALIDO = "O campo de numero está vazio!";
   static const ERRO_COMPLEMENTO_INVALIDO = "O campo de complemento está vazio!";
   static const ERRO_CEP_INVALIDO = "O campo de cep está inválido!";

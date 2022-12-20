@@ -57,8 +57,6 @@ colorDocumentoDeIdentificacao = Colors.red;
   }
 
   bool validarDocumentoDeIdentificacao() {
-    print(
-        "Tela cadastrar enviar controller --> documento--> ${documentoDeIdentificacao.file.toString()}");
     return documentoDeIdentificacao.file != null;
   }
 }

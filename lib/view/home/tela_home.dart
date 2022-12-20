@@ -23,18 +23,14 @@ class TelaHome extends StatefulWidget {
 }
 
 class _TelaHomeState extends State<TelaHome> {
-
-  String perfil = "";
-
-
+  @override
+  void initState() {
+    super.initState();
+    widget.usuario;
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    setState(() {
-      perfil  = widget.usuario.perfil!.exibirPerfil();
-    });
-
     return Scaffold(
       backgroundColor: ColorsLevv.FUNDO_400,
       appBar: AppBar(
@@ -45,7 +41,7 @@ class _TelaHomeState extends State<TelaHome> {
               width: 10,
             ),
             const Icon(Icons.admin_panel_settings),
-            Text(perfil),
+            Text(widget.usuario.perfil!.exibirPerfil()),
           ],
         ),
         actions: const [
@@ -80,7 +76,7 @@ class _TelaHomeState extends State<TelaHome> {
                           padding: const EdgeInsets.all(32),
                           shadowColor: Colors.black,
                           elevation: 3,
-                          primary: Colors.white),
+                          backgroundColor: Colors.white),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -124,7 +120,7 @@ class _TelaHomeState extends State<TelaHome> {
                           padding: const EdgeInsets.all(32),
                           shadowColor: Colors.black,
                           elevation: 3,
-                          primary: Colors.white),
+                          backgroundColor: Colors.white),
                       onPressed: () => _navegarParaTelaEnviar(),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -168,7 +164,7 @@ class _TelaHomeState extends State<TelaHome> {
                             padding: const EdgeInsets.all(32),
                             shadowColor: Colors.black,
                             elevation: 3,
-                            primary: Colors.white),
+                            backgroundColor: Colors.white),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

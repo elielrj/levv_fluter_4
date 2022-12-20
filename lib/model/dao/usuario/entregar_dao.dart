@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/api/texto/text_banco_de_dados.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/meio_de_transporte/carro.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
@@ -43,10 +44,7 @@ class EntregarDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .set(await toMap(object))
-          .then((value) => print(documentErrorCreate),
-          onError: (e) =>
-              print("$documentErrorCreate --> ${e.toString()}"));
+          .set(await toMap(object));
       print(documentSucessfullyCreate);
     } catch (erro) {
       print("$documentErrorCreate--> ${erro.toString()}");
@@ -59,13 +57,9 @@ class EntregarDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .update(await toMap(object))
-          .then((value) => print(documentSucessfullyUpdate),
-          onError: (e) =>
-              print("$documentErrorUpdate --> ${e.toString()}"));
-      print(documentSucessfullyCreate);
+          .update(await toMap(object));
     } catch (erro) {
-      print("$documentErrorCreate--> ${erro.toString()}");
+      print("$documentErrorUpdate--> ${erro.toString()}");
     }
   }
 
@@ -73,17 +67,17 @@ class EntregarDAO
   Future<List<Entregar>> buscarTodos() async {
     List<Entregar> entregadoresDePedidos = [];
     try {
-      await FirebaseFirestore.instance.collection(collectionPath).get().then(
-            (res) {
-          res.docs.map(
-                  (e) async => entregadoresDePedidos.add(await fromMap(e.data())));
-          print(documentSucessfullyRetriveAll);
-        },
-        onError: (e) => print("$documentErrorRetriveAll --> ${e.toString()}"),
-      );
-      print(documentSucessfullyCreate);
+      await FirebaseFirestore.instance
+          .collection(collectionPath)
+          .get()
+          .then((res) {
+        res.docs.map(
+            (e) async => entregadoresDePedidos.add(await fromMap(e.data())));
+        print(documentSucessfullyRetriveAll);
+      });
+      print(documentSucessfullyRetriveAll);
     } catch (erro) {
-      print("$documentErrorCreate--> ${erro.toString()}");
+      print("$documentErrorRetriveAll--> ${erro.toString()}");
     }
     return entregadoresDePedidos;
   }
@@ -96,18 +90,14 @@ class EntregarDAO
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
           .get()
-          .then(
-            (DocumentSnapshot doc) async {
-          final data = doc.data() as Map<String, dynamic>;
+          .then((DocumentSnapshot doc) async {
+        final data = doc.data() as Map<String, dynamic>;
 
-          entregar = await fromMap(data);
-          print(documentSucessfullyRetrive);
-        },
-        onError: (e) => print("$documentErrorRetrive --> ${e.toString()}"),
-      );
-      print(documentSucessfullyCreate);
+        entregar = await fromMap(data);
+      });
+      print(documentSucessfullyRetrive);
     } catch (erro) {
-      print("$documentErrorCreate--> ${erro.toString()}");
+      print("$documentErrorRetrive--> ${erro.toString()}");
     }
     return entregar;
   }
@@ -118,14 +108,10 @@ class EntregarDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .delete()
-          .then(
-            (doc) => print(documentSucessfullyDelete),
-        onError: (e) => print("$documentErrorDelete --> ${e.toString()}"),
-      );
-      print(documentSucessfullyCreate);
+          .delete();
+      print(documentSucessfullyDelete);
     } catch (erro) {
-      print("$documentErrorCreate--> ${erro.toString()}");
+      print("$documentErrorDelete--> ${erro.toString()}");
     }
   }
 
@@ -133,9 +119,9 @@ class EntregarDAO
   Future<Map<String, dynamic>> toMap(Entregar object) async {
     //1
     Map<String, dynamic> listaEnderecos = {
-      "favoritos": object.enderecosFavoritos,
-      "casa": object.casa,
-      "trabalho": object.trabalho,
+      TextBancoDeDados.FAVORITOS: object.enderecosFavoritos ?? [],
+      TextBancoDeDados.CASA: object.casa ?? [],
+      TextBancoDeDados.TRABALHO: object.trabalho ?? [],
     };
 
     //2
@@ -150,20 +136,19 @@ class EntregarDAO
     final arquivoDAO = ArquivoDAO();
     await arquivoDAO.upload(object.documentoDeIdentificacao!);
 
-
-
     return {
-      if (object.exibirPerfil() != null) "perfil": object.exibirPerfil(),
-      if (object.nome != null) "nome": object.nome,
-      if (object.sobrenome != null) "sobrenome": object.sobrenome,
-      if (object.cpf != null) "cpf": object.cpf,
+      if (object.exibirPerfil() != null)
+        TextBancoDeDados.PERFIL: object.exibirPerfil(),
+      if (object.nome != null) TextBancoDeDados.NOME: object.nome,
+      if (object.sobrenome != null)
+        TextBancoDeDados.SOBRENOME: object.sobrenome,
+      if (object.cpf != null) TextBancoDeDados.CPF: object.cpf,
       if (object.nascimento != null)
-        "nascimento": Timestamp.fromMillisecondsSinceEpoch(
+        TextBancoDeDados.NASCIMENTO: Timestamp.fromMillisecondsSinceEpoch(
             object.nascimento!.millisecondsSinceEpoch),
-      if (object.documentoDeIdentificacao != null)
-        "documentoDeIdentificacao": object.documentoDeIdentificacao,
       if (object.meioDeTransporte != null)
-        "meio_de_transporte": object.meioDeTransporte!.exibirMeioDeTransporte()
+        TextBancoDeDados.MEIO_DE_TRANSPORTE:
+            object.meioDeTransporte!.exibirMeioDeTransporte()
     };
   }
 
@@ -174,26 +159,25 @@ class EntregarDAO
     final enderecos = await enderecoDAO.buscarEnderecosDoUsuarioCorrente();
 
     //2
-    Endereco casa = enderecos['casa'];
-    Endereco trabalho = enderecos['trabalho'];
-    List<Endereco> favoritos = enderecos['favoritos'];
+    Endereco casa = enderecos[TextBancoDeDados.CASA];
+    Endereco trabalho = enderecos[TextBancoDeDados.TRABALHO];
+    List<Endereco> favoritos = enderecos[TextBancoDeDados.FAVORITOS];
 
     //3
     final meioDeTransporteDAO = MeioDeTransporteDAO();
-    final meioDeTransporte =
-    await meioDeTransporteDAO.buscar(map["meio_de_transporte"]);
+    final meioDeTransporte = await meioDeTransporteDAO
+        .buscar(map[TextBancoDeDados.MEIO_DE_TRANSPORTE]);
 
     //4
-    Timestamp timestamp = map["nascimento"];
+    Timestamp timestamp = map[TextBancoDeDados.NASCIMENTO];
     DateTime dateTime = timestamp.toDate();
 
     //5 Arquivo, não busca
 
-
     return Entregar(
-      nome: map["nome"],
-      sobrenome: map["sobrenome"],
-      cpf: map["cpf"],
+      nome: map[TextBancoDeDados.NOME],
+      sobrenome: map[TextBancoDeDados.SOBRENOME],
+      cpf: map[TextBancoDeDados.CPF],
       nascimento: dateTime,
       enderecosFavoritos: favoritos,
       casa: casa,

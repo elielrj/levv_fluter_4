@@ -69,7 +69,17 @@ class PerfilDAO
       DocumentReference documentReference = FirebaseFirestore.instance.doc(
           '${UsuarioDAO.collectionPath}/${nomeDoDocumentoDoUsuarioCorrente()}');
 
-      perfil = await buscarComDocumentReference(documentReference);
+      await documentReference.get().then((doc) async {
+        if(doc.exists){
+          final data = doc.data() as Map<String, dynamic>;
+          perfil = await buscarComDocumentReference(data['perfil']);
+          print("$documentSucessfullyRetrive--> exists = true");
+        }else{
+          print("$documentErrorRetrive--> exists = false");
+        }
+
+      });
+
       print(documentSucessfullyRetrive);
     } catch (erro) {
       print("$documentErrorRetrive--> ${erro.toString()}");
@@ -88,8 +98,6 @@ class PerfilDAO
           final data = doc.data() as Map<String, dynamic>;
 
           print("PerfilDAO: document exists = true");
-
-
 
           perfil = await toMapComPerfil(data, data["perfil"]);
         } else {

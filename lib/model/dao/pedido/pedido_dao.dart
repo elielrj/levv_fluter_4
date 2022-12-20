@@ -30,6 +30,9 @@ class PedidoDAO
   static const documentErrorRetriveAllCurrentUser = "PedidoDAO: Error retrive all document current user!";
   static const documentErrorDelete = "PedidoDAO: Error delete document!";
 
+  static const documentIsNotExists = "PedidoDAO: não há pedidos do usuário!";
+  static const documentIsNotExistsInActualyCity = "PedidoDAO: não há pedidos na cidade atual!";
+
   @override
   Future<void> criar(Pedido object) async {
     try {
@@ -106,7 +109,7 @@ class PedidoDAO
 
               pedidos = fromListMaps(data);
             }else{
-              print("PedidoDAO: não há peidos do usuário!");
+              print(documentIsNotExists);
             }
 
       });
@@ -137,7 +140,7 @@ class PedidoDAO
 
               pedidos = fromListMaps(data);
             }else{
-              print("PedidoDAO: não há peidos na cidade atual!");
+              print(documentIsNotExistsInActualyCity);
             }
 
       });

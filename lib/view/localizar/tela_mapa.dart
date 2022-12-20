@@ -13,8 +13,6 @@ class TelaMapa extends StatefulWidget {
 }
 
 class _TelaMapaState extends State<TelaMapa> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +63,11 @@ class _TelaMapaState extends State<TelaMapa> {
             ),
           ),
         ),
-        Mapa(pedido: widget.pedido,isMyLocationEnabled: true, isTrafficEnabled: true),
+        Mapa(
+            pedido: widget.pedido,
+            isMyLocationEnabled: true,
+            isTrafficEnabled: true,
+        ),
       ]),
     );
   }

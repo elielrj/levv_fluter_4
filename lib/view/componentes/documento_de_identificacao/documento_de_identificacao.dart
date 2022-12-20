@@ -65,7 +65,7 @@ class _DocumentoDeIdentificacaoState extends State<DocumentoDeIdentificacao> {
           widget.color = widget.documento.file != null ? Colors.green : Colors.red;
         });
       },
-      child: Icon(Icons.file_upload, size: 30, color: widget.color));
+      child: Icon(Icons.file_upload, size: 30, color: (widget.color)));
 
   Widget _buscarImagemDaCameraoSmartphone() => GestureDetector(
         onTap: () async {

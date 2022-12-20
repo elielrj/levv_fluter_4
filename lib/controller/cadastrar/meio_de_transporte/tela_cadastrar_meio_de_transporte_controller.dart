@@ -54,15 +54,12 @@ class TelaCadastrarMeioDeTransporteController {
   }
 
   bool validarPlaca() {
-    return controllerPlaca.text.isNotEmpty &&
-        controllerPlaca.text.length > 7 &&
-        controllerPlaca.text.length < 8;
+    return controllerPlaca.text.length == 7;
   }
 
   bool validarRenavan() {
-    return controllerRenavan.text.isNotEmpty &&
-        controllerRenavan.text.length > 6 &&
-        controllerRenavan.text.length < 15;
+    return controllerRenavan.text.length > 6 &&
+        controllerRenavan.text.length <= 15;
   }
 
   bool validarDocumentoDoVeiculo() {

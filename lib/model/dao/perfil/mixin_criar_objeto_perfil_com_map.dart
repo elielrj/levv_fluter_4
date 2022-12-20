@@ -12,19 +12,15 @@ mixin CriarObjetoPerfilComMap {
     if (perfil == "Entregar") {
       EntregarDAO entregarDAO = EntregarDAO();
       perfilClass = await entregarDAO.fromMap(mapa);
-      //perfilClass = await entregarDAO.searchByReference(celular);
     } else if (perfil == "Enviar") {
       EnviarDAO enviarDAO = EnviarDAO();
       perfilClass = await enviarDAO.fromMap(mapa);
-      // perfilClass = await enviarDAO.searchByReference(celular);
     } else if (perfil == "Administrar") {
       AdministrarDAO administrarDAO = AdministrarDAO();
       perfilClass = await administrarDAO.fromMap(mapa);
-      //perfilClass = await administrarDAO.searchByReference(celular);
     } else if (perfil == "Acompanhar") {
       AcompanharDAO acompanharDAO = AcompanharDAO();
       perfilClass = await acompanharDAO.fromMap(mapa);
-      //perfilClass = await acompanharDAO.searchByReference(celular);
     }
     return perfilClass;
   }

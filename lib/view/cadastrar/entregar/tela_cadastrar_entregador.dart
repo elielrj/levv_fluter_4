@@ -201,7 +201,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
 
   Endereco montarObjetoEnderecoCasa() => Endereco(
         logradouro: controllerEndereco.logradouro.text.toString(),
-        numero: controllerEndereco.numero.toString(),
+        numero: controllerEndereco.numero.text.toString(),
         complemento: controllerEndereco.complemento.text.toString(),
         cep: controllerEndereco.cepMask.formatter
             .getMaskTextInputFormatter()
@@ -210,6 +210,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
         bairro: controllerEndereco.bairro.text.toString(),
         cidade: controllerEndereco.cidade.text.toString(),
         estado: controllerEndereco.estado.text.toString(),
+        pais: controllerEndereco.pais.text.toString(),
       );
 
   MeioDeTransporte montarObjetoMeioDeTransporte() {
@@ -278,36 +279,37 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
       ///Mensagem de erro p/ campos de meio de transporte
       else if (controllerMeioDeTransportes.valueMeioDeTransporte != 0 &&
           controllerMeioDeTransportes.valueMeioDeTransporte != 1) {
-
-        if(!controllerMeioDeTransportes.validarModelo()) {
+        if (!controllerMeioDeTransportes.validarModelo()) {
           _exibirMensagemDeCampoModelo();
-        }else if(!controllerMeioDeTransportes.validarMarca()){
+        } else if (!controllerMeioDeTransportes.validarMarca()) {
           _exibirMensagemDeCampoMarca();
-        }else if(!controllerMeioDeTransportes.validarCor()){
+        } else if (!controllerMeioDeTransportes.validarCor()) {
           _exibirMensagemDeCampoCor();
-        }else if(!controllerMeioDeTransportes.validarPlaca()){
+        } else if (!controllerMeioDeTransportes.validarPlaca()) {
           _exibirMensagemDeCampoPlaca();
-        }else if(!controllerMeioDeTransportes.validarDocumentoDoVeiculo()){
+        } else if (!controllerMeioDeTransportes.validarRenavan()){
+          _exibirMensagemDeCampoRenavan();
+        } else if (!controllerMeioDeTransportes.validarDocumentoDoVeiculo()) {
           _exibirMensagemDeCampoDocumentoDoVeiculo();
         }
       }
 
       ///Mensagem de erro p/ campos de Endereco
-      else if(!controllerEndereco.validarLogradouro()){
+      else if (!controllerEndereco.validarLogradouro()) {
         _exibirMensagemDeCampoLogradouro();
-      }else if(!controllerEndereco.validarNumero()){
+      } else if (!controllerEndereco.validarNumero()) {
         _exibirMensagemDeCampoNumero();
-      }else if( !controllerEndereco.validarComplemento()){
+      } else if (!controllerEndereco.validarComplemento()) {
         _exibirMensagemDeCampoComplemento();
-      }else if(!controllerEndereco.validarCep()){
+      } else if (!controllerEndereco.validarCep()) {
         _exibirMensagemDeCampoCep();
-      }else if( !controllerEndereco.validarBairro()){
+      } else if (!controllerEndereco.validarBairro()) {
         _exibirMensagemDeCampoBairro();
-      }else if(!controllerEndereco.validarCidade()){
+      } else if (!controllerEndereco.validarCidade()) {
         _exibirMensagemDeCampoCidade();
-      }else if(!controllerEndereco.validarEstado()){
+      } else if (!controllerEndereco.validarEstado()) {
         _exibirMensagemDeCampoEstado();
-      }else if(!controllerEndereco.validarGeolocalizacao()){
+      } else if (!controllerEndereco.validarGeolocalizacao()) {
         _exibirMensagemDeCampoGeolocalizacao();
       }
     }
@@ -375,6 +377,9 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
 
   _exibirMensagemDeCampoPlaca() =>
       _exibirMensagemDeErro(TextLevv.ERRO_PLACA_INVALIDO);
+
+  _exibirMensagemDeCampoRenavan() =>
+      _exibirMensagemDeErro(TextLevv.ERRO_RENAVAN_INVALIDO);
 
   _exibirMensagemDeErro(String mensagem) => showDialog(
       context: context,

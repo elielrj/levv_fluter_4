@@ -110,7 +110,7 @@ class _ItemEnderecoState extends State<ItemEndereco> {
           children: [
             Expanded(
               child: _isShowMap
-                  ? openMapWidget(widget.itemDoPedido, false)
+                  ? openMapWidget(widget.itemDoPedido, false, widget.labelText)
                   : Container(
                       width: 0,
                     ),

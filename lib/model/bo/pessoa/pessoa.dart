@@ -1,7 +1,7 @@
 import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 
-abstract class Pessoa extends Acompanhar {
+abstract class Pessoa implements Acompanhar {
   String? nome;
   String? sobrenome;
   String? cpf;

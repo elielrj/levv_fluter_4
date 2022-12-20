@@ -92,25 +92,25 @@ class EnderecoDAO
   @override
   Map<String, Map<String, dynamic>> toMapToMap(Map<String, dynamic> object) {
     return {
-      "casa": toMap(object['casa']),
-      "trabalho": toMap(object['trabalho']),
-      "favoritos": favoritosToMap(object['favoritos'])
+      if(object['casa'] != null ) "casa": toMap(object['casa']),
+      if(object['trabalho'] != null && object['trabalho'] is Endereco) "trabalho": toMap(object['trabalho']),
+      if(object['favoritos'] != null && object['favoritos'] is Endereco) "favoritos": favoritosToMap(object['favoritos'])
     };
   }
 
   @override
   Map<String, dynamic> fromMapFromMap(Map<String, dynamic> map) {
-    Endereco casa = fromMap(map["casa"]);
-    Endereco trabalho = fromMap(map['trabalho']);
+    Endereco? casa = fromMap(map["casa"]);
+    Endereco? trabalho = fromMap(map['trabalho']);
     //List<Endereco> favoritos = favoritosFromMap(map['favoritos']);
 
     List<Endereco>? favoritos =
         map['favoritos'] is Iterable ? List.from(map['favoritos']) : [];
 
     return {
-      'casa': casa,
-      'trabalho': trabalho,
-      'favoritos': favoritos,
+      if(casa != null) 'casa': casa,
+      if(trabalho != null) 'trabalho': trabalho,
+      if(favoritos != null) 'favoritos': favoritos,
     };
   }
 

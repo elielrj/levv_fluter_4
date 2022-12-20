@@ -111,7 +111,7 @@ class _TelaCadastrarMeioDeTransporteState extends State<TelaCadastrarMeioDeTrans
                   ///4
                   TextFieldCustomizedForName(widget.controller.controllerPlaca,
                       "Placa",
-                      maxLength: 8),
+                      maxLength: 7),
 
                   ///5
                   TextFieldCustomizedForName(

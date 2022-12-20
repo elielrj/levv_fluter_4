@@ -174,4 +174,19 @@ class TelaCadastrarAcompanharController extends ChangeNotifier
     }
 
   }
+
+  Future<bool> verificarSeExisteUsuarioNoBanco() async {
+
+    final usuarioDAO = UsuarioDAO();
+
+    var user = await usuarioDAO.buscar();
+
+    if(user is Usuario){
+      usuario = user;
+      return true;
+    }else{
+      return false;
+    }
+
+  }
 }

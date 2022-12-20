@@ -23,33 +23,36 @@ class ArquivoDAO
     File file = File(path);
 
     if (file != null) {
-      String reference = "$collectionPath/";
+      String reference =
+          "$collectionPath/";
       reference += "${nomeDoDocumentoDoUsuarioCorrente()}/";
+      reference += "${object.descricao!.replaceAll(" ", "")}/";
       reference += "${object.descricao}";
       reference += "${DateTime.now().toString()}.jpg";
       reference = reference.replaceAll(" ", "");
 
       try {
         await FirebaseStorage.instance.ref(reference).putFile(file);
-        print(fileSucessfullyUpload);
+        print("$fileSucessfullyUpload--> ${object.descricao}");
       } catch (erro) {
-        print("$fileErrorUpload--> ${erro.toString()}");
+        print("$fileErrorUpload--> ${object.descricao}--> ${erro.toString()}");
       }
     }
   }
 
   @override
   Future<void> delete(Arquivo object) async {
-    String reference = "$collectionPath/";
+    String reference = "$collectionPath/${object.descricao!.replaceAll(" ", "")}";
     reference += "${nomeDoDocumentoDoUsuarioCorrente()}/";
+    reference += "${object.descricao!.replaceAll(" ", "")}/";
     reference += "${object.descricao}.jpg";
     reference = reference.replaceAll(" ", "");
 
     try {
       await FirebaseStorage.instance.ref(reference).delete();
-      print(fileSucessfullyDelete);
+      print("$fileSucessfullyDelete--> ${object.descricao}");
     } catch (erro) {
-      print("$fileErrorDelete ${erro.toString()}");
+      print("$fileErrorDelete--> ${object.descricao}--> ${erro.toString()}");
     }
   }
 }

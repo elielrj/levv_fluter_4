@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
-import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
+import 'package:levv4/api/texto/text_banco_de_dados.dart';
 import 'package:levv4/model/bo/perfil/perfil.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/perfil/perfil_dao.dart';
@@ -54,13 +54,14 @@ class UsuarioDAO
       final perfilDAO = PerfilDAO();
 
       ///1.1 - Buscar perfil anterior
-      Perfil perfil = await perfilDAO.buscar();
+      // Perfil perfil = await perfilDAO.buscar();
 
       ///1.2 - Deletar perfil anterior buscado
-      await perfilDAO.deletar(perfil);
+      // await perfilDAO.deletar(perfil);
 
       ///1.3 - Criar novo perfil
-      await perfilDAO.criar(usuario.perfil!);
+      // await perfilDAO.criar(usuario.perfil!);
+      await perfilDAO.atualizar(usuario.perfil!);
 
       ///2.0 - Atualizar Objeto Usuario
       await FirebaseFirestore.instance
@@ -139,19 +140,19 @@ class UsuarioDAO
         "${object.perfil!.exibirPerfil().toString().toLowerCase()}/${object.celular}");
 
     return {
-      if (object.celular != null) "celular": object.celular,
-      if (object.perfil != null) "perfil": documentReference,
+      if (object.celular != null) TextBancoDeDados.CELULAR: object.celular,
+      if (object.perfil != null) TextBancoDeDados.PERFIL: documentReference,
     };
   }
 
   @override
   Future<Usuario> fromMap(Map<String, dynamic> map) async {
-
     final perfilDAO = PerfilDAO();
-    Perfil perfil = await perfilDAO.buscarComDocumentReference(map["perfil"]);
+    Perfil perfil = await perfilDAO
+        .buscarComDocumentReference(map[TextBancoDeDados.PERFIL]);
 
     return Usuario(
-      celular: map["celular"],
+      celular: map[TextBancoDeDados.CELULAR],
       perfil: perfil,
       listaDePedidos: null,
     );

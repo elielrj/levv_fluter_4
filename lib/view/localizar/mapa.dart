@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 
 import 'package:levv4/view/localizar/marcadores.dart';
@@ -13,18 +15,22 @@ import '../../model/bo/pedido/pedido.dart';
 import 'localizar/localizar.dart';
 
 class Mapa extends StatefulWidget {
-  const Mapa(
+  Mapa(
       {Key? key,
       this.itemDoPedido,
       this.pedido,
       required this.isMyLocationEnabled,
-      required this.isTrafficEnabled})
+      required this.isTrafficEnabled,
+      this.labelText,
+      this.selecionarLocalizacao})
       : super(key: key);
 
   final ItemDoPedido? itemDoPedido;
   final Pedido? pedido;
   final bool isMyLocationEnabled;
   final bool isTrafficEnabled;
+  final String? labelText;
+  bool? selecionarLocalizacao;
 
   @override
   State<Mapa> createState() => _MapaState();
@@ -72,6 +78,13 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
       //carregarMarcadores(itensDoPedido: [widget.itemDoPedido!]);
     }
     //_buscarLocalizacaoAtual();
+
+    if (widget.selecionarLocalizacao != null &&
+        widget.selecionarLocalizacao == true) {
+      print("mapa--> selecionarlocalizacao == true");
+      widget.selecionarLocalizacao = false;
+      _selecionarGeoLocalizacao();
+    }
   }
 
   @override
@@ -81,21 +94,38 @@ class _MapaState extends State<Mapa> with Marcadores, Poligonos, Polylines {
     return Container(
       //width: double.infinity,
       child: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: _cameraPosition,
-        onMapCreated: _onMapCreated,
-        markers: marcadores,
-        polygons: listaDePoligonos,
-        myLocationEnabled: widget.isMyLocationEnabled,
-        onLongPress: (maker) => _adicionarMarcador(maker),
-        zoomControlsEnabled: true,
-        trafficEnabled: widget.isTrafficEnabled,
-      ),
+          mapType: MapType.normal,
+          initialCameraPosition: _cameraPosition,
+          onMapCreated: _onMapCreated,
+          markers: marcadores,
+          polygons: listaDePoligonos,
+          myLocationEnabled: widget.isMyLocationEnabled,
+          onLongPress: (maker) => _adicionarMarcador(maker),
+          zoomControlsEnabled: true,
+          trafficEnabled: widget.isTrafficEnabled),
     );
   }
 
-  _adicionarMarcador(LatLng newMaker) {
+  Future<void> _selecionarGeoLocalizacao() async {
+    if (widget.labelText == TextLevv.ENDERECO_ENTREGA) {
+      setState(() async {
+        widget.itemDoPedido!.entrega =
+            await _converterPositionEmObjetoEndereco(marcadores.first.position);
+      });
+    } else {
+      setState(() async {
+        widget.itemDoPedido!.coleta =
+            await _converterPositionEmObjetoEndereco(marcadores.first.position);
+      });
+    }
+  }
 
+  Future<Endereco> _converterPositionEmObjetoEndereco(LatLng latLng) async {
+    return await localizar.converterLatitudeLongitudeEmEndereco(
+        latitude: latLng.latitude, longitude: latLng.longitude);
+  }
+
+  _adicionarMarcador(LatLng newMaker) {
     limparMarcadores();
 
     carregarMarcador(tituloDoMarcador: 'Local', marcadoDeLatLng: newMaker);
