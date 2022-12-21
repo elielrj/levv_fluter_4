@@ -30,6 +30,7 @@ class TextLevv {
   ///E
   ///
   static const EDIT = "Editar";
+  static const ENVIAR = "Enviar";
   static const ENDERECO_COLETA = "Endereço de coleta";
   static const ENDERECO_ENTREGA = "Endereço de entrega";
   static const ENTREGA = "Entrega";
@@ -114,6 +115,7 @@ class TextLevv {
   ///V
   ///
   static const VOLUME = "VOLUME";
+  static const VALOR = "VALOR";
   static const VARIOS_CARACTERES = " caracteres";
   static const VISUALIZAR = "Visualizar";
 

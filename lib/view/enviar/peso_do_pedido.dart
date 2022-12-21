@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
-import '../../../model/bo/pedido/pedido.dart';
-import '../../../api/texto/text_levv.dart';
+import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/model/bo/pedido/pedido.dart';
 
-class PedidoPeso extends StatefulWidget {
-  const PedidoPeso({Key? key, required this.pedido}) : super(key: key);
+class PesoDoPedido extends StatelessWidget {
+  const PesoDoPedido({Key? key, required this.pedido}) : super(key: key);
 
   final Pedido pedido;
 
   @override
-  State<PedidoPeso> createState() => _PedidoPesoState();
-}
-
-class _PedidoPesoState extends State<PedidoPeso> {
-  List<int> valoresDosPesos = [1, 5, 10, 15, 20, 25];
-  List<String> textosDosPesos = [
-    "Até 1Kg",
-    "Até 5Kg",
-    "Até 10Kg",
-    "Até 15Kg",
-    "Até 20Kg",
-    "Até 25Kg"
-  ];
-
-  @override
   Widget build(BuildContext context) {
+    final List<int> valoresDosPesos = [1, 5, 10, 15, 20, 25];
+    final List<String> textosDosPesos = [
+      "Até 1Kg",
+      "Até 5Kg",
+      "Até 10Kg",
+      "Até 15Kg",
+      "Até 20Kg",
+      "Até 25Kg"
+    ];
+
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -41,7 +36,7 @@ class _PedidoPesoState extends State<PedidoPeso> {
                     color: Colors.brown,
                   ),
                   isExpanded: true,
-                  value: widget.pedido.peso,
+                  value: pedido.peso,
                   items: [
                     for (int index = 0; index < valoresDosPesos.length; index++)
                       DropdownMenuItem(
@@ -51,9 +46,7 @@ class _PedidoPesoState extends State<PedidoPeso> {
                       ),
                   ],
                   onChanged: (value) {
-                    setState(() {
-                      widget.pedido.peso = int.parse(value.toString());
-                    });
+                    pedido.peso = int.parse(value.toString());
                   },
                 ),
               ))

@@ -90,6 +90,7 @@ class _ListaComDetalhesDosPedidosState
                         pedido: pedido,
                         isMyLocationEnabled: true,
                         isTrafficEnabled: false,
+
                       )));
         },
       );
@@ -104,6 +105,7 @@ class _ListaComDetalhesDosPedidosState
                         pedido: pedido,
                         isMyLocationEnabled: true,
                         isTrafficEnabled: false,
+
                       )));
         },
       );

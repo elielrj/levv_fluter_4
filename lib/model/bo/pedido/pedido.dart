@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
@@ -5,7 +6,7 @@ import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'item_do_pedido/item_do_pedido.dart';
 import '../meio_de_transporte/meio_de_transporte.dart';
 
-class Pedido {
+class Pedido extends ChangeNotifier{
   String? numero;
   double? valor;
   bool? pedidoEstaDisponivelParaEntrega;
@@ -36,6 +37,7 @@ class Pedido {
     peso ??= 1;
     volume ??= 20;
     transporte ??= Moto.VALUE;
+    valor ??= 0;
   }
 
   limparPedido() {

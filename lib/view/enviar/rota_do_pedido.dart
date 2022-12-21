@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/model/bo/endereco/endereco.dart';
+import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/view/enviar/item_da_rota_do_pedido.dart';
 
-import '../../../model/bo/endereco/endereco.dart';
-import '../../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
-import '../../../api/texto/text_levv.dart';
-import '../rota_item/item_com_coleta_entrega.dart';
-
-class PedidoRota extends StatefulWidget {
-  PedidoRota(
-      {Key? key,
-      required this.pedido,
-      required this.limparControllers})
-      : super(key: key);
+class RotaDoPedido extends StatefulWidget {
+  const RotaDoPedido({Key? key, required this.pedido}) : super(key: key);
 
   final Pedido pedido;
-  bool limparControllers;
-
 
   @override
-  State<PedidoRota> createState() => _PedidoRotaState();
+  State<RotaDoPedido> createState() => _RotaDoPedidoState();
 }
 
-class _PedidoRotaState extends State<PedidoRota>  {
+class _RotaDoPedidoState extends State<RotaDoPedido> {
 
-
+  @override
+  void initState() {
+    super.initState();
+      }
 
   @override
   Widget build(BuildContext context) {
@@ -44,10 +40,32 @@ class _PedidoRotaState extends State<PedidoRota>  {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ItemComColetaEntrega(
-                      itemDoPedido: widget.pedido.itensDoPedido![index],
-                      limparControllers: widget.limparControllers,
+                    /// item do pedido
+                    Card(
+                      child: Column(
+                        children: [
+                          /// Campo Etiqueta c/ Nr de cada item
+                          Text(
+                            "Item: ${widget.pedido.itensDoPedido![index].ordem.toString()}",
+                            style: const TextStyle(
+                              fontSize: 10,
+                              backgroundColor: Colors.white70,
+                            ),
+                          ),
+
+                          /// Campo Coleta
+                          ItemDaRotaDoPedido(
+                              itemDoPedido: widget.pedido.itensDoPedido![index],
+                              labelText: TextLevv.ENDERECO_COLETA),
+
+                          /// Campo Entrega
+                          ItemDaRotaDoPedido(
+                              itemDoPedido: widget.pedido.itensDoPedido![index],
+                              labelText: TextLevv.ENDERECO_ENTREGA),
+                        ],
+                      ),
                     ),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,8 +101,10 @@ class _PedidoRotaState extends State<PedidoRota>  {
                 itemDoPedido.ordem = ++reordenar;
               });
             });
+            widget.pedido.calcularValor();
+
           } else {
-            _erroAoRemoverItem(context);
+            _erroAoRemoverItem();
           }
         },
         padding: const EdgeInsets.only(left: 8, right: 8),
@@ -112,14 +132,14 @@ class _PedidoRotaState extends State<PedidoRota>  {
               });
             });
           } else {
-            _erroAoAdicionarItem(context);
+            _erroAoAdicionarItem();
           }
         },
         padding: const EdgeInsets.only(left: 8, right: 8),
         iconSize: 25,
       );
 
-  _erroAoRemoverItem(BuildContext context) {
+  _erroAoRemoverItem() {
     showDialog(
         context: context,
         builder: (context) {
@@ -138,7 +158,7 @@ class _PedidoRotaState extends State<PedidoRota>  {
         });
   }
 
-  _erroAoAdicionarItem(BuildContext context) {
+  _erroAoAdicionarItem() {
     showDialog(
         context: context,
         builder: (context) {
