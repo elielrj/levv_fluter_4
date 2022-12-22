@@ -15,11 +15,10 @@ class RotaDoPedido extends StatefulWidget {
 }
 
 class _RotaDoPedidoState extends State<RotaDoPedido> {
-
   @override
   void initState() {
     super.initState();
-      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +54,16 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
 
                           /// Campo Coleta
                           ItemDaRotaDoPedido(
-                              itemDoPedido: widget.pedido.itensDoPedido![index],
-                              labelText: TextLevv.ENDERECO_COLETA),
+                            itemDoPedido: widget.pedido.itensDoPedido![index],
+                            labelText: TextLevv.ENDERECO_COLETA,
+                            pedido: widget.pedido,
+                          ),
 
                           /// Campo Entrega
                           ItemDaRotaDoPedido(
                               itemDoPedido: widget.pedido.itensDoPedido![index],
-                              labelText: TextLevv.ENDERECO_ENTREGA),
+                              labelText: TextLevv.ENDERECO_ENTREGA,
+                              pedido: widget.pedido),
                         ],
                       ),
                     ),
@@ -102,7 +104,6 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
               });
             });
             widget.pedido.calcularValor();
-
           } else {
             _erroAoRemoverItem();
           }

@@ -23,7 +23,7 @@ class _ValorDoPedidoState extends State<ValorDoPedido> {
     controller.textEditingController.addListener(() => setState(() {}));
    //widget.pedido.valor = double.parse(controller.formatter.getMaskTextInputFormatter().getMaskedText().replaceAll(',', '.'));
 
-   widget.pedido.addListener(() => _calcularNovoValorDoPedido());
+  //widget.pedido.addListener(() => _calcularNovoValorDoPedido());
   }
 
   @override
@@ -57,5 +57,6 @@ class _ValorDoPedidoState extends State<ValorDoPedido> {
     }
 
     widget.pedido.calcularValor();
+    print("teste valor: ${widget.pedido.valor.toString()}");
   }
 }

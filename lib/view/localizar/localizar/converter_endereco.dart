@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 
 mixin ConverterEnderecos {
@@ -38,6 +39,18 @@ mixin ConverterEnderecos {
       if (position != null) {
         return await converterLatitudeLongitudeEmEndereco(
             latitude: position.latitude, longitude: position.longitude);
+      }
+    } catch (error) {
+      print("erro ao buscar location: ${error.toString()}");
+
+    }
+  }
+
+  Future<Endereco?> converterLatLngEmEndereco(LatLng? latLng) async {
+    try {
+      if (latLng != null) {
+        return await converterLatitudeLongitudeEmEndereco(
+            latitude: latLng.latitude, longitude: latLng.longitude);
       }
     } catch (error) {
       print("erro ao buscar location: ${error.toString()}");

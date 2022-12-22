@@ -6,6 +6,11 @@ class TextLevv {
   ///
   static const ACOMPANHAR = "Acompanhar";
 
+  ///B
+  ///
+  static const BOTAO_SELECIONAR_LOCAL = "Selecionar Local";
+
+
   ///C
   ///
   static const CADASTRAR = "Cadastrar";
@@ -64,6 +69,7 @@ class TextLevv {
   static const ERRO_MARCA_INVALIDO = "O campo de marca está vazio!";
   static const ERRO_MODELO_INVALIDO = "O campo de modelo está vazio!";
   static const ERRO_BUSCAR_LOCALIZACAO = "Não foi possível buscar sua localização";
+  static const ERRO_SELECIONE_LOCAL_MAPA = "Selecione um local no mapa!";
 
   ///L
   ///
@@ -106,6 +112,7 @@ class TextLevv {
   static const TITULO_ACOMPANHAR = "ACOMPANHAR ENTREGA";
   static const TITULO_ENTREGAR = "ENTREGAR PRODUTO";
   static const TITULO_ENVIAR = "ENVIAR PRODUTO";
+  static const TITULO_DO_MARCADOR = "Local";
 
   ///U
   ///

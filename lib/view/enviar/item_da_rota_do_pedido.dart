@@ -4,32 +4,36 @@ import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/view/enviar/mapa_do_item_do_pedido.dart';
 import 'package:levv4/view/localizar/localizar/localizar.dart';
 import 'package:levv4/view/localizar/mapa.dart';
 
 class ItemDaRotaDoPedido extends StatefulWidget {
   const ItemDaRotaDoPedido(
-      {Key? key, required this.itemDoPedido,
-        required this.labelText})
+      {Key? key,
+      required this.itemDoPedido,
+      required this.labelText,
+      required this.pedido})
       : super(key: key);
 
   final ItemDoPedido itemDoPedido;
   final String labelText;
+  final Pedido pedido;
 
   @override
   State<ItemDaRotaDoPedido> createState() => _ItemDaRotaDoPedidoState();
 }
 
 class _ItemDaRotaDoPedidoState extends State<ItemDaRotaDoPedido> {
-
   final itemDaRotaDoPedidoController = ItemDaRotaDoPedidoController();
 
   @override
   void initState() {
     super.initState();
-    itemDaRotaDoPedidoController.addListener(() {setState(() {
-
-    });});
+    itemDaRotaDoPedidoController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -50,12 +54,15 @@ class _ItemDaRotaDoPedidoState extends State<ItemDaRotaDoPedido> {
                       Icons.account_box,
                       color: Colors.black38,
                     ),
-                    suffixIcon: itemDaRotaDoPedidoController.textEditingController.text.isEmpty
+                    suffixIcon: itemDaRotaDoPedidoController
+                            .textEditingController.text.isEmpty
                         ? Container(
                             width: 0,
                           )
                         : IconButton(
-                            onPressed: () => itemDaRotaDoPedidoController.textEditingController.clear(),
+                            onPressed: () => itemDaRotaDoPedidoController
+                                .textEditingController
+                                .clear(),
                             icon: const Icon(
                               Icons.close,
                               color: Colors.redAccent,
@@ -73,7 +80,9 @@ class _ItemDaRotaDoPedidoState extends State<ItemDaRotaDoPedido> {
                 ),
                 color: Colors.black,
                 onPressed: () => _buscarLocalizacao(
-                    widget.labelText, widget.itemDoPedido, itemDaRotaDoPedidoController.textEditingController),
+                    widget.labelText,
+                    widget.itemDoPedido,
+                    itemDaRotaDoPedidoController.textEditingController),
               ),
               IconButton(
                 icon: const Icon(
@@ -82,7 +91,8 @@ class _ItemDaRotaDoPedidoState extends State<ItemDaRotaDoPedido> {
                 ),
                 color: Colors.black,
                 onPressed: () {
-                  setState(()=> itemDaRotaDoPedidoController.abrirMapa());
+                  setState(() => itemDaRotaDoPedidoController
+                      .trocarStatusDeVisualizacaoDeMapa());
                 },
               )
             ])
@@ -93,32 +103,27 @@ class _ItemDaRotaDoPedidoState extends State<ItemDaRotaDoPedido> {
             Expanded(
               child: itemDaRotaDoPedidoController.isShowMap
                   ? Column(
-                children: [
-                  Container(
-                      color: Colors.white,
-                      //width: double.infinity,
-                      height: 300,
-                      child: Mapa(
-                        itemDoPedido: widget.itemDoPedido,
-                        isMyLocationEnabled: true,
-                        isTrafficEnabled: false,
-                        labelText: widget.labelText,
-                        itemDaRotaDoPedidoController: itemDaRotaDoPedidoController,
-                      ))
-                ],
-              )
-                  : Container(
-                      width: 0
-                    ),
+                      children: [
+                        Container(
+                            color: Colors.white,
+                            //width: double.infinity,
+                            height: 300,
+                            child: MapaDoItemDoPedido(
+                              itemDoPedido: widget.itemDoPedido,
+                              labelText: widget.labelText,
+                              itemDaRotaDoPedidoController:
+                                  itemDaRotaDoPedidoController,
+                              pedido: widget.pedido,
+                            ))
+                      ],
+                    )
+                  : Container(width: 0),
             )
           ],
         )
       ],
     );
   }
-
-
-
 
   _buscarSugestaoDeEndereco(String texto) {
     //todo buscar sugestão

@@ -87,9 +87,6 @@ class _ListaComDetalhesDosPedidosState
               context,
               MaterialPageRoute(
                   builder: (context) => Mapa(
-                        pedido: pedido,
-                        isMyLocationEnabled: true,
-                        isTrafficEnabled: false,
 
                       )));
         },
@@ -102,9 +99,6 @@ class _ListaComDetalhesDosPedidosState
               context,
               MaterialPageRoute(
                   builder: (context) => Mapa(
-                        pedido: pedido,
-                        isMyLocationEnabled: true,
-                        isTrafficEnabled: false,
 
                       )));
         },

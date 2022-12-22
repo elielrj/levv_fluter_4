@@ -32,5 +32,4 @@ mixin Marcadores {
   limparMarcadores() {
     marcadores.clear();
   }
-
 }
