@@ -13,20 +13,17 @@ class TelaCadastrarAcompanhador extends StatefulWidget with CounterText {
   const TelaCadastrarAcompanhador({Key? key}) : super(key: key);
 
   @override
-  State<TelaCadastrarAcompanhador> createState() =>
-      _TelaCadastrarAcompanhadorState();
+  State<TelaCadastrarAcompanhador> createState() => _TelaCadastrarAcompanhadorState();
 }
 
 class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
-  final TelaCadastrarAcompanharController _controller =
-      TelaCadastrarAcompanharController();
+  final TelaCadastrarAcompanharController _controller = TelaCadastrarAcompanharController();
 
   @override
   void initState() {
     super.initState();
 
-    _controller.telefone.textEditingController
-        .addListener(() => setState(() {}));
+    _controller.telefone.textEditingController.addListener(() => setState(() {}));
     _controller.sms.textEditingController.addListener(() => setState(() {}));
   }
 
@@ -86,19 +83,13 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         decoration: InputDecoration(
           counterText: widget.counterText(_controller.sms),
           labelText: TextLevv.CODIGO_SMS,
-          labelStyle: const TextStyle(
-              backgroundColor: Colors.white, color: Colors.black),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Colors.black12, width: 2)),
+          labelStyle: const TextStyle(backgroundColor: Colors.white, color: Colors.black),
+          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black12, width: 2)),
           prefixIcon: const Icon(
             Icons.sms_outlined,
             color: Colors.black,
           ),
-          suffixIcon: _controller.sms.formatter
-                  .getMaskTextInputFormatter()
-                  .getUnmaskedText()
-                  .isEmpty
+          suffixIcon: _controller.sms.formatter.getMaskTextInputFormatter().getUnmaskedText().isEmpty
               ? Container(width: 0)
               : IconButton(
                   onPressed: () {
@@ -114,9 +105,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
           fillColor: Colors.white,
           filled: true,
         ),
-        inputFormatters: [
-          _controller.sms.formatter.getMaskTextInputFormatter()
-        ],
+        inputFormatters: [_controller.sms.formatter.getMaskTextInputFormatter()],
         maxLength: 7,
         style: const TextStyle(fontSize: 14),
       );
@@ -158,14 +147,12 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
       }
     } catch (erro) {
       AlertDialog(
-        title: const Text("Não foi possível confirmar o código",
-            textAlign: TextAlign.center),
+        title: const Text("Não foi possível confirmar o código", textAlign: TextAlign.center),
         content: Text(erro.toString()),
         titlePadding: const EdgeInsets.all(20),
         titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black),
       );
-      print(
-          'tela cadastrar acompanhador, método _criarUsuarioComCodigoSMS(): --> ${erro.toString()}');
+      print('tela cadastrar acompanhador, método _criarUsuarioComCodigoSMS(): --> ${erro.toString()}');
     }
   }
 
@@ -180,20 +167,18 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
       //verificar telefone
       if (valido) {
         await _controller.verifyPhoneNumber();
-      }
 
-      /// Navegar p/ Tela Home c/ verificação de usuário no banco de Dados
-      await _verificarSeExisteUsuarioNoBancoENavegarParaTelaHome();
+        /// Navegar p/ Tela Home c/ verificação de usuário no banco de Dados
+        await _verificarSeExisteUsuarioNoBancoENavegarParaTelaHome();
+      }
     } catch (erro) {
       AlertDialog(
-        title: const Text("Não foi possível confirmar o código",
-            textAlign: TextAlign.center),
+        title: const Text("Não foi possível confirmar o código", textAlign: TextAlign.center),
         content: Text(erro.toString()),
         titlePadding: const EdgeInsets.all(20),
         titleTextStyle: const TextStyle(fontSize: 20, color: Colors.black),
       );
-      print(
-          'tela cadastrar acompanhador, método _criarUsuarioAtomaticamente(): --> ${erro.toString()}');
+      print('tela cadastrar acompanhador, método _criarUsuarioAtomaticamente(): --> ${erro.toString()}');
     }
   }
 
@@ -205,11 +190,8 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
         decoration: InputDecoration(
             counterText: widget.counterText(_controller.telefone),
             labelText: TextLevv.CELULAR,
-            labelStyle: const TextStyle(
-                backgroundColor: Colors.white, color: Colors.black),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.black12, width: 2)),
+            labelStyle: const TextStyle(backgroundColor: Colors.white, color: Colors.black),
+            enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black12, width: 2)),
             prefixIcon: const Icon(
               Icons.phone_iphone,
               color: Colors.black,
@@ -225,17 +207,14 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
             fillColor: Colors.white,
             filled: true,
             hintText: _controller.telefone.formatter.getHint()),
-        inputFormatters: [
-          _controller.telefone.formatter.getMaskTextInputFormatter()
-        ],
+        inputFormatters: [_controller.telefone.formatter.getMaskTextInputFormatter()],
         maxLength: 20,
         style: const TextStyle(fontSize: 18),
       );
 
   ///Campo para código do País
   ///
-  _campoParaCodigoDoPais() =>
-      Expanded(child: _controller.codigoDoPais.codigoDoPais);
+  _campoParaCodigoDoPais() => Expanded(child: _controller.codigoDoPais.codigoDoPais);
 
   ///Botao cadastrar Nr Celular
   ///
