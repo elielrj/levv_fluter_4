@@ -36,10 +36,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
         child: SingleChildScrollView(
           child: Column(children: [
             ///Logo Levv
-            Padding(
-              padding: const EdgeInsets.only(bottom: 32),
-              child: logoLevv(),
-            ),
+            WidgetLogoLevv(bottom: 32),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,

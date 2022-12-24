@@ -20,7 +20,6 @@ class _TelaSplashState extends State<TelaSplash> {
   @override
   void initState() {
     super.initState();
-
     _incializarCircularProgressIndicator();
   }
 
@@ -35,10 +34,7 @@ class _TelaSplashState extends State<TelaSplash> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 32),
-                child: logoLevv(),
-              ),
+              WidgetLogoLevv(bottom: 32),
               const Padding(
                 padding: EdgeInsets.only(bottom: 8),
                 child: Text(

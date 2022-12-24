@@ -51,7 +51,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                logoLevv(bottom: 32),
+                WidgetLogoLevv(bottom: 32),
                 !criadorDeUsuario.smsEnviado
 
                     /// SMS não enviado
