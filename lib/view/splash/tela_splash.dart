@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:levv4/controller/splash/tela_splash_controller.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
+import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 import 'package:levv4/view/home/tela_home.dart';
 import '../../api/cor/colors_levv.dart';
 import '../../api/texto/text_levv.dart';
@@ -16,11 +17,10 @@ class TelaSplash extends StatefulWidget {
 }
 
 class _TelaSplashState extends State<TelaSplash> {
-  final _controller = TelaSplashController();
-
   @override
   void initState() {
     super.initState();
+
     _incializarCircularProgressIndicator();
   }
 
@@ -60,58 +60,29 @@ class _TelaSplashState extends State<TelaSplash> {
     );
   }
 
-  Future<void> _incializarCircularProgressIndicator() async {
-    Timer(const Duration(seconds: 3), () async {
-      await _escolherProximaTela();
-    });
+  Future<void> _incializarCircularProgressIndicator() async =>
+      Timer(const Duration(seconds: 3), () async {
+        await _escolherProximaTela();
+      });
+
+  Future<void> _escolherProximaTela() async => _isUserFirebase()
+      ? _navegarParaTelaHome(await _buscarUsuarioNoBancoDeDados())
+      : _navegarParaTelaCadastroDeAcompanhador();
+
+  bool _isUserFirebase() =>
+      FirebaseAuth.instance.currentUser != null ? true : false;
+
+  Future<Usuario> _buscarUsuarioNoBancoDeDados() async {
+    final UsuarioDAO usuarioDAO = UsuarioDAO();
+    var usuario = await usuarioDAO.buscar();
+    return usuario ?? await _navegarParaTelaCadastroDeAcompanhador();
   }
 
-  Future<void> _escolherProximaTela() async {
-    if (_controller.usuarioFirebaseEstaLogado()) {
-      try {
-        Usuario? usuario = await _controller.buscarUsuario();
+  _navegarParaTelaHome(Usuario usuario) => Navigator.pushReplacement(context,
+      MaterialPageRoute(builder: (context) => TelaHome(usuario: usuario)));
 
-        if(usuario == null){
-          _navegarParaTelaCadastroDeAcompanhador();
-        }else{
-          _navegarParaTelaHome(usuario);
-        }
-
-      } catch (error) {
-        _erroAoBuscarUsuario();
-        print('Tela Splash: erro --> ${error.toString()}');
-      }
-    } else {
-      _navegarParaTelaCadastroDeAcompanhador();
-    }
-  }
-
-  _erroAoBuscarUsuario() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title:
-                Text(TextLevv.ERRO_BUSCAR_USUARIO, textAlign: TextAlign.center),
-            titlePadding: EdgeInsets.all(20),
-            titleTextStyle: TextStyle(fontSize: 20, color: Colors.black26),
-          );
-        });
-  }
-
-  _navegarParaTelaCadastroDeAcompanhador() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const TelaCadastrarAcompanhador()));
-  }
-
-  _navegarParaTelaHome(Usuario usuario) {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => TelaHome(
-                  usuario: usuario,
-                )));
-  }
+  _navegarParaTelaCadastroDeAcompanhador() => Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => const TelaCadastrarAcompanhador()));
 }

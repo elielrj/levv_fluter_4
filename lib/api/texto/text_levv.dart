@@ -40,6 +40,7 @@ class TextLevv {
   static const ENDERECO_ENTREGA = "Endereço de entrega";
   static const ENTREGA = "Entrega";
   static const ENVIAR_CODIGO_SMS = "Enviar Código SMS";
+  static const ERRO_CODIGO_SMS = "Código SMS inválido!";
   static const ENVIAR_UM_PRODUTO = "Enviar um produto";
   static const ERRO = "Erro";
   static const ERRO_BUSCAR_USUARIO =
@@ -70,6 +71,7 @@ class TextLevv {
   static const ERRO_MODELO_INVALIDO = "O campo de modelo está vazio!";
   static const ERRO_BUSCAR_LOCALIZACAO = "Não foi possível buscar sua localização";
   static const ERRO_SELECIONE_LOCAL_MAPA = "Selecione um local no mapa!";
+  static const ERRO_SMS_AUTOMATICAMENTE = "Não foi possível criar um usuário automáticamente, digite o código SMS por favor!";
 
   ///L
   ///
