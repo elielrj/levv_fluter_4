@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/api/texto/text_levv.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 
 class VolumeDoPedido extends StatelessWidget {
-  const VolumeDoPedido({Key? key, required this.pedido}) : super(key: key);
+  const VolumeDoPedido({Key? key, required this.criadorDePedido})
+      : super(key: key);
 
-  final Pedido pedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class VolumeDoPedido extends StatelessWidget {
                 color: Colors.brown,
               ),
               isExpanded: true,
-              value: pedido.volume,
+              value: criadorDePedido.volumeDoPedido(),
               items: [
                 for (int index = 0;
                     index < listaTamanhoDeVolumes.length;
@@ -37,7 +38,8 @@ class VolumeDoPedido extends StatelessWidget {
                     ),
                   ),
               ],
-              onChanged: (value) => pedido.volume = int.parse(value.toString()),
+              onChanged: (value) =>
+                  criadorDePedido.novoPesoDoPedido(int.parse(value.toString())),
             ),
           ),
         ),

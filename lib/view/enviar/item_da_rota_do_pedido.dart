@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
@@ -14,12 +15,12 @@ class ItemDaRotaDoPedido extends StatefulWidget {
       {Key? key,
       required this.itemDoPedido,
       required this.labelText,
-      required this.pedido})
+      required this.criadorDePedido})
       : super(key: key);
 
   final ItemDoPedido itemDoPedido;
   final String labelText;
-  final Pedido pedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   State<ItemDaRotaDoPedido> createState() => _ItemDaRotaDoPedidoState();
@@ -109,12 +110,11 @@ class _ItemDaRotaDoPedidoState extends State<ItemDaRotaDoPedido> {
                             //width: double.infinity,
                             height: 300,
                             child: MapaDoItemDoPedido(
-                              itemDoPedido: widget.itemDoPedido,
-                              labelText: widget.labelText,
-                              itemDaRotaDoPedidoController:
-                                  itemDaRotaDoPedidoController,
-                              pedido: widget.pedido,
-                            ))
+                                itemDoPedido: widget.itemDoPedido,
+                                labelText: widget.labelText,
+                                itemDaRotaDoPedidoController:
+                                    itemDaRotaDoPedidoController,
+                                criadorDePedido: widget.criadorDePedido))
                       ],
                     )
                   : Container(width: 0),
@@ -151,6 +151,8 @@ class _ItemDaRotaDoPedidoState extends State<ItemDaRotaDoPedido> {
           _controller.text = itemDoPedido.coleta.toString();
         });
       }
+
+      widget.criadorDePedido.calcularValorDoPedido();
     } catch (error) {
       print('erro: ${error.toString()}');
       _erro();

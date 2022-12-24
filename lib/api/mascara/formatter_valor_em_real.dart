@@ -3,11 +3,9 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'formatter.dart';
 
-class FormatterValorEmReal implements Formatter {
-
-  final MaskTextInputFormatter _maskTextInputFormatter = MaskTextInputFormatter(mask: "# ###,##");
-
-
+class FormatterValorEmReal  implements Formatter {
+  final MaskTextInputFormatter _maskTextInputFormatter =
+      MaskTextInputFormatter(mask: "# ###,##");
 
   @override
   MaskTextInputFormatter getMaskTextInputFormatter() {
@@ -21,11 +19,11 @@ class FormatterValorEmReal implements Formatter {
 
   @override
   String getHint() {
-    return "0,00";
+    return "Total do pedido";
   }
 
   @override
   TextInputType getTextInputType() {
-   return TextInputType.number;
+    return TextInputType.number;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:levv4/api/cor/colors_levv.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
@@ -15,13 +16,14 @@ class MapaDoItemDoPedido extends StatefulWidget with Marcadores {
     Key? key,
     required this.itemDoPedido,
     required this.labelText,
-    required this.itemDaRotaDoPedidoController, required this.pedido,
+    required this.itemDaRotaDoPedidoController,
+    required this.criadorDePedido
   }) : super(key: key);
 
   final ItemDoPedido itemDoPedido;
   final String labelText;
   final ItemDaRotaDoPedidoController itemDaRotaDoPedidoController;
-  final Pedido pedido;
+final CriadorDePedido criadorDePedido;
 
   @override
   State<MapaDoItemDoPedido> createState() => _MapaDoItemDoPedidoState();
@@ -106,6 +108,7 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
           }
 
           //widget.pedido.notifyListeners();
+          widget.criadorDePedido.calcularValorDoPedido();
 
         } catch (erro) {
           print("erro:-> ${erro.toString()}");

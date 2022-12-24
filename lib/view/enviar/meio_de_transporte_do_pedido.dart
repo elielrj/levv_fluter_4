@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
@@ -8,10 +9,10 @@ import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 
 class MeioDeTransporteDoPedido extends StatelessWidget {
-  const MeioDeTransporteDoPedido({Key? key, required this.pedido})
+  const MeioDeTransporteDoPedido({Key? key, required this.criadorDePedido})
       : super(key: key);
 
-  final Pedido pedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class MeioDeTransporteDoPedido extends StatelessWidget {
                 color: Colors.brown,
               ),
               isExpanded: true,
-              value: pedido.transporte,
+              value: criadorDePedido.meioDeTransporte(),
               items: [
                 for (int index = 0; index < valoresDosVeiculos.length; index++)
                   DropdownMenuItem(
@@ -45,7 +46,8 @@ class MeioDeTransporteDoPedido extends StatelessWidget {
                   ),
               ],
               onChanged: (value) {
-                pedido.transporte = int.parse(value.toString());
+                criadorDePedido
+                    .novoMeioDeTransporte(int.parse(value.toString()));
               },
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/view/enviar/botao_enviar_do_pedido.dart';
@@ -22,7 +23,9 @@ class TelaEnviar extends StatefulWidget {
 }
 
 class _TelaEnviarState extends State<TelaEnviar> {
-  final Pedido pedido = Pedido();
+  final criadorDePedido = CriadorDePedido();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +45,21 @@ class _TelaEnviarState extends State<TelaEnviar> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ///1 Peso
-                PesoDoPedido(pedido: pedido),
+                PesoDoPedido(criadorDePedido: criadorDePedido),
 
                 ///2 Volume
-                VolumeDoPedido(pedido: pedido),
+                VolumeDoPedido(criadorDePedido: criadorDePedido),
 
                 ///3 Meio de Transporte
-                MeioDeTransporteDoPedido(pedido: pedido),
+                MeioDeTransporteDoPedido(criadorDePedido: criadorDePedido),
               ],
             ),
 
             ///4 Rota
-            RotaDoPedido(pedido: pedido),
+            RotaDoPedido(criadorDePedido: criadorDePedido),
 
             /// Valor
-            ValorDoPedido(pedido: pedido),
+            ValorDoPedido(criadorDePedido: criadorDePedido),
 
             ///Botões
             Padding(
@@ -65,8 +68,8 @@ class _TelaEnviarState extends State<TelaEnviar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  BotaoEnviarDoPedido(pedido: pedido),
-                  BotaoLimparDoPedido(pedido: pedido),
+                  BotaoEnviarDoPedido(criadorDePedido: criadorDePedido),
+                  BotaoLimparDoPedido(criadorDePedido: criadorDePedido),
                 ],
               ),
             ),

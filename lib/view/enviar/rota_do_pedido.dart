@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/view/enviar/item_da_rota_do_pedido.dart';
 
 class RotaDoPedido extends StatefulWidget {
-  const RotaDoPedido({Key? key, required this.pedido}) : super(key: key);
+  const RotaDoPedido({Key? key, required this.criadorDePedido})
+      : super(key: key);
 
-  final Pedido pedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   State<RotaDoPedido> createState() => _RotaDoPedidoState();
@@ -18,6 +19,7 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
   @override
   void initState() {
     super.initState();
+    widget.criadorDePedido.itensDoPedido;
   }
 
   @override
@@ -31,7 +33,7 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             for (int index = 0;
-                index < widget.pedido.itensDoPedido!.length;
+                index < widget.criadorDePedido.itensDoPedido.length;
                 index++)
               Padding(
                 padding: const EdgeInsets.only(top: 4.0, bottom: 4),
@@ -45,7 +47,7 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
                         children: [
                           /// Campo Etiqueta c/ Nr de cada item
                           Text(
-                            "Item: ${widget.pedido.itensDoPedido![index].ordem.toString()}",
+                            "Item: ${widget.criadorDePedido.itensDoPedido[index].ordem.toString()}",
                             style: const TextStyle(
                               fontSize: 10,
                               backgroundColor: Colors.white70,
@@ -54,16 +56,17 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
 
                           /// Campo Coleta
                           ItemDaRotaDoPedido(
-                            itemDoPedido: widget.pedido.itensDoPedido![index],
-                            labelText: TextLevv.ENDERECO_COLETA,
-                            pedido: widget.pedido,
-                          ),
+                              itemDoPedido:
+                                  widget.criadorDePedido.itensDoPedido[index],
+                              labelText: TextLevv.ENDERECO_COLETA,
+                          criadorDePedido: widget.criadorDePedido),
 
                           /// Campo Entrega
                           ItemDaRotaDoPedido(
-                              itemDoPedido: widget.pedido.itensDoPedido![index],
+                              itemDoPedido:
+                                  widget.criadorDePedido.itensDoPedido[index],
                               labelText: TextLevv.ENDERECO_ENTREGA,
-                              pedido: widget.pedido),
+                              criadorDePedido: widget.criadorDePedido),
                         ],
                       ),
                     ),
@@ -91,19 +94,19 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
         icon: const Icon(Icons.remove),
         color: Colors.red,
         onPressed: () {
-          if (widget.pedido.itensDoPedido!.length > 1) {
+          if (widget.criadorDePedido.itensDoPedido.length > 1) {
             setState(() {
-              widget.pedido.itensDoPedido!.removeAt(index);
+              widget.criadorDePedido.itensDoPedido.removeAt(index);
 
               print("indice add: $index");
 
               int reordenar = 0;
 
-              widget.pedido.itensDoPedido!.forEach((itemDoPedido) {
+              widget.criadorDePedido.itensDoPedido.forEach((itemDoPedido) {
                 itemDoPedido.ordem = ++reordenar;
               });
             });
-            widget.pedido.calcularValor();
+            widget.criadorDePedido.calcularValorDoPedido();
           } else {
             _erroAoRemoverItem();
           }
@@ -116,19 +119,19 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
         icon: const Icon(Icons.add),
         color: Colors.white,
         onPressed: () {
-          if (widget.pedido.itensDoPedido!.length < 10) {
+          if (widget.criadorDePedido.itensDoPedido.length < 10) {
             setState(() {
               ItemDoPedido itemDoPedido = ItemDoPedido(
-                  ordem: (widget.pedido.itensDoPedido!.length + 1),
+                  ordem: (widget.criadorDePedido.itensDoPedido.length + 1),
                   coleta: Endereco(),
                   entrega: Endereco());
 
-              widget.pedido.itensDoPedido!.insert(index + 1, itemDoPedido);
+              widget.criadorDePedido.itensDoPedido.insert(index + 1, itemDoPedido);
               print("indice add: $index");
 
               int reordenar = 0;
 
-              widget.pedido.itensDoPedido!.forEach((itemDoPedido) {
+              widget.criadorDePedido.itensDoPedido.forEach((itemDoPedido) {
                 itemDoPedido.ordem = ++reordenar;
               });
             });

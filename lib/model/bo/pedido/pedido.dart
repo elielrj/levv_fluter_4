@@ -51,6 +51,7 @@ class Pedido extends ChangeNotifier{
     transporte = Moto.VALUE;
     volume = 20;
     peso = 1;
+notifyListeners();
   }
 
   calcularValor() {

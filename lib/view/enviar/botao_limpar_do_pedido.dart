@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/imagem/image_levv.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 
 class BotaoLimparDoPedido extends StatefulWidget {
-  const BotaoLimparDoPedido({Key? key, required this.pedido}) : super(key: key);
+  const BotaoLimparDoPedido({Key? key, required this.criadorDePedido}) : super(key: key);
 
-  final Pedido pedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   State<BotaoLimparDoPedido> createState() => _BotaoLimparDoPedidoState();
@@ -25,7 +26,11 @@ class _BotaoLimparDoPedidoState extends State<BotaoLimparDoPedido> {
         foregroundColor: Colors.black,
         alignment: Alignment.center,
       ),
-      onPressed: () => setState(() => widget.pedido.limparPedido()),
+      onPressed: (){
+        setState(() {
+          widget.criadorDePedido.limparPedido();
+        });
+      },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,3 +52,4 @@ class _BotaoLimparDoPedidoState extends State<BotaoLimparDoPedido> {
     );
   }
 }
+

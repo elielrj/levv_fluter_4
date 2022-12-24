@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/imagem/image_levv.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
@@ -6,9 +7,10 @@ import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 
 class BotaoEnviarDoPedido extends StatefulWidget {
-  const BotaoEnviarDoPedido({Key? key, required this.pedido}) : super(key: key);
+  const BotaoEnviarDoPedido({Key? key, required this.criadorDePedido})
+      : super(key: key);
 
-  final Pedido pedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   State<BotaoEnviarDoPedido> createState() => _BotaoEnviarDoPedidoState();
@@ -28,21 +30,9 @@ class _BotaoEnviarDoPedidoState extends State<BotaoEnviarDoPedido> {
         alignment: Alignment.center,
       ),
       onPressed: () async {
-        final pedidoDAO = PedidoDAO();
-
-        for (ItemDoPedido itemDoPedido in widget.pedido.itensDoPedido!) {
-          if (itemDoPedido.coleta.toString().isEmpty ||
-              itemDoPedido.entrega.toString().isEmpty) {
-            _exibirMensagemDeCampoVazio();
-            return;
-          }
-        }
-        if (widget.pedido.valor == 0) {
-          _exibirMensagemDeValorZero();
-          return;
-        }
-
-        await pedidoDAO.criar(widget.pedido);
+        widget.criadorDePedido.pedidoEstaCompleto()
+            ? await widget.criadorDePedido.enviarPedido()
+            : _exibirMensagemDeCampoVazio();
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,32 +60,14 @@ class _BotaoEnviarDoPedidoState extends State<BotaoEnviarDoPedido> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Erro"),
+            title: const Text(TextLevv.ERRO),
             titlePadding: const EdgeInsets.all(20),
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
-            content: const Text("Há endereço(s) vazio(s)!"),
+            content: const Text(TextLevv.ERRO_PEDIDO_INCOMPLETO),
             actions: [
               TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("Ok"))
-            ],
-          );
-        });
-  }
-
-  _exibirMensagemDeValorZero() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Erro"),
-            titlePadding: const EdgeInsets.all(20),
-            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
-            content: const Text("O valor do pedido está zerado!"),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Ok"))
+                  child: const Text(TextLevv.OK))
             ],
           );
         });

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/texto/text_levv.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
 
 class PesoDoPedido extends StatelessWidget {
-  const PesoDoPedido({Key? key, required this.pedido}) : super(key: key);
+  const PesoDoPedido({Key? key, required this.criadorDePedido})
+      : super(key: key);
 
-  final Pedido pedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class PesoDoPedido extends StatelessWidget {
                     color: Colors.brown,
                   ),
                   isExpanded: true,
-                  value: pedido.peso,
+                  value: criadorDePedido.pesoDoPedido(),
                   items: [
                     for (int index = 0; index < valoresDosPesos.length; index++)
                       DropdownMenuItem(
@@ -46,7 +47,8 @@ class PesoDoPedido extends StatelessWidget {
                       ),
                   ],
                   onChanged: (value) {
-                    pedido.peso = int.parse(value.toString());
+                    criadorDePedido
+                        .novoPesoDoPedido(int.parse(value.toString()));
                   },
                 ),
               ))
