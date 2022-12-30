@@ -46,4 +46,16 @@ class Endereco{
       return ", Compl $complemento";
     }
   }
+
+  void limpar(){
+    logradouro = null;
+    numero =  null;
+    complemento = null;
+    cep = null;
+    geolocalizacao =  const GeoPoint(0.0, 0.0);
+    bairro =  null;
+    cidade =  null;
+    estado =  null;
+    pais =  null;
+  }
 }

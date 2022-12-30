@@ -6,6 +6,7 @@ import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
+import 'package:levv4/view/enviar/item_da_rota_do_pedido.dart';
 import 'package:levv4/view/enviar/mapa_do_item_do_pedido.dart';
 import 'package:levv4/view/enviar/meio_de_transporte_do_pedido.dart';
 import 'package:levv4/view/enviar/peso_do_pedido.dart';
@@ -13,6 +14,7 @@ import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/api/cor/colors_levv.dart';
 import 'package:levv4/view/localizar/localizar/localizar.dart';
 import '../componentes/logo/widget_logo_levv.dart';
+import 'rota_do_pedido.dart';
 import 'volume_do_pedido.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
@@ -66,7 +68,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
             ),
 
             ///4 Rota
-            _rotaDoPedido(),
+            RotaDoPedido(criadorDePedido: criadorDePedido),
 
             /// Valor
             _valorDoPedido(),
@@ -92,7 +94,6 @@ class _TelaEnviarState extends State<TelaEnviar> {
   ///1 Peso
   ///
   Widget _pesoDoPedido() {
-
     final List<int> valoresDosPesos = [0, 1, 2, 3, 4, 5];
     final List<String> textosDosPesos = [
       "Até 1Kg",
@@ -175,10 +176,10 @@ class _TelaEnviarState extends State<TelaEnviar> {
               ],
               onChanged: (value) {
                 setState(() {
-                  criadorDePedido.novoVolumeDoPedido(int.parse(value.toString()));
+                  criadorDePedido
+                      .novoVolumeDoPedido(int.parse(value.toString()));
                 });
-              }
-                  ,
+              },
             ),
           ),
         ),
@@ -234,213 +235,9 @@ class _TelaEnviarState extends State<TelaEnviar> {
 
   ///4 Rota
   ///
-  Widget _rotaDoPedido() => Column(
-        children: [
-          const Text(TextLevv.ROTA),
-          //item do pedido
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              for (int index = 0;
-                  index < criadorDePedido.itensDoPedido.length;
-                  index++)
-                Padding(
-                  padding: const EdgeInsets.only(top: 4.0, bottom: 4),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      /// item do pedido
-                      Card(
-                        child: Column(
-                          children: [
-                            /// Campo Etiqueta c/ Nr de cada item
-                            Text(
-                              "Item: ${criadorDePedido.itensDoPedido[index].ordem.toString()}",
-                              style: const TextStyle(
-                                fontSize: 10,
-                                backgroundColor: Colors.white70,
-                              ),
-                            ),
 
-                            /// Campo Coleta
-                            _itemDaRotaDoPedido(
-                                itemDoPedido:
-                                    criadorDePedido.itensDoPedido[index],
-                                labelText: TextLevv.ENDERECO_COLETA),
 
-                            /// Campo Entrega
-                            _itemDaRotaDoPedido(
-                                itemDoPedido:
-                                    criadorDePedido.itensDoPedido[index],
-                                labelText: TextLevv.ENDERECO_ENTREGA),
-                          ],
-                        ),
-                      ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          //add item do pedido
-                          _adicionarItem(index),
-                          //remove item do pedido
-                          _removerItem(index),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-            ],
-          )
-        ],
-      );
-
-  Widget _removerItem(int index) => IconButton(
-        icon: const Icon(Icons.remove),
-        color: Colors.red,
-        onPressed: () {
-          if (criadorDePedido.itensDoPedido.length > 1) {
-            setState(() {
-              criadorDePedido.itensDoPedido.removeAt(index);
-
-              print("indice add: $index");
-
-              int reordenar = 0;
-
-              criadorDePedido.itensDoPedido.forEach((itemDoPedido) {
-                itemDoPedido.ordem = ++reordenar;
-              });
-            });
-            criadorDePedido.calcularValorDoPedido();
-          } else {
-            _erroAoRemoverItem();
-          }
-        },
-        padding: const EdgeInsets.only(left: 8, right: 8),
-        iconSize: 25,
-      );
-
-  Widget _adicionarItem(int index) => IconButton(
-        icon: const Icon(Icons.add),
-        color: Colors.white,
-        onPressed: () {
-          if (criadorDePedido.itensDoPedido.length < 10) {
-            setState(() {
-              ItemDoPedido itemDoPedido = ItemDoPedido(
-                  ordem: (criadorDePedido.itensDoPedido.length + 1),
-                  coleta: Endereco(),
-                  entrega: Endereco());
-
-              criadorDePedido.itensDoPedido.insert(index + 1, itemDoPedido);
-              print("indice add: $index");
-
-              int reordenar = 0;
-
-              criadorDePedido.itensDoPedido.forEach((itemDoPedido) {
-                itemDoPedido.ordem = ++reordenar;
-              });
-            });
-          } else {
-            _erroAoAdicionarItem();
-          }
-        },
-        padding: const EdgeInsets.only(left: 8, right: 8),
-        iconSize: 25,
-      );
-
-  /// ItemDaRotaDoPedido: Campo Coleta e Entrega
-  ///
-  Widget _itemDaRotaDoPedido(
-      {required ItemDoPedido itemDoPedido, required String labelText}) {
-    final itemDaRotaDoPedidoController = ItemDaRotaDoPedidoController();
-
-    return Column(
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: itemDaRotaDoPedidoController.textEditingController,
-                keyboardType: TextInputType.streetAddress,
-                decoration: InputDecoration(
-                    labelStyle: const TextStyle(
-                        backgroundColor: Colors.white, color: Colors.blue),
-                    labelText: labelText,
-                    prefixIcon: const Icon(
-                      Icons.account_box,
-                      color: Colors.black38,
-                    ),
-                    suffixIcon: itemDaRotaDoPedidoController
-                            .textEditingController.text.isEmpty
-                        ? Container(
-                            width: 0,
-                          )
-                        : IconButton(
-                            onPressed: () => itemDaRotaDoPedidoController
-                                .textEditingController
-                                .clear(),
-                            icon: const Icon(
-                              Icons.close,
-                              color: Colors.redAccent,
-                            )),
-                    fillColor: Colors.white,
-                    filled: true),
-                onChanged: (text) => _buscarSugestaoDeEndereco(text),
-              ),
-            ),
-            Column(children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.location_on_outlined,
-                  size: 20,
-                ),
-                color: Colors.black,
-                onPressed: () async {
-                  await _buscarLocalizacao(labelText, itemDoPedido,
-                      itemDaRotaDoPedidoController.textEditingController);
-                },
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.map,
-                  size: 20,
-                ),
-                color: Colors.black,
-                onPressed: () {
-                  setState(() => itemDaRotaDoPedidoController
-                      .trocarStatusDeVisualizacaoDeMapa());
-                },
-              )
-            ])
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: itemDaRotaDoPedidoController.isShowMap
-                  ? Column(
-                      children: [
-                        Container(
-                            color: Colors.white,
-                            //width: double.infinity,
-                            height: 300,
-                            child: MapaDoItemDoPedido(
-                                itemDoPedido: itemDoPedido,
-                                labelText: labelText,
-                                itemDaRotaDoPedidoController:
-                                    itemDaRotaDoPedidoController,
-                                criadorDePedido: criadorDePedido))
-                      ],
-                    )
-                  : Container(width: 0),
-            )
-          ],
-        )
-      ],
-    );
-  }
 
   /// Valor do pedido
   ///
@@ -560,93 +357,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
         });
   }
 
-  _erroAoRemoverItem() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Erro ao excluir item do pedido"),
-            titlePadding: const EdgeInsets.all(20),
-            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
-            content: const Text("Não é possível excluir o último item!\n"
-                "É necessário ter pelo menos 1 item!\n"),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Ok"))
-            ],
-          );
-        });
-  }
 
-  _erroAoAdicionarItem() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Erro ao adicionar item do pedido"),
-            titlePadding: const EdgeInsets.all(20),
-            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
-            content: const Text(
-                "Não é possível adicionar mais de 10 itens no pedido"),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Ok"))
-            ],
-          );
-        });
-  }
 
-  _buscarSugestaoDeEndereco(String texto) {
-    //todo buscar sugestão
-    print('aqui');
-  }
 
-  Future<void> _buscarLocalizacao(String labelText, ItemDoPedido itemDoPedido,
-      TextEditingController _controller) async {
-    try {
-      final localizar = Localizar();
-
-      Position position = await localizar.determinarPosicao();
-
-      Endereco? endereco =
-          await localizar.converterPositionEmEndereco(position);
-
-      if (labelText == TextLevv.ENDERECO_ENTREGA) {
-        setState(() {
-          itemDoPedido.entrega = endereco;
-          _controller.text = itemDoPedido.entrega.toString();
-        });
-      } else {
-        setState(() {
-          itemDoPedido.coleta = endereco;
-          _controller.text = itemDoPedido.coleta.toString();
-        });
-      }
-
-      criadorDePedido.calcularValorDoPedido();
-    } catch (error) {
-      print('erro: ${error.toString()}');
-      _erro();
-    }
-  }
-
-  _erro() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Erro"),
-            titlePadding: const EdgeInsets.all(20),
-            titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
-            content: const Text("Não é possível buscar local do endereço!"),
-            actions: [
-              TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("Ok"))
-            ],
-          );
-        });
-  }
 }

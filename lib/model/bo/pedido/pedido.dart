@@ -40,19 +40,21 @@ class Pedido extends ChangeNotifier{
     valor ??= 0;
   }
 
-  limparPedido() {
-    numero = "";
+  void limparPedido() {
+    numero = null;
     valor = 0.00;
     pedidoEstaDisponivelParaEntrega = false;
     pedidoFoiEntregue = false;
     pedidoFoiPago = false;
     dataHoraDeCriacaoDoPedido = DateTime.now();
     itensDoPedido = [ItemDoPedido(ordem: 1)];
+    itensDoPedido!.first.limpar();
     transporte = Moto.VALUE;
     volume = 0;
     peso = 0;
-notifyListeners();
+    notifyListeners();
   }
+
 
   calcularValor() {
     //todo Fórmula p/ calcular

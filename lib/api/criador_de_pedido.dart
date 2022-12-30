@@ -5,11 +5,10 @@ import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 
-class CriadorDePedido  extends ChangeNotifier{
-
+class CriadorDePedido extends ChangeNotifier {
   final Mask controllerValorPedido = Mask(formatter: FormatterValorEmReal());
 
-  final Pedido _pedido = Pedido();
+  Pedido _pedido = Pedido();
 
   int pesoDoPedido() => _pedido.peso ?? 0;
 
@@ -42,8 +41,7 @@ class CriadorDePedido  extends ChangeNotifier{
 
   bool pedidoEstaCompleto() {
     for (ItemDoPedido itemDoPedido in _pedido.itensDoPedido!) {
-      if (itemDoPedido.coleta != null &&
-          itemDoPedido.entrega != null) {
+      if (itemDoPedido.coleta != null && itemDoPedido.entrega != null) {
         return true;
       }
     }
@@ -56,18 +54,17 @@ class CriadorDePedido  extends ChangeNotifier{
   }
 
   void calcularValorDoPedido() {
-    if(pedidoEstaCompleto()){
+    if (pedidoEstaCompleto()) {
       _pedido.calcularValor();
 
-      double total = _pedido.valor?? 0.00;
+      double total = _pedido.valor ?? 0.00;
 
       String novoValor = (total).toStringAsFixed(2).replaceAll('.', ',');
 
       controllerValorPedido.textEditingController.text = novoValor;
 
       notifyListeners();
-
     }
-  print("calculo do valor->>>> ${valorDoPedido.toString()}");
+    print("calculo do valor->>>> ${valorDoPedido.toString()}");
   }
 }

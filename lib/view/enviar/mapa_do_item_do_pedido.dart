@@ -12,18 +12,18 @@ import 'package:levv4/view/localizar/localizar/localizar.dart';
 import 'package:levv4/view/localizar/marcadores.dart';
 
 class MapaDoItemDoPedido extends StatefulWidget with Marcadores {
-  MapaDoItemDoPedido({
-    Key? key,
-    required this.itemDoPedido,
-    required this.labelText,
-    required this.itemDaRotaDoPedidoController,
-    required this.criadorDePedido
-  }) : super(key: key);
+  MapaDoItemDoPedido(
+      {Key? key,
+      required this.itemDoPedido,
+      required this.labelText,
+      required this.itemDaRotaDoPedidoController,
+      required this.criadorDePedido})
+      : super(key: key);
 
   final ItemDoPedido itemDoPedido;
   final String labelText;
   final ItemDaRotaDoPedidoController itemDaRotaDoPedidoController;
-final CriadorDePedido criadorDePedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   State<MapaDoItemDoPedido> createState() => _MapaDoItemDoPedidoState();
@@ -39,6 +39,12 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
 
   _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.itemDaRotaDoPedidoController.addListener(() => setState(() {}));
   }
 
   @override
@@ -109,7 +115,6 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
 
           //widget.pedido.notifyListeners();
           widget.criadorDePedido.calcularValorDoPedido();
-
         } catch (erro) {
           print("erro:-> ${erro.toString()}");
         }
