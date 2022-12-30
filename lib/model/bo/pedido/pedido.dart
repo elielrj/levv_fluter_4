@@ -34,8 +34,8 @@ class Pedido extends ChangeNotifier{
       this.volume,
       this.peso}) {
     itensDoPedido ??= [ItemDoPedido(ordem: 1)];
-    peso ??= 1;
-    volume ??= 20;
+    peso ??= 0;
+    volume ??= 0;
     transporte ??= Moto.VALUE;
     valor ??= 0;
   }
@@ -49,8 +49,8 @@ class Pedido extends ChangeNotifier{
     dataHoraDeCriacaoDoPedido = DateTime.now();
     itensDoPedido = [ItemDoPedido(ordem: 1)];
     transporte = Moto.VALUE;
-    volume = 20;
-    peso = 1;
+    volume = 0;
+    peso = 0;
 notifyListeners();
   }
 

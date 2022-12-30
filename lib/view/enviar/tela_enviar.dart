@@ -32,6 +32,12 @@ class _TelaEnviarState extends State<TelaEnviar> {
   final criadorDePedido = CriadorDePedido();
 
   @override
+  void initState() {
+    super.initState();
+    criadorDePedido.addListener(() => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsLevv.FUNDO_400,
@@ -86,7 +92,8 @@ class _TelaEnviarState extends State<TelaEnviar> {
   ///1 Peso
   ///
   Widget _pesoDoPedido() {
-    final List<int> valoresDosPesos = [1, 5, 10, 15, 20, 25];
+
+    final List<int> valoresDosPesos = [0, 1, 2, 3, 4, 5];
     final List<String> textosDosPesos = [
       "Até 1Kg",
       "Até 5Kg",
@@ -123,8 +130,10 @@ class _TelaEnviarState extends State<TelaEnviar> {
                       ),
                   ],
                   onChanged: (value) {
-                    criadorDePedido
-                        .novoPesoDoPedido(int.parse(value.toString()));
+                    setState(() {
+                      criadorDePedido
+                          .novoPesoDoPedido(int.parse(value.toString()));
+                    });
                   },
                 ),
               ))
@@ -136,8 +145,8 @@ class _TelaEnviarState extends State<TelaEnviar> {
   ///2 Volume
   ///
   Widget _volumeDoPedido() {
+    List<int> listaDeValoresDosTamanhosDosVolumes = [0, 1, 2];
     List<String> listaTamanhoDeVolumes = ["20 x 20", "40 x 40", "60 x 60"];
-    List<int> listaDeValoresDosTamanhosDosVolumes = [20, 40, 60];
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -164,8 +173,12 @@ class _TelaEnviarState extends State<TelaEnviar> {
                     ),
                   ),
               ],
-              onChanged: (value) =>
-                  criadorDePedido.novoPesoDoPedido(int.parse(value.toString())),
+              onChanged: (value) {
+                setState(() {
+                  criadorDePedido.novoVolumeDoPedido(int.parse(value.toString()));
+                });
+              }
+                  ,
             ),
           ),
         ),
@@ -207,8 +220,10 @@ class _TelaEnviarState extends State<TelaEnviar> {
                   ),
               ],
               onChanged: (value) {
-                criadorDePedido
-                    .novoMeioDeTransporte(int.parse(value.toString()));
+                setState(() {
+                  criadorDePedido
+                      .novoMeioDeTransporte(int.parse(value.toString()));
+                });
               },
             ),
           ),
@@ -382,8 +397,10 @@ class _TelaEnviarState extends State<TelaEnviar> {
                   size: 20,
                 ),
                 color: Colors.black,
-                onPressed: () => _buscarLocalizacao(labelText, itemDoPedido,
-                    itemDaRotaDoPedidoController.textEditingController),
+                onPressed: () async {
+                  await _buscarLocalizacao(labelText, itemDoPedido,
+                      itemDaRotaDoPedidoController.textEditingController);
+                },
               ),
               IconButton(
                 icon: const Icon(

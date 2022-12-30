@@ -5,26 +5,31 @@ import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 
-class CriadorDePedido  {
+class CriadorDePedido  extends ChangeNotifier{
 
   final Mask controllerValorPedido = Mask(formatter: FormatterValorEmReal());
 
   final Pedido _pedido = Pedido();
 
-  int pesoDoPedido() => _pedido.peso ?? 1;
+  int pesoDoPedido() => _pedido.peso ?? 0;
 
-  void novoPesoDoPedido(int novoPeso) => _pedido.peso = novoPeso;
+  void novoPesoDoPedido(int novoPeso) {
+    _pedido.peso = novoPeso;
+  }
 
-  int volumeDoPedido() => _pedido.volume ?? 20;
+  int volumeDoPedido() => _pedido.volume ?? 0;
 
-  void novoVolumeDoPedido(int novoVolume) => _pedido.volume = novoVolume;
+  void novoVolumeDoPedido(int novoVolume) {
+    _pedido.volume = novoVolume;
+  }
 
-  int meioDeTransporte() => _pedido.transporte ?? 1;
+  int meioDeTransporte() => _pedido.transporte ?? 2;
 
-  void novoMeioDeTransporte(int novoMeioDeTransporte) =>
-      _pedido.transporte = novoMeioDeTransporte;
+  void novoMeioDeTransporte(int novoMeioDeTransporte) {
+    _pedido.transporte = novoMeioDeTransporte;
+  }
 
- // double valorDoPedido() => _pedido.valor ?? 0.00;
+  // double valorDoPedido() => _pedido.valor ?? 0.00;
   double? get valorDoPedido => _pedido.valor;
 
   List<ItemDoPedido> get itensDoPedido =>
@@ -47,6 +52,7 @@ class CriadorDePedido  {
 
   limparPedido() {
     _pedido.limparPedido();
+    notifyListeners();
   }
 
   void calcularValorDoPedido() {
@@ -58,6 +64,9 @@ class CriadorDePedido  {
       String novoValor = (total).toStringAsFixed(2).replaceAll('.', ',');
 
       controllerValorPedido.textEditingController.text = novoValor;
+
+      notifyListeners();
+
     }
   print("calculo do valor->>>> ${valorDoPedido.toString()}");
   }
