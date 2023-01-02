@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/api/mascara/formatter_valor_em_real.dart';
 import 'package:levv4/api/mascara/mask.dart';
+import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
@@ -8,7 +9,7 @@ import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 class CriadorDePedido extends ChangeNotifier {
   final Mask controllerValorPedido = Mask(formatter: FormatterValorEmReal());
 
-  Pedido _pedido = Pedido();
+  final Pedido _pedido = Pedido();
 
   int pesoDoPedido() => _pedido.peso ?? 0;
 
@@ -41,30 +42,38 @@ class CriadorDePedido extends ChangeNotifier {
 
   bool pedidoEstaCompleto() {
     for (ItemDoPedido itemDoPedido in _pedido.itensDoPedido!) {
-      if (itemDoPedido.coleta != null && itemDoPedido.entrega != null) {
-        return true;
+      if (itemDoPedido.coleta != null &&
+          itemDoPedido.entrega != null) {
+        if(itemDoPedido.coleta!.geolocalizacao != Endereco.MARCO_ZERO &&
+            itemDoPedido.entrega!.geolocalizacao != Endereco.MARCO_ZERO){
+          return true;
+        }
+
       }
     }
     return false;
   }
 
-  limparPedido() {
+  void limparPedido() {
     _pedido.limparPedido();
+    calcularValorDoPedido();
     notifyListeners();
   }
 
   void calcularValorDoPedido() {
     if (pedidoEstaCompleto()) {
       _pedido.calcularValor();
-
-      double total = _pedido.valor ?? 0.00;
-
-      String novoValor = (total).toStringAsFixed(2).replaceAll('.', ',');
-
-      controllerValorPedido.textEditingController.text = novoValor;
-
-      notifyListeners();
     }
+
+    double total = _pedido.valor ?? 0.00;
+
+    String novoValor = (total).toStringAsFixed(2).replaceAll('.', ',');
+
+    controllerValorPedido.textEditingController.text = novoValor;
+    controllerValorPedido.textEditingController.notifyListeners();
+
+    notifyListeners();
+
     print("calculo do valor->>>> ${valorDoPedido.toString()}");
   }
 }

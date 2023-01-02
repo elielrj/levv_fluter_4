@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:levv4/api/cor/colors_levv.dart';
 import 'package:levv4/api/criador_de_pedido.dart';
@@ -103,14 +104,37 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
     ));
   }
 
-  void _selecionarlocalNoMapa() {
+  void _selecionarlocalNoMapa() async {
     {
       if (widget.marcadores.isNotEmpty) {
         try {
+          final localizar = Localizar();
+
+          Endereco? endereco = await localizar
+              .converterLatLngEmEndereco(widget.marcadores.first.position);
+
           if (widget.labelText == TextLevv.ENDERECO_ENTREGA) {
-            _enderecoDeEntrega();
+            setState(() {
+              widget.itemDoPedido.entrega = endereco;
+
+              widget.itemDaRotaDoPedidoController.textEditingController.text =
+                  widget.itemDoPedido.entrega.toString();
+            });
+
+            widget.itemDaRotaDoPedidoController.fecharMapa();
+
+            print("Teste MAPA--> ${widget.itemDoPedido.entrega.toString()}");
           } else {
-            _enderecoDeColeta();
+            setState(() {
+              widget.itemDoPedido.coleta = endereco;
+
+              widget.itemDaRotaDoPedidoController.textEditingController.text =
+                  widget.itemDoPedido.coleta.toString();
+            });
+
+            widget.itemDaRotaDoPedidoController.fecharMapa();
+
+            print("Teste MAPA--> ${widget.itemDoPedido.coleta.toString()}");
           }
 
           //widget.pedido.notifyListeners();
@@ -122,38 +146,6 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
         _exibirMensagemDeErro();
       }
     }
-  }
-
-  Future<void> _enderecoDeEntrega() async {
-    widget.itemDoPedido.entrega = await _buscarObejetoEndereco();
-
-    setState(() {
-      widget.itemDaRotaDoPedidoController.textEditingController.text =
-          widget.itemDoPedido.entrega.toString();
-    });
-
-    widget.itemDaRotaDoPedidoController.fecharMapa();
-
-    print("Teste MAPA--> ${widget.itemDoPedido.entrega.toString()}");
-  }
-
-  Future<void> _enderecoDeColeta() async {
-    widget.itemDoPedido.coleta = await _buscarObejetoEndereco();
-
-    setState(() {
-      widget.itemDaRotaDoPedidoController.textEditingController.text =
-          widget.itemDoPedido.coleta.toString();
-    });
-
-    widget.itemDaRotaDoPedidoController.fecharMapa();
-
-    print("Teste MAPA--> ${widget.itemDoPedido.coleta.toString()}");
-  }
-
-  Future<Endereco?> _buscarObejetoEndereco() async {
-    final localizar = Localizar();
-    return await localizar
-        .converterLatLngEmEndereco(widget.marcadores.first.position);
   }
 
   _exibirMensagemDeErro() {

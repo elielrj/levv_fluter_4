@@ -47,11 +47,12 @@ class Pedido extends ChangeNotifier{
     pedidoFoiEntregue = false;
     pedidoFoiPago = false;
     dataHoraDeCriacaoDoPedido = DateTime.now();
-    itensDoPedido = [ItemDoPedido(ordem: 1)];
+    //itensDoPedido = [ItemDoPedido(ordem: 1)];
     itensDoPedido!.first.limpar();
     transporte = Moto.VALUE;
     volume = 0;
     peso = 0;
+
     notifyListeners();
   }
 

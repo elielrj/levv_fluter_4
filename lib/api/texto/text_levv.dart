@@ -72,7 +72,7 @@ class TextLevv {
   static const ERRO_BUSCAR_LOCALIZACAO = "Não foi possível buscar sua localização";
   static const ERRO_SELECIONE_LOCAL_MAPA = "Selecione um local no mapa!";
   static const ERRO_SMS_AUTOMATICAMENTE = "Não foi possível criar um usuário automáticamente, digite o código SMS por favor!";
-  static const ERRO_PEDIDO_INCOMPLETO = "O pedido está incompleto!";
+  static const ERRO_PEDIDO_INCOMPLETO = "O pedido está incompleto!\nVerifique os campos digitados!";
   ///L
   ///
   static const LIMPAR = "Limpar";

@@ -30,7 +30,22 @@ class _ItemDaRotaDoPedidoState extends State<ItemDaRotaDoPedido> {
   @override
   void initState() {
     super.initState();
+    widget.criadorDePedido.addListener(() => setState(() {}));
     itemDaRotaDoPedidoController.addListener(() => setState(() {}));
+
+
+    widget.itemDoPedido.addListener(() => setState(() {
+      itemDaRotaDoPedidoController.textEditingController.clear();
+      /*
+      (widget.labelText == TextLevv.ENDERECO_ENTREGA)
+              ? itemDaRotaDoPedidoController.textEditingController.text =
+                  widget.itemDoPedido.entrega.toString()
+              : itemDaRotaDoPedidoController.textEditingController.text =
+                  widget.itemDoPedido.coleta.toString();
+          */
+        }));
+
+
   }
 
   @override

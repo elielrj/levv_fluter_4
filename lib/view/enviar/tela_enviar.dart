@@ -37,6 +37,8 @@ class _TelaEnviarState extends State<TelaEnviar> {
   void initState() {
     super.initState();
     criadorDePedido.addListener(() => setState(() {}));
+    criadorDePedido.controllerValorPedido.textEditingController
+        .addListener(() => setState(() {}));
   }
 
   @override
@@ -68,6 +70,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
             ),
 
             ///4 Rota
+
             RotaDoPedido(criadorDePedido: criadorDePedido),
 
             /// Valor
@@ -236,9 +239,6 @@ class _TelaEnviarState extends State<TelaEnviar> {
   ///4 Rota
   ///
 
-
-
-
   /// Valor do pedido
   ///
   Widget _valorDoPedido() => Column(
@@ -315,9 +315,20 @@ class _TelaEnviarState extends State<TelaEnviar> {
           alignment: Alignment.center,
         ),
         onPressed: () {
-          setState(() {
-            criadorDePedido.limparPedido();
-          });
+          criadorDePedido.limparPedido();
+
+          /*         Navigator.restorablePushReplacement(context, (context, arguments) => MaterialPageRoute(
+              builder: (context) => TelaEnviar(usuario: widget.usuario)));
+*/
+          /*
+          Navigator.restorablePush(context, (context, arguments) => MaterialPageRoute(
+              builder: (context) => TelaEnviar(usuario: widget.usuario)));*/
+
+          /* Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TelaEnviar(usuario: widget.usuario)));
+          */
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -356,8 +367,4 @@ class _TelaEnviarState extends State<TelaEnviar> {
           );
         });
   }
-
-
-
-
 }

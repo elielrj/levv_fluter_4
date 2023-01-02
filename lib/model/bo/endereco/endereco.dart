@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Endereco{
+  static const MARCO_ZERO = GeoPoint(0.0, 0.0);
   String? logradouro;
   String? numero;
   String? complemento;

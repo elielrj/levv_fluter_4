@@ -21,7 +21,7 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
   @override
   void initState() {
     super.initState();
-    widget.criadorDePedido.itensDoPedido[0].addListener(() => setState(() {}));
+    widget.criadorDePedido.addListener(() => setState(() {}));
   }
 
   @override
