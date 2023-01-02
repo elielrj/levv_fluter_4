@@ -6,7 +6,7 @@ import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'item_do_pedido/item_do_pedido.dart';
 import '../meio_de_transporte/meio_de_transporte.dart';
 
-class Pedido extends ChangeNotifier{
+class Pedido extends ChangeNotifier {
   String? numero;
   double? valor;
   bool? pedidoEstaDisponivelParaEntrega;
@@ -48,6 +48,10 @@ class Pedido extends ChangeNotifier{
     pedidoFoiPago = false;
     dataHoraDeCriacaoDoPedido = DateTime.now();
     //itensDoPedido = [ItemDoPedido(ordem: 1)];
+    if (itensDoPedido!.length > 1) {
+      itensDoPedido!.removeRange(1, itensDoPedido!.length);
+    }
+
     itensDoPedido!.first.limpar();
     transporte = Moto.VALUE;
     volume = 0;
@@ -56,13 +60,12 @@ class Pedido extends ChangeNotifier{
     notifyListeners();
   }
 
-
   calcularValor() {
     //todo Fórmula p/ calcular
     valor = 1.00;
   }
 
-  double calcularDistancia(){
+  double calcularDistancia() {
     //todo fazer
     return 10.0;
   }

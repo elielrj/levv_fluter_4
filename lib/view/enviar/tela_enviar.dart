@@ -12,6 +12,7 @@ import 'package:levv4/view/enviar/meio_de_transporte_do_pedido.dart';
 import 'package:levv4/view/enviar/peso_do_pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/api/cor/colors_levv.dart';
+import 'package:levv4/view/home/tela_home.dart';
 import 'package:levv4/view/localizar/localizar/localizar.dart';
 import '../componentes/logo/widget_logo_levv.dart';
 import 'rota_do_pedido.dart';
@@ -31,6 +32,8 @@ class TelaEnviar extends StatefulWidget {
 }
 
 class _TelaEnviarState extends State<TelaEnviar> {
+
+
   final criadorDePedido = CriadorDePedido();
 
   @override
@@ -278,9 +281,19 @@ class _TelaEnviarState extends State<TelaEnviar> {
           alignment: Alignment.center,
         ),
         onPressed: () async {
-          criadorDePedido.pedidoEstaCompleto()
-              ? await criadorDePedido.enviarPedido()
-              : _exibirMensagemDeCampoVazio();
+          try{
+            criadorDePedido.pedidoEstaCompleto()
+                ? await criadorDePedido.enviarPedido()
+                : _exibirMensagemDeCampoVazio();
+
+            print("Pedido enviado com sucesso!");
+
+            _navegarParaTelaHome();
+
+          }catch(erro){
+            print("erro ao Enviar Pedido: ${erro.toString()}");
+          }
+
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -316,19 +329,6 @@ class _TelaEnviarState extends State<TelaEnviar> {
         ),
         onPressed: () {
           criadorDePedido.limparPedido();
-
-          /*         Navigator.restorablePushReplacement(context, (context, arguments) => MaterialPageRoute(
-              builder: (context) => TelaEnviar(usuario: widget.usuario)));
-*/
-          /*
-          Navigator.restorablePush(context, (context, arguments) => MaterialPageRoute(
-              builder: (context) => TelaEnviar(usuario: widget.usuario)));*/
-
-          /* Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => TelaEnviar(usuario: widget.usuario)));
-          */
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -366,5 +366,10 @@ class _TelaEnviarState extends State<TelaEnviar> {
             ],
           );
         });
+  }
+
+  void _navegarParaTelaHome() {
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context) => TelaHome(usuario: widget.usuario)));
   }
 }

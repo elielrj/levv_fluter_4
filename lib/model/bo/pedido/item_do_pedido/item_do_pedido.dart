@@ -10,9 +10,9 @@ class ItemDoPedido extends ChangeNotifier {
   ItemDoPedido({this.ordem, this.coleta, this.entrega});
 
   void limpar() {
-    coleta = Endereco();
-    entrega = Endereco();
-    ordem = 5;
+    coleta = null;
+    entrega = null;
+    ordem = 1;
     notifyListeners();
   }
 }

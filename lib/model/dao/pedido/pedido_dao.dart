@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/model/bo/endereco/endereco.dart';
+import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 
@@ -16,29 +18,38 @@ class PedidoDAO
       "PedidoDAO: DocumentSnapshot successfully update!";
   static const documentSucessfullyRetrive =
       "PedidoDAO: DocumentSnapshot successfully retrive!";
-  static const documentSucessfullyRetriveAll = "PedidoDAO: DocumentSnapshot successfully retrive all!";
-  static const documentSucessfullyRetriveAllCities = "PedidoDAO: DocumentSnapshot successfully retrive all cities!";
-  static const documentSucessfullyRetriveAllCurrentUser = "PedidoDAO: DocumentSnapshot successfully retrive all current user!";
+  static const documentSucessfullyRetriveAll =
+      "PedidoDAO: DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyRetriveAllCities =
+      "PedidoDAO: DocumentSnapshot successfully retrive all cities!";
+  static const documentSucessfullyRetriveAllCurrentUser =
+      "PedidoDAO: DocumentSnapshot successfully retrive all current user!";
   static const documentSucessfullyDelete =
       "PedidoDAO: DocumentSnapshot successfully delete!";
 
   static const documentErrorCreate = "PedidoDAO: Error crete document!";
   static const documentErrorUpdate = "PedidoDAO: Error update document!";
   static const documentErrorRetrive = "PedidoDAO: Error retrive document!";
-  static const documentErrorRetriveAll = "PedidoDAO: Error retrive all document!";
-  static const documentErrorRetriveAllCities = "PedidoDAO: Error retrive all document cities!";
-  static const documentErrorRetriveAllCurrentUser = "PedidoDAO: Error retrive all document current user!";
+  static const documentErrorRetriveAll =
+      "PedidoDAO: Error retrive all document!";
+  static const documentErrorRetriveAllCities =
+      "PedidoDAO: Error retrive all document cities!";
+  static const documentErrorRetriveAllCurrentUser =
+      "PedidoDAO: Error retrive all document current user!";
   static const documentErrorDelete = "PedidoDAO: Error delete document!";
 
   static const documentIsNotExists = "PedidoDAO: não há pedidos do usuário!";
-  static const documentIsNotExistsInActualyCity = "PedidoDAO: não há pedidos na cidade atual!";
+  static const documentIsNotExistsInActualyCity =
+      "PedidoDAO: não há pedidos na cidade atual!";
 
   @override
   Future<void> criar(Pedido object) async {
     try {
+      //todo automatizar numero do pedido
       await FirebaseFirestore.instance
           .collection(collectionPath)
-          .doc(object.numero)
+      .
+          .doc(DateTime.now().toString())
           .set(toMap(object));
       print(documentSucessfullyCreate);
     } catch (erro) {
@@ -104,14 +115,13 @@ class PedidoDAO
           .limit(limite)
           .get()
           .then((res) async {
-            if(res.docs.isNotEmpty){
-              final data = res as Map<String, dynamic>;
+        if (res.docs.isNotEmpty) {
+          final data = res as Map<String, dynamic>;
 
-              pedidos = fromListMaps(data);
-            }else{
-              print(documentIsNotExists);
-            }
-
+          pedidos = fromListMaps(data);
+        } else {
+          print(documentIsNotExists);
+        }
       });
       print(documentSucessfullyRetriveAllCurrentUser);
     } catch (erro) {
@@ -134,15 +144,13 @@ class PedidoDAO
           .limit(limite)
           .get()
           .then((res) async {
+        if (res.docs.isNotEmpty) {
+          final data = res as Map<String, dynamic>;
 
-            if(res.docs.isNotEmpty){
-              final data = res as Map<String, dynamic>;
-
-              pedidos = fromListMaps(data);
-            }else{
-              print(documentIsNotExistsInActualyCity);
-            }
-
+          pedidos = fromListMaps(data);
+        } else {
+          print(documentIsNotExistsInActualyCity);
+        }
       });
       print(documentSucessfullyRetriveAllCities);
     } catch (erro) {
@@ -167,7 +175,8 @@ class PedidoDAO
 
   @override
   Map<String, dynamic> toMap(Pedido object) {
-    return {
+    final map = {
+      //todo criar número automaticamente!!!
       if (object.numero != null) "numero": object.numero,
       if (object.valor != null) "valor": object.valor,
       if (object.pedidoEstaDisponivelParaEntrega != null)
@@ -179,13 +188,50 @@ class PedidoDAO
       if (object.dataHoraDeCriacaoDoPedido != null)
         "pedidoFoiPago": object.dataHoraDeCriacaoDoPedido,
       if (object.transporte != null) "transporte": object.transporte,
-      if (object.itensDoPedido != null) "itensDoPedido": object.itensDoPedido,
+      if (object.itensDoPedido != null) "itensDoPedido": toMapItemDoPedido(object.itensDoPedido!),
       if (object.transportadorDoPedido != null)
         "transportadorDoPedido": object.transportadorDoPedido,
       if (object.usuarioDonoDoPedido != null)
         "usuarioDonoDoPedido": object.usuarioDonoDoPedido,
       if (object.volume != null) "volume": object.volume,
       if (object.peso != null) "peso": object.peso,
+    };
+    return map;
+  }
+
+  Map toMapItemDoPedido(List<ItemDoPedido> itensDoPedido) {
+
+
+
+    final map = {};
+
+    for(ItemDoPedido itemDoPedido in itensDoPedido){
+      final mapa = {
+        if (itemDoPedido.ordem != null) "ordem": itemDoPedido.ordem,
+        if (itemDoPedido.coleta != null) "coleta": toMapEndereco(itemDoPedido.coleta!),
+        if (itemDoPedido.entrega != null) "entrega": toMapEndereco(itemDoPedido.entrega!),
+      };
+
+      map.addAll(mapa);
+
+    }
+
+
+    return map;
+
+  }
+
+  Map<String, dynamic> toMapEndereco(Endereco endereco) {
+    return {
+      if (endereco.numero != null) "numero": endereco.numero,
+      if (endereco.logradouro != null) "logradouro": endereco.logradouro,
+      if (endereco.complemento != null) "complemento": endereco.complemento,
+      if (endereco.bairro != null) "bairro": endereco.bairro,
+      if (endereco.cidade != null) "cidade": endereco.cidade,
+      if (endereco.estado != null) "estado": endereco.estado,
+      if (endereco.pais != null) "pais": endereco.pais,
+      if (endereco.cep != null) "cep": endereco.cep,
+      if (endereco.geolocalizacao != null) "geolocalizacao": endereco.geolocalizacao,
     };
   }
 

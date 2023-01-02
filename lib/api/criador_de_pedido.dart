@@ -5,11 +5,18 @@ import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
+import 'package:levv4/view/enviar/rota_do_pedido.dart';
 
 class CriadorDePedido extends ChangeNotifier {
+
+
+
   final Mask controllerValorPedido = Mask(formatter: FormatterValorEmReal());
 
   final Pedido _pedido = Pedido();
+
+
+
 
   int pesoDoPedido() => _pedido.peso ?? 0;
 
