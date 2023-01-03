@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
@@ -45,11 +46,10 @@ class PedidoDAO
   @override
   Future<void> criar(Pedido object) async {
     try {
-      //todo automatizar numero do pedido
+      final numeradorDePedido = NumeradorDePedido();
       await FirebaseFirestore.instance
           .collection(collectionPath)
-      .
-          .doc(DateTime.now().toString())
+          .doc(numeradorDePedido.converterEmMd5(object.numero!))
           .set(toMap(object));
       print(documentSucessfullyCreate);
     } catch (erro) {
@@ -188,7 +188,8 @@ class PedidoDAO
       if (object.dataHoraDeCriacaoDoPedido != null)
         "pedidoFoiPago": object.dataHoraDeCriacaoDoPedido,
       if (object.transporte != null) "transporte": object.transporte,
-      if (object.itensDoPedido != null) "itensDoPedido": toMapItemDoPedido(object.itensDoPedido!),
+      if (object.itensDoPedido != null)
+        "itensDoPedido": toMapItemDoPedido(object.itensDoPedido!),
       if (object.transportadorDoPedido != null)
         "transportadorDoPedido": object.transportadorDoPedido,
       if (object.usuarioDonoDoPedido != null)
@@ -200,25 +201,21 @@ class PedidoDAO
   }
 
   Map toMapItemDoPedido(List<ItemDoPedido> itensDoPedido) {
-
-
-
     final map = {};
 
-    for(ItemDoPedido itemDoPedido in itensDoPedido){
+    for (ItemDoPedido itemDoPedido in itensDoPedido) {
       final mapa = {
         if (itemDoPedido.ordem != null) "ordem": itemDoPedido.ordem,
-        if (itemDoPedido.coleta != null) "coleta": toMapEndereco(itemDoPedido.coleta!),
-        if (itemDoPedido.entrega != null) "entrega": toMapEndereco(itemDoPedido.entrega!),
+        if (itemDoPedido.coleta != null)
+          "coleta": toMapEndereco(itemDoPedido.coleta!),
+        if (itemDoPedido.entrega != null)
+          "entrega": toMapEndereco(itemDoPedido.entrega!),
       };
 
       map.addAll(mapa);
-
     }
 
-
     return map;
-
   }
 
   Map<String, dynamic> toMapEndereco(Endereco endereco) {
@@ -231,7 +228,8 @@ class PedidoDAO
       if (endereco.estado != null) "estado": endereco.estado,
       if (endereco.pais != null) "pais": endereco.pais,
       if (endereco.cep != null) "cep": endereco.cep,
-      if (endereco.geolocalizacao != null) "geolocalizacao": endereco.geolocalizacao,
+      if (endereco.geolocalizacao != null)
+        "geolocalizacao": endereco.geolocalizacao,
     };
   }
 

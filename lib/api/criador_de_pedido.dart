@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/api/mascara/formatter_valor_em_real.dart';
 import 'package:levv4/api/mascara/mask.dart';
+import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
@@ -43,6 +44,10 @@ class CriadorDePedido extends ChangeNotifier {
       _pedido.itensDoPedido ??= [ItemDoPedido()];
 
   Future<void> enviarPedido() async {
+
+    final numeradorDePedido = NumeradorDePedido();
+    _pedido.numero = numeradorDePedido.criarNumeroDoPedido();
+
     final pedidoDAO = PedidoDAO();
     await pedidoDAO.criar(_pedido);
   }
