@@ -5,6 +5,7 @@ import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import 'package:levv4/view/enviar/rota_do_pedido.dart';
 
@@ -43,10 +44,15 @@ class CriadorDePedido extends ChangeNotifier {
   List<ItemDoPedido> get itensDoPedido =>
       _pedido.itensDoPedido ??= [ItemDoPedido()];
 
-  Future<void> enviarPedido() async {
+  Future<void> enviarPedido({required Usuario usuario}) async {
 
     final numeradorDePedido = NumeradorDePedido();
     _pedido.numero = numeradorDePedido.criarNumeroDoPedido();
+    _pedido.pedidoFoiPago = false;
+    _pedido.pedidoFoiEntregue = false;
+    _pedido.pedidoEstaDisponivelParaEntrega = true;
+    _pedido.dataHoraDeCriacaoDoPedido = DateTime.now();
+    _pedido.usuarioDonoDoPedido = usuario;
 
     final pedidoDAO = PedidoDAO();
     await pedidoDAO.criar(_pedido);

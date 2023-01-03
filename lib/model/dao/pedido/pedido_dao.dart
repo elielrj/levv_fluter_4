@@ -5,6 +5,8 @@ import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/model/bo/usuario/usuario.dart';
+import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 
 import 'i_crud_pedido_dao.dart';
 
@@ -175,8 +177,12 @@ class PedidoDAO
 
   @override
   Map<String, dynamic> toMap(Pedido object) {
+
+    DocumentReference documentReferenceUsuarioDonoDoPedido =
+    FirebaseFirestore
+        .instance.doc('${UsuarioDAO.collectionPath}/${object.usuarioDonoDoPedido!.celular}');
+
     final map = {
-      //todo criar número automaticamente!!!
       if (object.numero != null) "numero": object.numero,
       if (object.valor != null) "valor": object.valor,
       if (object.pedidoEstaDisponivelParaEntrega != null)
@@ -186,21 +192,21 @@ class PedidoDAO
         "pedidoFoiEntregue": object.pedidoFoiEntregue,
       if (object.pedidoFoiPago != null) "pedidoFoiPago": object.pedidoFoiPago,
       if (object.dataHoraDeCriacaoDoPedido != null)
-        "pedidoFoiPago": object.dataHoraDeCriacaoDoPedido,
+        "dataHoraDeCriacaoDoPedido": object.dataHoraDeCriacaoDoPedido,
       if (object.transporte != null) "transporte": object.transporte,
       if (object.itensDoPedido != null)
         "itensDoPedido": toMapItemDoPedido(object.itensDoPedido!),
       if (object.transportadorDoPedido != null)
         "transportadorDoPedido": object.transportadorDoPedido,
       if (object.usuarioDonoDoPedido != null)
-        "usuarioDonoDoPedido": object.usuarioDonoDoPedido,
+        "usuarioDonoDoPedido": documentReferenceUsuarioDonoDoPedido,
       if (object.volume != null) "volume": object.volume,
       if (object.peso != null) "peso": object.peso,
     };
     return map;
   }
 
-  Map toMapItemDoPedido(List<ItemDoPedido> itensDoPedido) {
+  Map<dynamic,dynamic> toMapItemDoPedido(List<ItemDoPedido> itensDoPedido) {
     final map = {};
 
     for (ItemDoPedido itemDoPedido in itensDoPedido) {
@@ -227,6 +233,7 @@ class PedidoDAO
       if (endereco.cidade != null) "cidade": endereco.cidade,
       if (endereco.estado != null) "estado": endereco.estado,
       if (endereco.pais != null) "pais": endereco.pais,
+      if (endereco.cep != null) "cep": endereco.cep,
       if (endereco.cep != null) "cep": endereco.cep,
       if (endereco.geolocalizacao != null)
         "geolocalizacao": endereco.geolocalizacao,

@@ -283,7 +283,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
         onPressed: () async {
           try{
             criadorDePedido.pedidoEstaCompleto()
-                ? await criadorDePedido.enviarPedido()
+                ? await criadorDePedido.enviarPedido(usuario: widget.usuario)
                 : _exibirMensagemDeCampoVazio();
 
             print("Pedido enviado com sucesso!");
