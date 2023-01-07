@@ -29,20 +29,22 @@ class EnviarDAO
 
   @override
   Future<void> criar(Enviar object) async {
+    await _enviar(object);
     await FirebaseFirestore.instance
         .collection(collectionPath)
         .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .set(await toMap(object))
+        .set(object.toMap())
         .then((value) => print(documentSucessfullyCreate),
             onError: (e) => print("$documentErrorCreate --> ${e.toString()}"));
   }
 
   @override
   Future<void> atualizar(Enviar object) async {
+    await _enviar(object);
     await FirebaseFirestore.instance
         .collection(collectionPath)
         .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .update(await toMap(object))
+        .update(object.toMap())
         .then((value) => print(documentSucessfullyUpdate),
             onError: (e) => print("$documentErrorUpdate --> ${e.toString()}"));
   }
@@ -59,7 +61,7 @@ class EnviarDAO
       (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
-        enviar = await fromMap(data);
+        enviar = Enviar.fromMap(data);
         print(documentSucessfullyRetrive);
       },
       onError: (e) => print("$documentErrorRetrive --> ${e.toString()}"),
@@ -75,7 +77,7 @@ class EnviarDAO
     await FirebaseFirestore.instance.collection(collectionPath).get().then(
       (res) {
         res.docs
-            .map((e) async => enviadoresDePedido.add(await fromMap(e.data())));
+            .map((e) async => enviadoresDePedido.add(Enviar.fromMap(e.data())));
         print(documentSucessfullyRetriveAll);
       },
       onError: (e) => print("$documentErrorRetriveAll --> $e"),
@@ -95,39 +97,8 @@ class EnviarDAO
         );
   }
 
-  @override
-  Future<Map<String, dynamic>> toMap(Enviar object) async {
+  Future<void> _enviar(Enviar object) async {
     final arquivoDAO = ArquivoDAO();
     await arquivoDAO.upload(object.documentoDeIdentificacao!);
-
-    return {
-      if (object.exibirPerfil() != null) "perfil": object.exibirPerfil(),
-      if (object.nome != null) "nome": object.nome,
-      if (object.sobrenome != null) "sobrenome": object.sobrenome,
-      if (object.cpf != null) "cpf": object.cpf,
-      if (object.nascimento != null)
-        "nascimento": Timestamp.fromMillisecondsSinceEpoch(
-            object.nascimento!.millisecondsSinceEpoch),
-      if (object.enderecosFavoritos != null)
-        "enderecosFavoritos": object.enderecosFavoritos,
-      if (object.casa != null) "casa": object.casa,
-      if (object.trabalho != null) "trabalho": object.trabalho,
-    };
-  }
-
-  @override
-  Future<Enviar> fromMap(Map<String, dynamic> map) async {
-    Timestamp timestamp = map["nascimento"];
-    DateTime dateTime = timestamp.toDate();
-
-    return Enviar(
-      nome: map["nome"],
-      sobrenome: map["sobrenome"],
-      cpf: map["cpf"],
-      nascimento: dateTime,
-      enderecosFavoritos: map["enderecosFavoritos"],
-      casa: map["casa"],
-      trabalho: map["trabalho"],
-    );
   }
 }

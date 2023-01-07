@@ -1,12 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
-
+import 'package:levv4/model/bo/map/interface_map.dart';
 import 'item_do_pedido/item_do_pedido.dart';
-import '../meio_de_transporte/meio_de_transporte.dart';
 
-class Pedido extends ChangeNotifier {
+class Pedido extends ChangeNotifier implements InterfaceMap {
   String? numero;
   double? valor;
   bool? pedidoEstaDisponivelParaEntrega;
@@ -68,5 +67,64 @@ class Pedido extends ChangeNotifier {
   double calcularDistancia() {
     //todo fazer
     return 10.0;
+  }
+
+  factory Pedido.fromMap(Map<String, dynamic> map) {
+    Timestamp timestamp = map["dataHoraDeCriacaoDoPedido"];
+
+    Map<dynamic, dynamic> mapaDeItens = map['itensDoPedido'];
+
+    List<ItemDoPedido> itens = [];
+
+    mapaDeItens.values.forEach((element) {
+      itens.add(element);
+    });
+
+    return Pedido(
+      numero: map['numero'],
+      valor: map['valor'],
+      pedidoEstaDisponivelParaEntrega: map['pedidoEstaDisponivelParaEntrega'],
+      pedidoFoiEntregue: map['pedidoFoiEntregue'],
+      pedidoFoiPago: map['pedidoFoiPago'],
+      dataHoraDeCriacaoDoPedido: timestamp.toDate(),
+      transporte: map['transporte'],
+      itensDoPedido: itens,
+      transportadorDoPedido: Usuario.fromMap(map['transportadorDoPedido']),
+      volume: map['volume'],
+      peso: map['peso'],
+      usuarioDonoDoPedido: Usuario.fromMap(map['usuarioDonoDoPedido']),
+    );
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> mapaDeItens = {};
+    itensDoPedido!.forEach((element) {
+      mapaDeItens.addAll({
+        element.ordem.toString(): element.toMap(),
+      });
+    });
+
+    return Map.from({
+      if (numero != null) 'numero': numero,
+      if (valor != null) 'valor': valor,
+      if (pedidoEstaDisponivelParaEntrega != null)
+        'pedidoEstaDisponivelParaEntrega': pedidoEstaDisponivelParaEntrega,
+      if (pedidoFoiEntregue != null) 'pedidoFoiEntregue': pedidoFoiEntregue,
+      if (pedidoFoiPago != null) 'pedidoFoiPago': pedidoFoiPago,
+      if (dataHoraDeCriacaoDoPedido != null)
+        'dataHoraDeCriacaoDoPedido': Timestamp.fromMillisecondsSinceEpoch(
+            dataHoraDeCriacaoDoPedido!.millisecondsSinceEpoch),
+      if (transporte != null) 'transporte': transporte,
+      if (itensDoPedido != null) 'itensDoPedido': mapaDeItens,
+      if (transportadorDoPedido != null)
+        'transportadorDoPedido': transportadorDoPedido!
+            .toMap()
+            .update('enderecosFavoritos', (value) => {}),
+      if (usuarioDonoDoPedido != null)
+        'usuarioDonoDoPedido': usuarioDonoDoPedido!.toMap(),
+      if (volume != null) 'volume': volume,
+      if (peso != null) 'peso': peso,
+    });
   }
 }

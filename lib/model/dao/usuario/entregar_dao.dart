@@ -14,7 +14,7 @@ import 'package:levv4/model/dao/meio_de_transporte/motorizado/motorizado_dao.dar
 import '../../bo/endereco/endereco.dart';
 import '../../bo/meio_de_transporte/meio_de_transporte.dart';
 import 'interface_usuario_dao.dart';
-
+/*
 class EntregarDAO
     with NomeDoDocumentoDoUsuarioCorrente
     implements InterfaceUsuarioDAO<Entregar> {
@@ -44,7 +44,7 @@ class EntregarDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .set(await toMap(object));
+          .set(object.toMap());
       print(documentSucessfullyCreate);
     } catch (erro) {
       print("$documentErrorCreate--> ${erro.toString()}");
@@ -57,7 +57,7 @@ class EntregarDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .update(await toMap(object));
+          .update(object.toMap());
     } catch (erro) {
       print("$documentErrorUpdate--> ${erro.toString()}");
     }
@@ -72,7 +72,7 @@ class EntregarDAO
           .get()
           .then((res) {
         res.docs.map(
-            (e) async => entregadoresDePedidos.add(await fromMap(e.data())));
+            (e) async => entregadoresDePedidos.add(Entregar.fromMap(e.data())));
         print(documentSucessfullyRetriveAll);
       });
       print(documentSucessfullyRetriveAll);
@@ -93,7 +93,7 @@ class EntregarDAO
           .then((DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
-        entregar = await fromMap(data);
+        entregar = Entregar.fromMap(data);
       });
       print(documentSucessfullyRetrive);
     } catch (erro) {
@@ -114,7 +114,7 @@ class EntregarDAO
       print("$documentErrorDelete--> ${erro.toString()}");
     }
   }
-
+/*
   @override
   Future<Map<String, dynamic>> toMap(Entregar object) async {
     //1
@@ -151,7 +151,9 @@ class EntregarDAO
             object.meioDeTransporte!.exibirMeioDeTransporte()
     };
   }
+  */
 
+  /*
   @override
   Future<Entregar> fromMap(Map<String, dynamic> map) async {
     //1
@@ -185,4 +187,8 @@ class EntregarDAO
       meioDeTransporte: meioDeTransporte,
     );
   }
+  */
 }
+
+
+ */

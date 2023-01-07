@@ -3,7 +3,7 @@ import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuar
 import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
 
 import 'interface_usuario_dao.dart';
-
+/*
 class AcompanharDAO
     with NomeDoDocumentoDoUsuarioCorrente
     implements InterfaceUsuarioDAO<Acompanhar> {
@@ -33,7 +33,7 @@ class AcompanharDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .set(await toMap(object));
+          .set(object.toMap());
       print(documentSucessfullyCreate);
     } catch (erro) {
       print("$documentErrorCreate --> ${erro.toString()}");
@@ -46,7 +46,7 @@ class AcompanharDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .update(await toMap(object));
+          .update(object.toMap());
       print(documentSucessfullyUpdate);
     } catch (erro) {
       print("$documentErrorUpdate --> ${erro.toString()}");
@@ -62,7 +62,7 @@ class AcompanharDAO
           .get()
           .then((res) {
         res.docs.map(
-            (e) async => usuariosAcompanhadores.add(await fromMap(e.data())));
+            (e) async => usuariosAcompanhadores.add(Acompanhar.fromMap(e.data())));
       });
       print(documentSucessfullyRetriveAll);
     } catch (erro) {
@@ -102,15 +102,6 @@ class AcompanharDAO
     }
   }
 
-  @override
-  Future<Map<String, dynamic>> toMap(Acompanhar object) async {
-    return {
-      if (object.exibirPerfil() != null) "perfil": object.exibirPerfil(),
-    };
-  }
-
-  @override
-  Future<Acompanhar> fromMap(Map<String, dynamic> map) async {
-    return Acompanhar();
-  }
 }
+
+*/

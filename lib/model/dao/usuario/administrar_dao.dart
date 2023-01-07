@@ -3,7 +3,7 @@ import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuar
 
 import 'package:levv4/model/bo/administrar/administrar.dart';
 import 'interface_usuario_dao.dart';
-
+/*
 class AdministrarDAO
     with NomeDoDocumentoDoUsuarioCorrente
     implements InterfaceUsuarioDAO<Administrar> {
@@ -32,7 +32,7 @@ class AdministrarDAO
     await FirebaseFirestore.instance
         .collection(collectionPath)
         .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .set(await toMap(object))
+        .set(object.toMap())
         .then((value) => print(documentSucessfullyCreate),
             onError: (e) => print("$documentErrorCreate --> ${e.toString()}"));
   }
@@ -42,7 +42,7 @@ class AdministrarDAO
     await FirebaseFirestore.instance
         .collection(collectionPath)
         .doc(nomeDoDocumentoDoUsuarioCorrente())
-        .update(await toMap(object))
+        .update(object.toMap())
         .then((value) => print(documentSucessfullyUpdate),
             onError: (e) => print("$documentErrorUpdate --> ${e.toString()}"));
   }
@@ -53,8 +53,8 @@ class AdministrarDAO
 
     await FirebaseFirestore.instance.collection(collectionPath).get().then(
       (res) {
-        res.docs.map(
-            (e) async => usuariosAdministradores.add(await fromMap(e.data())));
+        res.docs.map((e) async =>
+            usuariosAdministradores.add(Administrar.fromMap(e.data())));
         print(documentSucessfullyRetriveAll);
       },
       onError: (e) => print("$documentErrorRetriveAll--> ${e.toString()}"),
@@ -73,7 +73,7 @@ class AdministrarDAO
       (DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
-        administrar = await fromMap(data);
+        administrar = Administrar.fromMap(data);
         print(documentSucessfullyRetrive);
       },
       onError: (e) => print("$documentErrorRetrive --> $e"),
@@ -93,16 +93,6 @@ class AdministrarDAO
           onError: (e) => print("$documentErrorDelete--> ${e.toString()}"),
         );
   }
-
-  @override
-  Future<Map<String, dynamic>> toMap(Administrar object) async {
-    return {
-      if (object.exibirPerfil() != null) "perfil": object.exibirPerfil(),
-    };
-  }
-
-  @override
-  Future<Administrar> fromMap(Map<String, dynamic> map) async {
-    return Administrar();
-  }
 }
+
+ */

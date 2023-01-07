@@ -5,5 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 abstract class MeioDeTransporte{
 
   String exibirMeioDeTransporte();
-  
+
+  MeioDeTransporte.fromMap(Map<dynamic, dynamic> map);
+
+  Map<dynamic, dynamic> toMap();
 }

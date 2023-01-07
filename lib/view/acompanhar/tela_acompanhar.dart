@@ -1,9 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:levv4/api/firebase_autenticacao/autenticacao.dart';
 import 'package:levv4/controller/acompanhar/tela_acompanhar_controller.dart';
 import '../../model/bo/usuario/usuario.dart';
-import '../../model/dao/pedido/pedido_dao.dart';
 import '../../api/cor/colors_levv.dart';
 import '../componentes/pedidos/lista/listagem_de_pedidos.dart';
 import '../componentes/botoes/menu_dos_botoes.dart';

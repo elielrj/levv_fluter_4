@@ -9,6 +9,7 @@ class TelaAcompanharController {
   Future<void> buscarListaDePedidosDoUsuario() async {
     try {
       listaDePedidosDoUsuario = await pedidoDAO.buscarPedidosDoUsuario();
+      print('sucess ao buscar pedido!');
     } catch (error) {
       print("Erro ao buscar pedidos do usuário!");
     }

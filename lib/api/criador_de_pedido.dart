@@ -3,6 +3,8 @@ import 'package:levv4/api/mascara/formatter_valor_em_real.dart';
 import 'package:levv4/api/mascara/mask.dart';
 import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
+import 'package:levv4/model/bo/entregar/entregar.dart';
+import 'package:levv4/model/bo/enviar/enviar.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
@@ -53,6 +55,9 @@ class CriadorDePedido extends ChangeNotifier {
     _pedido.pedidoEstaDisponivelParaEntrega = true;
     _pedido.dataHoraDeCriacaoDoPedido = DateTime.now();
     _pedido.usuarioDonoDoPedido = usuario;
+
+
+
 
     final pedidoDAO = PedidoDAO();
     await pedidoDAO.criar(_pedido);

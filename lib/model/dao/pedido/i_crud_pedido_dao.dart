@@ -15,7 +15,7 @@ abstract class ICrudPedidoDAO<T> {
 
   Future<void> deletar(T object);
 
-  Map<String, dynamic> toMap(T object);
+  //Map<String, dynamic> toMap(T object);
 
-  T fromMap(Map<String, dynamic> map);
+  //T fromMap(Map<String, dynamic> map);
 }

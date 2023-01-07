@@ -9,7 +9,7 @@ import 'package:levv4/model/dao/perfil/mixin_deletar_perfil.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 
 import 'mixin_criar_perfil.dart';
-
+/*
 class PerfilDAO
     with
         CriarPerfil,
@@ -128,3 +128,5 @@ class PerfilDAO
     }
   }
 }
+
+ */

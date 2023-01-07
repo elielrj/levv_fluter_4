@@ -3,7 +3,7 @@ import 'package:levv4/model/dao/usuario/administrar_dao.dart';
 import 'package:levv4/model/dao/usuario/entregar_dao.dart';
 import 'package:levv4/model/dao/usuario/enviar_dao.dart';
 import '../../bo/perfil/perfil.dart';
-
+/*
 mixin CriarObjetoPerfilComMap {
   Future<Perfil> toMapComPerfil(
       Map<String, dynamic> mapa, String perfil) async {
@@ -25,3 +25,5 @@ mixin CriarObjetoPerfilComMap {
     return perfilClass;
   }
 }
+
+ */

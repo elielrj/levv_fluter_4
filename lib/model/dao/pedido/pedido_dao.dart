@@ -52,7 +52,7 @@ class PedidoDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(numeradorDePedido.converterEmMd5(object.numero!))
-          .set(toMap(object));
+          .set(object.toMap());
       print(documentSucessfullyCreate);
     } catch (erro) {
       print("$documentErrorCreate--> ${erro.toString()}");
@@ -65,7 +65,7 @@ class PedidoDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(object.numero)
-          .update(toMap(object));
+          .update(object.toMap());
       print(documentSucessfullyUpdate);
     } catch (erro) {
       print("$documentErrorUpdate--> ${erro.toString()}");
@@ -81,7 +81,9 @@ class PedidoDAO
           .collection(collectionPath)
           .get()
           .then((res) {
-        res.docs.map((e) => pedidos.add(fromMap(e.data())));
+        res.docs.map((e) {
+          pedidos.add(Pedido.fromMap(e.data()));
+        });
       });
       print(documentSucessfullyRetriveAll);
     } catch (erro) {
@@ -108,19 +110,29 @@ class PedidoDAO
   Future<List<Pedido>> buscarPedidosDoUsuario({int limite = 10}) async {
     List<Pedido> pedidos = [];
 
+    DocumentReference documentReferenceUsuarioDonoDoPedido =
+        FirebaseFirestore.instance.doc(
+            '${UsuarioDAO.collectionPath}/${nomeDoDocumentoDoUsuarioCorrente()}');
+
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .where("usuarioDonoDoPedido",
-              isEqualTo: nomeDoDocumentoDoUsuarioCorrente())
+              isEqualTo: documentReferenceUsuarioDonoDoPedido)
           .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
           .limit(limite)
           .get()
           .then((res) async {
         if (res.docs.isNotEmpty) {
-          final data = res as Map<String, dynamic>;
+          final Map<String, dynamic> data = {};
 
-          pedidos = fromListMaps(data);
+          for (DocumentSnapshot documentSnapshot in res.docs) {
+            data.addAll(documentSnapshot.data() as Map<String, dynamic>);
+
+            pedidos.add(Pedido.fromMap(data));
+          }
+
+          //pedidos = fromListMaps(data);
         } else {
           print(documentIsNotExists);
         }
@@ -149,7 +161,11 @@ class PedidoDAO
         if (res.docs.isNotEmpty) {
           final data = res as Map<String, dynamic>;
 
-          pedidos = fromListMaps(data);
+          for (DocumentSnapshot documentSnapshot in res.docs) {
+            data.addAll(documentSnapshot.data() as Map<String, dynamic>);
+            final pedido = Pedido();
+            pedidos.add(Pedido.fromMap(data));
+          }
         } else {
           print(documentIsNotExistsInActualyCity);
         }
@@ -174,13 +190,12 @@ class PedidoDAO
       print("$documentErrorDelete ${erro.toString()}");
     }
   }
-
+/*
   @override
-  Map<String, dynamic> toMap(Pedido object) {
-
+  Map<String, dynamic> toMap(Pedido object) {/*
     DocumentReference documentReferenceUsuarioDonoDoPedido =
-    FirebaseFirestore
-        .instance.doc('${UsuarioDAO.collectionPath}/${object.usuarioDonoDoPedido!.celular}');
+        FirebaseFirestore.instance.doc(
+            '${UsuarioDAO.collectionPath}/${object.usuarioDonoDoPedido!.celular}');
 
     final map = {
       if (object.numero != null) "numero": object.numero,
@@ -192,7 +207,8 @@ class PedidoDAO
         "pedidoFoiEntregue": object.pedidoFoiEntregue,
       if (object.pedidoFoiPago != null) "pedidoFoiPago": object.pedidoFoiPago,
       if (object.dataHoraDeCriacaoDoPedido != null)
-        "dataHoraDeCriacaoDoPedido": object.dataHoraDeCriacaoDoPedido,
+        "dataHoraDeCriacaoDoPedido": Timestamp.fromMillisecondsSinceEpoch(
+            object.dataHoraDeCriacaoDoPedido!.millisecondsSinceEpoch),
       if (object.transporte != null) "transporte": object.transporte,
       if (object.itensDoPedido != null)
         "itensDoPedido": toMapItemDoPedido(object.itensDoPedido!),
@@ -203,54 +219,39 @@ class PedidoDAO
       if (object.volume != null) "volume": object.volume,
       if (object.peso != null) "peso": object.peso,
     };
-    return map;
+    return null;
   }
 
-  Map<dynamic,dynamic> toMapItemDoPedido(List<ItemDoPedido> itensDoPedido) {
+  Map<dynamic, dynamic> toMapItemDoPedido(List<ItemDoPedido> itensDoPedido) {
     final map = {};
 
     for (ItemDoPedido itemDoPedido in itensDoPedido) {
-      final mapa = {
-        if (itemDoPedido.ordem != null) "ordem": itemDoPedido.ordem,
-        if (itemDoPedido.coleta != null)
-          "coleta": toMapEndereco(itemDoPedido.coleta!),
-        if (itemDoPedido.entrega != null)
-          "entrega": toMapEndereco(itemDoPedido.entrega!),
-      };
 
-      map.addAll(mapa);
+      map.addAll(itemDoPedido.toMap());
     }
 
     return map;
   }
 
-  Map<String, dynamic> toMapEndereco(Endereco endereco) {
-    return {
-      if (endereco.numero != null) "numero": endereco.numero,
-      if (endereco.logradouro != null) "logradouro": endereco.logradouro,
-      if (endereco.complemento != null) "complemento": endereco.complemento,
-      if (endereco.bairro != null) "bairro": endereco.bairro,
-      if (endereco.cidade != null) "cidade": endereco.cidade,
-      if (endereco.estado != null) "estado": endereco.estado,
-      if (endereco.pais != null) "pais": endereco.pais,
-      if (endereco.cep != null) "cep": endereco.cep,
-      if (endereco.cep != null) "cep": endereco.cep,
-      if (endereco.geolocalizacao != null)
-        "geolocalizacao": endereco.geolocalizacao,
-    };
-  }
+
 
   @override
   Pedido fromMap(Map<String, dynamic> map) {
+
+    Timestamp timestamp = map["dataHoraDeCriacaoDoPedido"];
+    DateTime dateTime = timestamp.toDate();
+
+    map["itensDoPedido"];
+
     return Pedido(
       numero: map["numero"],
       valor: map["valor"],
       pedidoEstaDisponivelParaEntrega: map["pedidoEstaDisponivelParaEntrega"],
       pedidoFoiEntregue: map["pedidoFoiEntregue"],
       pedidoFoiPago: map["pedidoFoiPago"],
-      dataHoraDeCriacaoDoPedido: map["dataHoraDeCriacaoDoPedido"],
+      dataHoraDeCriacaoDoPedido: dateTime,
       transporte: map["transporte"],
-      itensDoPedido: map["itensDoPedido"],
+      itensDoPedido: ,
       transportadorDoPedido: map["transportadorDoPedido"],
       usuarioDonoDoPedido: map["usuarioDonoDoPedido"],
       volume: map["volume"],
@@ -258,12 +259,41 @@ class PedidoDAO
     );
   }
 
+  fromMapItensDoPedido(Map<String, dynamic> map){
+    List<ItemDoPedido> itensDoPedido = [];
+
+
+
+    ItemDoPedido itemDoPedido = ItemDoPedido(
+      ordem: map['ordem'],
+      coleta: map['coleta'],
+      entrega: map['entrega'],
+    );
+
+    itensDoPedido.add(itemDoPedido);
+
+    return itensDoPedido;
+  }*/
+
   List<Pedido> fromListMaps(Map<String, dynamic> map) {
     List<Pedido> listPedidos = [];
 
-    for (var item in map.values) {
-      listPedidos.add(fromMap(item));
-    }
+    listPedidos = [fromMap(map)];
+
+    //  map.entries.forEach((element) {
+
+    //   final data = {element.key: element.value};
+
+    //   listPedidos.add(fromMap(data));
+
+    // });
+
+    //for (var item in map.values) {
+    //for (Map<String,dynamic> _map in map.) {
+
+    //   listPedidos.add(fromMap(_map));
+    //  }
     return listPedidos;
-  }
+  }*/
+
 }

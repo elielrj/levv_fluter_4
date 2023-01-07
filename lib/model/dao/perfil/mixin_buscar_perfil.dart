@@ -8,7 +8,7 @@ import '../../bo/administrar/administrar.dart';
 import '../../bo/entregar/entregar.dart';
 import '../../bo/enviar/enviar.dart';
 import '../../bo/perfil/perfil.dart';
-
+/*
 mixin BuscarPerfil {
   Future<dynamic> retriveAllPerfil(Perfil object) async {
     if (object is Entregar) {
@@ -42,3 +42,5 @@ mixin BuscarPerfil {
     }
   }
 }
+
+ */
