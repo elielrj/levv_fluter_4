@@ -61,14 +61,7 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
                     ],
                   ),
                 )
-              : const Text(
-                  "Não há pedidos para seu usuário!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontStyle: FontStyle.italic),
-                )
+              : _listaVazia()
         ],
       ),
     );
@@ -79,12 +72,21 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          for (Pedido pedido in pedidos)
-            ItemComDetalhesDoPedido(
-              pedido: pedido,
-              menuDosBotoes: widget.menuDosBotoes,
-              usuario: widget.usuario,
-            ),
+          pedidos.isEmpty
+              ? _listaVazia()
+              : Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    for (Pedido pedido in pedidos)
+                      ItemComDetalhesDoPedido(
+                        pedido: pedido,
+                        menuDosBotoes: widget.menuDosBotoes,
+                        usuario: widget.usuario,
+                      ),
+                  ],
+                )
         ],
       );
 
@@ -129,4 +131,18 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
 
     return pendentes;
   }
+
+  Widget _listaVazia() => Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          Text(
+            "Não há pedidos para seu usuário!",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.black, fontSize: 24, fontStyle: FontStyle.italic),
+          ),
+        ],
+      );
 }

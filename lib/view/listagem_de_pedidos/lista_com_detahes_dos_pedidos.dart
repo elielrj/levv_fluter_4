@@ -30,6 +30,13 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
   final numeradorDePedido = NumeradorDePedido();
 
   @override
+  void initState() {
+    super.initState();
+    widget.menuDosBotoes.listaDeStatusDosBotoes
+        .addListener(() => setState(() {}));
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(8),
@@ -45,11 +52,14 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
           Card(elevation: 4, child: _resumoDoPedido(pedido: pedido)),
           Card(elevation: 4, child: _localDeColetaDoPedido(pedido: pedido)),
           Card(elevation: 4, child: _localDeEntregaDoPedido(pedido: pedido)),
-          if (widget.menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[0])
+          if (widget
+              .menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[0])
             Card(elevation: 4, child: _botaoAcompanhar(pedido: pedido)),
-          if (widget.menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[1])
+          if (widget
+              .menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[1])
             Card(elevation: 4, child: _botaoFinalizados(pedido: pedido)),
-          if (widget.menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[2])
+          if (widget
+              .menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[2])
             Card(elevation: 4, child: _botaoPendentes(pedido: pedido)),
         ],
       );
@@ -107,7 +117,10 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
             ),
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => TelaMapa(pedido: pedido, usuario: widget.usuario)));
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          TelaMapa(pedido: pedido, usuario: widget.usuario)));
             },
           ),
         ],

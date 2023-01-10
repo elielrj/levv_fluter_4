@@ -67,6 +67,9 @@ class _MenuDosBotoesState extends State<MenuDosBotoes> {
                         }
                       }
                     });
+
+                    widget.listaDeStatusDosBotoes
+                        .notifyListeners();
                   },
                   child: Row(
                     children: [
