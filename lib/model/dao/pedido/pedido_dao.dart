@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
+import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
@@ -107,18 +108,18 @@ class PedidoDAO
   }
 */
 
-  Future<List<Pedido>> buscarPedidosDoUsuario({int limite = 10}) async {
+  Future<void> buscarPedidosDoUsuario({required Usuario usuario,int limite = 10}) async {
     List<Pedido> pedidos = [];
 
-    DocumentReference documentReferenceUsuarioDonoDoPedido =
-        FirebaseFirestore.instance.doc(
-            '${UsuarioDAO.collectionPath}/${nomeDoDocumentoDoUsuarioCorrente()}');
+  //  DocumentReference documentReferenceUsuarioDonoDoPedido =
+ //       FirebaseFirestore.instance.doc(
+   //         '${UsuarioDAO.collectionPath}/${nomeDoDocumentoDoUsuarioCorrente()}');
 
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .where("usuarioDonoDoPedido",
-              isEqualTo: documentReferenceUsuarioDonoDoPedido)
+              isEqualTo: usuario.toMap())
           .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
           .limit(limite)
           .get()
@@ -131,7 +132,7 @@ class PedidoDAO
 
             pedidos.add(Pedido.fromMap(data));
           }
-
+          usuario.listaDePedidos = pedidos;
           //pedidos = fromListMaps(data);
         } else {
           print(documentIsNotExists);
@@ -142,11 +143,11 @@ class PedidoDAO
       print("$documentErrorRetriveAllCurrentUser --> ${erro.toString()}");
     }
 
-    return pedidos;
+    //return pedidos;
   }
 
   Future<List<Pedido>> buscarPedidosPorCidade(String cidade,
-      {int limite = 20}) async {
+      { int limite = 20}) async {
     List<Pedido> pedidos = [];
 
     try {
@@ -163,9 +164,10 @@ class PedidoDAO
 
           for (DocumentSnapshot documentSnapshot in res.docs) {
             data.addAll(documentSnapshot.data() as Map<String, dynamic>);
-            final pedido = Pedido();
+
             pedidos.add(Pedido.fromMap(data));
           }
+
         } else {
           print(documentIsNotExistsInActualyCity);
         }

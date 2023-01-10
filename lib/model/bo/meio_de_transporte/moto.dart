@@ -7,9 +7,9 @@ class Moto extends Motorizado {
   static const int VALUE = 2;
 
   Moto(
-      {String? nome = "Moto",
-      int? peso = 20,
-      int? volume = 1600,
+      {String nome = "Moto",
+      int peso = 20,
+      int volume = 1600,
       String? modelo,
       String? marca,
       String? cor,
@@ -33,7 +33,7 @@ class Moto extends Motorizado {
   }
 
   @override
-  Map<dynamic, dynamic> toMap() {
+  Map<String, dynamic> toMap() {
     return Map.from({
       'nome': nome,
       'peso': peso,
@@ -46,7 +46,7 @@ class Moto extends Motorizado {
     });
   }
 
-  factory Moto.fromMap(Map<dynamic, dynamic> map) {
+  factory Moto.fromMap(Map<String, dynamic> map) {
     return Moto(
       nome: map['nome'],
       peso: map['peso'],

@@ -11,12 +11,10 @@ import 'package:levv4/model/bo/meio_de_transporte/motorizado.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 
 class Entregar extends Enviar {
-  String? perfil;
   List<Pedido>? pedidosTransportados;
   MeioDeTransporte? meioDeTransporte;
 
   Entregar({
-    String? perfil = "Entregar",
     String? nome,
     String? sobrenome,
     String? cpf,
@@ -25,9 +23,11 @@ class Entregar extends Enviar {
     Endereco? casa,
     Endereco? trabalho,
     Arquivo? documentoDeIdentificacao,
+    String perfil = "Entregar",
     this.pedidosTransportados,
     this.meioDeTransporte,
   }) : super(
+            perfil: perfil,
             nome: nome,
             sobrenome: sobrenome,
             cpf: cpf,
@@ -42,12 +42,8 @@ class Entregar extends Enviar {
 
   @override
   Map<String, dynamic> toMap() {
-
-
     return Map.from({
       if (perfil != null) 'perfil': perfil,
-      if(pedidosTransportados != null) 'pedidosTransportados': pedidosTransportados,
-      if(meioDeTransporte != null) 'meioDeTransporte': meioDeTransporte,
       if (nome != null) 'nome': nome,
       if (sobrenome != null) 'sobrenome': sobrenome,
       if (cpf != null) 'cpf': cpf,
@@ -59,32 +55,54 @@ class Entregar extends Enviar {
       //todo ver como se comporta
       if (casa != null) 'casa': casa!.toMap(),
       if (trabalho != null) 'trabalho': trabalho!.toMap(),
+      //if (pedidosTransportados != null)
+      ////   'pedidosTransportados': pedidosTransportados,
+      if (meioDeTransporte != null)
+        'meioDeTransporte': meioDeTransporte!.toMap(),
     });
   }
 
-  factory Entregar.fromMap(Map<dynamic, dynamic> map) {
-
+  factory Entregar.fromMap(Map<String, dynamic> map) {
     List<Pedido> pedidos = [];
-    Map<dynamic, dynamic> pedidoMap = map['pedido'];
-    pedidoMap.values.forEach((element) {
-      pedidos.add(Pedido.fromMap(element));
-    });
+
+    Map<dynamic, dynamic> pedidoMap = map['pedido'] ??= {};
+    if (pedidoMap.isNotEmpty) {
+      pedidoMap.values.forEach((element) {
+        pedidos.add(Pedido.fromMap(element));
+      });
+    }
 
     MeioDeTransporte meioDeTransporte;
 
     if (map['meioDeTransporte']['nome'] == 'Moto') {
       meioDeTransporte = Moto.fromMap(map['meioDeTransporte']);
-    } else {
+    } else if (map['meioDeTransporte']['nome'] == 'Carro') {
       meioDeTransporte = Carro.fromMap(map['meioDeTransporte']);
+    } else if (map['meioDeTransporte']['nome'] == 'A pé') {
+      meioDeTransporte = APe.fromMap(map['meioDeTransporte']);
+    } else if (map['meioDeTransporte']['nome'] == 'Bike') {
+      meioDeTransporte = APe.fromMap(map['meioDeTransporte']);
+    } else {
+      meioDeTransporte = APe();
     }
 
     Timestamp timestamp = map['nascimento'];
 
     List<Endereco> enderecosFavoritos = [];
-    Map<dynamic, dynamic> enderecos = map['enderecosFavoritos'];
-    enderecos.values.forEach((element) {
-      enderecosFavoritos.add(Endereco.fromMap(element));
-    });
+    Map<dynamic, dynamic> enderecos = map['enderecosFavoritos'] ??= {};
+    if (enderecos.isNotEmpty) {
+      enderecos.values.forEach((element) {
+        enderecosFavoritos.add(Endereco.fromMap(element));
+      });
+    }
+    Endereco enderecoDoTrabaho;
+    Map<dynamic,dynamic> enderecoDoTrabahoMap = map['trabalho']??={};
+    if(enderecoDoTrabahoMap.isNotEmpty){
+      enderecoDoTrabaho =Endereco.fromMap(map['trabalho']);
+    }else{
+      enderecoDoTrabaho = Endereco();
+    }
+
 
     return Entregar(
       perfil: map['perfil'],
@@ -96,7 +114,7 @@ class Entregar extends Enviar {
       nascimento: timestamp.toDate(),
       enderecosFavoritos: enderecosFavoritos,
       casa: Endereco.fromMap(map['casa']),
-      trabalho: Endereco.fromMap(map['trabalho']),
+      trabalho: enderecoDoTrabaho,
     );
   }
 }

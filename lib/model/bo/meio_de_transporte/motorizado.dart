@@ -16,9 +16,9 @@ abstract class Motorizado extends Bike{
 
   Motorizado(
       {
-        String? nome,
-        int? peso,
-        int? volume,
+        String nome = '',
+        int peso = 0,
+        int volume = 0,
         this.modelo,
       this.marca,
       this.cor,

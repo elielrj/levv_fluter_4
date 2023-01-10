@@ -5,5 +5,5 @@ abstract class Perfil {
 
   Perfil.fromMap(Map<dynamic, dynamic> map);
 
-  Map<dynamic, dynamic> toMap();
+  Map<String, dynamic> toMap();
 }

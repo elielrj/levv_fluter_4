@@ -8,5 +8,5 @@ abstract class MeioDeTransporte{
 
   MeioDeTransporte.fromMap(Map<dynamic, dynamic> map);
 
-  Map<dynamic, dynamic> toMap();
+  Map<String, dynamic> toMap();
 }

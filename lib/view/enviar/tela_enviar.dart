@@ -6,6 +6,7 @@ import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/view/enviar/item_da_rota_do_pedido.dart';
 import 'package:levv4/view/enviar/mapa_do_item_do_pedido.dart';
 import 'package:levv4/view/enviar/meio_de_transporte_do_pedido.dart';
@@ -23,17 +24,17 @@ import 'package:levv4/model/bo/meio_de_transporte/carro.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 
 class TelaEnviar extends StatefulWidget {
-  const TelaEnviar({Key? key, required this.usuario}) : super(key: key);
+  const TelaEnviar({Key? key, required this.usuario})
+      : super(key: key);
 
   final Usuario usuario;
+
 
   @override
   State<TelaEnviar> createState() => _TelaEnviarState();
 }
 
 class _TelaEnviarState extends State<TelaEnviar> {
-
-
   final criadorDePedido = CriadorDePedido();
 
   @override
@@ -281,7 +282,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
           alignment: Alignment.center,
         ),
         onPressed: () async {
-          try{
+          try {
             criadorDePedido.pedidoEstaCompleto()
                 ? await criadorDePedido.enviarPedido(usuario: widget.usuario)
                 : _exibirMensagemDeCampoVazio();
@@ -289,11 +290,9 @@ class _TelaEnviarState extends State<TelaEnviar> {
             print("Pedido enviado com sucesso!");
 
             _navegarParaTelaHome();
-
-          }catch(erro){
+          } catch (erro) {
             print("erro ao Enviar Pedido: ${erro.toString()}");
           }
-
         },
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -369,7 +368,9 @@ class _TelaEnviarState extends State<TelaEnviar> {
   }
 
   void _navegarParaTelaHome() {
-    Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => TelaHome(usuario: widget.usuario)));
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TelaHome(usuario: widget.usuario)));
   }
 }

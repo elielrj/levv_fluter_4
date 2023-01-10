@@ -7,17 +7,17 @@ class Enviar extends Pessoa {
   Arquivo? documentoDeIdentificacao;
 
   Enviar(
-      {String? perfil = "Enviar",
-      String? nome,
+      {String? nome,
       String? sobrenome,
       String? cpf,
       DateTime? nascimento,
       List<Endereco>? enderecosFavoritos,
       Endereco? casa,
       Endereco? trabalho,
+      String perfil = "Enviar",
       this.documentoDeIdentificacao})
       : super(
-    perfil: perfil,
+            perfil: perfil,
             nome: nome,
             sobrenome: sobrenome,
             cpf: cpf,
@@ -64,22 +64,22 @@ class Enviar extends Pessoa {
     Timestamp timestamp = map['nascimento'];
 
     List<Endereco> enderecosFavoritos = [];
-    Map<String, dynamic> enderecos = map['enderecosFavoritos']??{};
-    if(enderecos.isNotEmpty){
+    Map<String, dynamic> enderecos = map['enderecosFavoritos'] ?? {};
+    if (enderecos.isNotEmpty) {
       enderecos.values.forEach((element) {
         enderecosFavoritos.add(Endereco.fromMap(element));
       });
     }
 
     Endereco casa = Endereco();
-    Map<String,dynamic> casaMap = map['casa']?? {};
-    if(casaMap.isNotEmpty){
+    Map<String, dynamic> casaMap = map['casa'] ?? {};
+    if (casaMap.isNotEmpty) {
       casa = Endereco.fromMap(casaMap);
     }
 
     Endereco trabalho = Endereco();
-    Map<String,dynamic> trabalhoMap = map['trabalho']?? {};
-    if(casaMap.isNotEmpty){
+    Map<String, dynamic> trabalhoMap = map['trabalho'] ?? {};
+    if (casaMap.isNotEmpty) {
       trabalho = Endereco.fromMap(trabalhoMap);
     }
 

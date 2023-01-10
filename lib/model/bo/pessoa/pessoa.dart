@@ -12,7 +12,7 @@ abstract class Pessoa extends Acompanhar {
   Endereco? trabalho;
 
   Pessoa(
-      {String? perfil = 'Pessoa',
+      {String perfil = 'Pessoa',
       this.nome,
       this.sobrenome,
       this.cpf,
@@ -21,10 +21,4 @@ abstract class Pessoa extends Acompanhar {
       this.casa,
       this.trabalho})
       : super(perfil: perfil);
-
-
-
-
-
-
 }

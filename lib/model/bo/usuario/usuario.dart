@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:levv4/api/texto/text_banco_de_dados.dart';
 import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
 import 'package:levv4/model/bo/administrar/administrar.dart';
@@ -7,7 +8,7 @@ import 'package:levv4/model/bo/map/interface_map.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/perfil/perfil.dart';
 
-class Usuario implements InterfaceMap {
+class Usuario extends ChangeNotifier implements InterfaceMap {
   String? celular;
 
   Perfil? perfil;

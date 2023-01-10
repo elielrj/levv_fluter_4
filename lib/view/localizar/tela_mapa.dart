@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/model/bo/usuario/usuario.dart';
 
 import '../../model/bo/pedido/pedido.dart';
 import 'mapa.dart';
 
 class TelaMapa extends StatefulWidget {
-  const TelaMapa({Key? key, required this.pedido}) : super(key: key);
+  const TelaMapa({Key? key, required this.pedido, required this.usuario})
+      : super(key: key);
 
   final Pedido pedido;
+  final Usuario usuario;
 
   @override
   State<TelaMapa> createState() => _TelaMapaState();
@@ -63,8 +66,7 @@ class _TelaMapaState extends State<TelaMapa> {
             ),
           ),
         ),
-        Mapa(
-        ),
+        Mapa(),
       ]),
     );
   }

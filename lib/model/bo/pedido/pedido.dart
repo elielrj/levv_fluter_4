@@ -72,13 +72,23 @@ class Pedido extends ChangeNotifier implements InterfaceMap {
   factory Pedido.fromMap(Map<String, dynamic> map) {
     Timestamp timestamp = map["dataHoraDeCriacaoDoPedido"];
 
-    Map<dynamic, dynamic> mapaDeItens = map['itensDoPedido'];
+    Map<String, dynamic> mapaDeItens = map['itensDoPedido'];
 
     List<ItemDoPedido> itens = [];
 
-    mapaDeItens.values.forEach((element) {
-      itens.add(element);
+    mapaDeItens.forEach((key, value) {
+      itens.add(ItemDoPedido.fromMap(value));
     });
+   // mapaDeItens.values.forEach((element) {
+    //  itens.add(ItemDoPedido.fromMap(element));
+    //});
+
+    Usuario? usuario;
+    Map<String,dynamic> mapaDoUsuarioTransportador = map['transportadorDoPedido']??{};
+    if(mapaDoUsuarioTransportador.isNotEmpty){
+      Usuario? usuario = Usuario.fromMap(map['transportadorDoPedido']);
+    }
+
 
     return Pedido(
       numero: map['numero'],
@@ -89,7 +99,7 @@ class Pedido extends ChangeNotifier implements InterfaceMap {
       dataHoraDeCriacaoDoPedido: timestamp.toDate(),
       transporte: map['transporte'],
       itensDoPedido: itens,
-      transportadorDoPedido: Usuario.fromMap(map['transportadorDoPedido']),
+      transportadorDoPedido: usuario,
       volume: map['volume'],
       peso: map['peso'],
       usuarioDonoDoPedido: Usuario.fromMap(map['usuarioDonoDoPedido']),
