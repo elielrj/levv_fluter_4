@@ -60,6 +60,24 @@ class _TelaEntregarState extends State<TelaEntregar> {
       if (endereco != null) {
         final pedidoDAO = PedidoDAO();
         pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco.cidade!);
+      }else{
+        print("Erro ao buscar endereço!");
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text("Erro"),
+                titlePadding: const EdgeInsets.all(20),
+                titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+                content: const Text(
+                    'Não foi possível buscar obter sua localização para obter pedidos disponíveis!\nTente novamente!'),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text("Ok")),
+                ],
+              );
+            });
       }
     } catch (erro) {
       print("Erro ao buscar pedido para listar--> ${erro.toString()}");
