@@ -159,7 +159,7 @@ class PedidoDAO
           .get()
           .then((res) async {
         if (res.docs.isNotEmpty) {
-          final data = res as Map<String, dynamic>;
+          final Map<String, dynamic> data = {};
 
           for (DocumentSnapshot documentSnapshot in res.docs) {
             data.addAll(documentSnapshot.data() as Map<String, dynamic>);
