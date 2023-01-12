@@ -80,11 +80,20 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     for (Pedido pedido in pedidos)
-                      ItemComDetalhesDoPedido(
-                        pedido: pedido,
-                        menuDosBotoes: widget.menuDosBotoes,
-                        usuario: widget.usuario,
-                      ),
+                      Column(
+                        children: [
+                          ItemComDetalhesDoPedido(
+                            pedido: pedido,
+                            menuDosBotoes: widget.menuDosBotoes,
+                            usuario: widget.usuario,
+                          ),
+                          SizedBox(
+                              height: 8,
+                              child: Container(
+                                color: ColorsLevv.FUNDO_200_BUTTON_SELECTED,
+                              ))
+                        ],
+                      )
                   ],
                 )
         ],

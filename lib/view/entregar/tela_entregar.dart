@@ -21,13 +21,10 @@ class TelaEntregar extends StatefulWidget {
 class _TelaEntregarState extends State<TelaEntregar> {
   final MenuDosBotoes menuDosBotoes = MenuDosBotoes();
 
-  List<Pedido> pedidos = [];
-
   @override
   void initState() {
     super.initState();
-    pedidos;
-    _buscarListaDePedidosNaCidadeAtualDoEntregador();
+    widget.usuario.addListener(() => setState(() {}));
   }
 
   @override
@@ -41,16 +38,37 @@ class _TelaEntregarState extends State<TelaEntregar> {
             padding: const EdgeInsets.all(8),
             child: Column(children: [
               menuDosBotoes,
-              //lista de pedidos
-              ListagemDePedidos(
-                menuDosBotoes: menuDosBotoes,
-                usuario: widget.usuario,
-                pedidos: pedidos,
-              )
+              FutureBuilder<List<Pedido>>(
+                  future: _buscarListaDePedidosNaCidadeAtualDoEntregador(),
+                  builder: (context, snapshot) {
+                    List<Pedido> lista = [];
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                        break;
+                      case ConnectionState.waiting:
+                        break;
+                      case ConnectionState.active:
+                        break;
+                      case ConnectionState.done:
+                        if (snapshot.hasError) {
+                          print("Erro ao carregar os dados.");
+                        } else {
+                          lista = snapshot.data!;
+                        }
+                        break;
+                    }
+                    //lista de pedidos
+                    return ListagemDePedidos(
+                      menuDosBotoes: menuDosBotoes,
+                      usuario: widget.usuario,
+                      pedidos: lista,
+                    );
+                  }),
             ])));
   }
 
-  Future<void> _buscarListaDePedidosNaCidadeAtualDoEntregador() async {
+  Future<List<Pedido>> _buscarListaDePedidosNaCidadeAtualDoEntregador() async {
+    List<Pedido> pedidos = [];
     try {
       final localizar = Localizar();
       Position? position = await localizar.determinarPosicao();
@@ -60,7 +78,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
       if (endereco != null) {
         final pedidoDAO = PedidoDAO();
         pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco.cidade!);
-      }else{
+      } else {
         print("Erro ao buscar endereço!");
         showDialog(
             context: context,
@@ -68,7 +86,8 @@ class _TelaEntregarState extends State<TelaEntregar> {
               return AlertDialog(
                 title: const Text("Erro"),
                 titlePadding: const EdgeInsets.all(20),
-                titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
+                titleTextStyle:
+                    const TextStyle(fontSize: 20, color: Colors.red),
                 content: const Text(
                     'Não foi possível buscar obter sua localização para obter pedidos disponíveis!\nTente novamente!'),
                 actions: [
@@ -98,5 +117,6 @@ class _TelaEntregarState extends State<TelaEntregar> {
             );
           });
     }
+    return pedidos;
   }
 }

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../api/cor/colors_levv.dart';
@@ -20,7 +23,6 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
   @override
   void initState() {
     super.initState();
-    _buscarListaDePedidoDoUsuario();
     widget.usuario.addListener(() => setState(() {}));
   }
 
@@ -36,19 +38,41 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
             child: Column(children: [
               //botões
               menuDosBotoes,
-              //lista de pedidos
-              ListagemDePedidos(
-                menuDosBotoes: menuDosBotoes,
-                usuario: widget.usuario,
-                pedidos: widget.usuario.listaDePedidos ??= [],
+              FutureBuilder<List<Pedido>>(
+                future: _buscarListaDePedidoDoUsuario(),
+                builder: (context, snapshot) {
+                  List<Pedido> lista = [];
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      break;
+                    case ConnectionState.waiting:
+                      break;
+                    case ConnectionState.active:
+                      break;
+                    case ConnectionState.done:
+                      if (snapshot.hasError) {
+                        print("Erro ao carregar os dados.");
+                      } else {
+                        lista = snapshot.data!;
+                      }
+                      break;
+                  }
+                  //lista de pedidos
+                  return ListagemDePedidos(
+                    menuDosBotoes: menuDosBotoes,
+                    usuario: widget.usuario,
+                    pedidos: lista,
+                  );
+                },
               )
             ])));
   }
 
-  Future<void> _buscarListaDePedidoDoUsuario() async {
+  Future<List<Pedido>> _buscarListaDePedidoDoUsuario() async {
+    List<Pedido> pedidos = [];
     try {
       final pedidoDAO = PedidoDAO();
-      await pedidoDAO.buscarPedidosDoUsuario(usuario: widget.usuario);
+      pedidos = await pedidoDAO.buscarPedidosDoUsuario(usuario: widget.usuario);
     } catch (erro) {
       print("Erro ao buscar pedido para listar--> ${erro.toString()}");
       showDialog(
@@ -68,5 +92,6 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
             );
           });
     }
+    return pedidos;
   }
 }

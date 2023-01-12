@@ -108,7 +108,7 @@ class PedidoDAO
   }
 */
 
-  Future<void> buscarPedidosDoUsuario({required Usuario usuario,int limite = 10}) async {
+  Future<List<Pedido>> buscarPedidosDoUsuario({required Usuario usuario,int limite = 10}) async {
     List<Pedido> pedidos = [];
 
   //  DocumentReference documentReferenceUsuarioDonoDoPedido =
@@ -132,8 +132,8 @@ class PedidoDAO
 
             pedidos.add(Pedido.fromMap(data));
           }
-          usuario.listaDePedidos = pedidos;
-          //pedidos = fromListMaps(data);
+
+
         } else {
           print(documentIsNotExists);
         }
@@ -143,7 +143,7 @@ class PedidoDAO
       print("$documentErrorRetriveAllCurrentUser --> ${erro.toString()}");
     }
 
-    //return pedidos;
+    return pedidos;
   }
 
   Future<List<Pedido>> buscarPedidosPorCidade(String cidade,
