@@ -153,6 +153,7 @@ class PedidoDAO
           .collection(collectionPath)
           .where("cidade", isEqualTo: cidade)
           .where("usuarioDonoDoPedido", isNotEqualTo: usuario.toMap())
+          .orderBy("usuarioDonoDoPedido")
           .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
           .limit(limite)
           .get()

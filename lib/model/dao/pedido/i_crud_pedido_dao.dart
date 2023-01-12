@@ -10,7 +10,7 @@ abstract class ICrudPedidoDAO<T> {
 
   Future<void> buscarPedidosDoUsuario({required Usuario usuario,int limite = 10});
 
-  Future<List<Pedido>> buscarPedidosPorCidade(String cidade,{int limite = 10});
+  Future<List<Pedido>> buscarPedidosPorCidade(String cidade,{required Usuario usuario,int limite = 10});
 
  // Future<void> buscarUmUsuarioPeloNomeDoDocumento(String reference);
 
