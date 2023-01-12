@@ -54,6 +54,7 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
                         print("Erro ao carregar os dados.");
                       } else {
                         lista = snapshot.data!;
+                        print("sucess ao carregar dados!");
                       }
                       break;
                   }

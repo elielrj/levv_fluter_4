@@ -54,6 +54,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
                           print("Erro ao carregar os dados.");
                         } else {
                           lista = snapshot.data!;
+                          print("sucess ao carregar dados!");
                         }
                         break;
                     }
@@ -77,7 +78,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
 
       if (endereco != null) {
         final pedidoDAO = PedidoDAO();
-        pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco.cidade!);
+        pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco.cidade!, usuario: widget.usuario);
       } else {
         print("Erro ao buscar endereço!");
         showDialog(

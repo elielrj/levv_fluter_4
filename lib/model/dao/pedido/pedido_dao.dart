@@ -108,18 +108,18 @@ class PedidoDAO
   }
 */
 
-  Future<List<Pedido>> buscarPedidosDoUsuario({required Usuario usuario,int limite = 10}) async {
+  Future<List<Pedido>> buscarPedidosDoUsuario(
+      {required Usuario usuario, int limite = 10}) async {
     List<Pedido> pedidos = [];
 
-  //  DocumentReference documentReferenceUsuarioDonoDoPedido =
- //       FirebaseFirestore.instance.doc(
-   //         '${UsuarioDAO.collectionPath}/${nomeDoDocumentoDoUsuarioCorrente()}');
+    //  DocumentReference documentReferenceUsuarioDonoDoPedido =
+    //       FirebaseFirestore.instance.doc(
+    //         '${UsuarioDAO.collectionPath}/${nomeDoDocumentoDoUsuarioCorrente()}');
 
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
-          .where("usuarioDonoDoPedido",
-              isEqualTo: usuario.toMap())
+          .where("usuarioDonoDoPedido", isEqualTo: usuario.toMap())
           .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
           .limit(limite)
           .get()
@@ -132,8 +132,6 @@ class PedidoDAO
 
             pedidos.add(Pedido.fromMap(data));
           }
-
-
         } else {
           print(documentIsNotExists);
         }
@@ -147,14 +145,14 @@ class PedidoDAO
   }
 
   Future<List<Pedido>> buscarPedidosPorCidade(String cidade,
-      { int limite = 20}) async {
+      {required Usuario usuario, int limite = 20}) async {
     List<Pedido> pedidos = [];
 
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .where("cidade", isEqualTo: cidade)
-          .where("pedidoEstaDisponivelParaEntrega", isEqualTo: true)
+          .where("usuarioDonoDoPedido", isNotEqualTo: usuario.toMap())
           .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
           .limit(limite)
           .get()
@@ -167,7 +165,6 @@ class PedidoDAO
 
             pedidos.add(Pedido.fromMap(data));
           }
-
         } else {
           print(documentIsNotExistsInActualyCity);
         }
