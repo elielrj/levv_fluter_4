@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/dao/endereco/i_crud_endereco_dao.dart';
-
+/*
 class EnderecoDAO
     with NomeDoDocumentoDoUsuarioCorrente
     implements ICrudEnderecoDAO<Endereco> {
@@ -29,12 +29,12 @@ class EnderecoDAO
   static const documentErrorDelete = "EnderecoDAO: Error delete document!";
 
   @override
-  Future<void> criar(Map<String, dynamic> object) async {
+  Future<void> criar(Endereco object) async {
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .set(toMapToMap(object));
+          .set(object.toMap());
       print(documentSucessfullyCreate);
     } catch (erro) {
       print("$documentErrorCreate--> ${erro.toString()}");
@@ -42,12 +42,12 @@ class EnderecoDAO
   }
 
   @override
-  Future<void> atualizar(Map<String, dynamic> object) async {
+  Future<void> atualizar(Endereco object) async {
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(nomeDoDocumentoDoUsuarioCorrente())
-          .update(toMapToMap(object));
+          .update(object.toMap());
       print(documentSucessfullyUpdate);
     } catch (erro) {
       print("$documentErrorUpdate--> ${erro.toString()}");
@@ -55,7 +55,7 @@ class EnderecoDAO
   }
 
   @override
-  Future<dynamic> buscarEnderecosDoUsuarioCorrente() async {
+  Future<List<Endereco>> buscarEnderecosDoUsuarioCorrente() async {
     Map<String, dynamic> listaDeMaps = {};
 
     try {
@@ -66,7 +66,8 @@ class EnderecoDAO
           .then((DocumentSnapshot doc) async {
         final data = doc.data() as Map<String, dynamic>;
 
-        listaDeMaps = fromMapFromMap(data);
+
+        listaDeMaps = fromMapFromMap();
         print(documentSucessfullyRetrive);
       });
     } catch (erro) {
@@ -125,34 +126,6 @@ class EnderecoDAO
     return mapDeFavoritos;
   }
 
-  @override
-  Map<String, dynamic> toMap(Endereco object) {
-    return {
-      if (object.logradouro != null) "logradouro": object.logradouro,
-      if (object.numero != null) "numero": object.numero,
-      if (object.complemento != null) "complemento": object.complemento,
-      if (object.cep != null) "cep": object.cep,
-      if (object.geolocalizacao != null)
-        "geolocalizacao": object.geolocalizacao,
-      if (object.bairro != null) "bairro": object.bairro,
-      if (object.cidade != null) "cidade": object.cidade,
-      if (object.estado != null) "estado": object.estado,
-      if (object.pais != null) "pais": object.pais
-    };
-  }
 
-  @override
-  Endereco fromMap(Map<String, dynamic> map) {
-    return Endereco(
-      logradouro: map["logradouro"],
-      numero: map["numero"],
-      complemento: map["complemento"],
-      cep: map["cep"],
-      geolocalizacao: map["geolocalizacao"],
-      bairro: map["bairro"],
-      cidade: map["cidade"],
-      estado: map["estado"],
-      pais: map["pais"],
-    );
-  }
 }
+*/

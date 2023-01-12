@@ -1,7 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 
-abstract class Pessoa implements Acompanhar {
+abstract class Pessoa extends Acompanhar {
   String? nome;
   String? sobrenome;
   String? cpf;
@@ -11,11 +12,13 @@ abstract class Pessoa implements Acompanhar {
   Endereco? trabalho;
 
   Pessoa(
-      {this.nome,
+      {String perfil = 'Pessoa',
+      this.nome,
       this.sobrenome,
       this.cpf,
       this.nascimento,
       this.enderecosFavoritos,
       this.casa,
-      this.trabalho});
+      this.trabalho})
+      : super(perfil: perfil);
 }

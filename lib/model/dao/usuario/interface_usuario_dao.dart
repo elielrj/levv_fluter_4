@@ -9,7 +9,4 @@ abstract class InterfaceUsuarioDAO<T> {
 
   Future<void> deletar(T object);
 
-  Future<Map<String, dynamic>> toMap(T object);
-
-  Future<T> fromMap(Map<String, dynamic> map);
 }

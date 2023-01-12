@@ -7,7 +7,7 @@ import '../../bo/acompanhar/acompanhar.dart';
 import '../../bo/administrar/administrar.dart';
 import '../../bo/entregar/entregar.dart';
 import '../../bo/enviar/enviar.dart';
-
+/*
 mixin DeletePerfil {
   Future<void> deletePerfil(var object) async {
     if (object is Entregar) {
@@ -25,3 +25,5 @@ mixin DeletePerfil {
     }
   }
 }
+
+ */

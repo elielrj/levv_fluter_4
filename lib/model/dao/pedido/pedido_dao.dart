@@ -1,7 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
+import 'package:levv4/model/bo/endereco/endereco.dart';
+import 'package:levv4/model/bo/entregar/entregar.dart';
+import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/model/bo/usuario/usuario.dart';
+import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 
 import 'i_crud_pedido_dao.dart';
 
@@ -16,30 +22,38 @@ class PedidoDAO
       "PedidoDAO: DocumentSnapshot successfully update!";
   static const documentSucessfullyRetrive =
       "PedidoDAO: DocumentSnapshot successfully retrive!";
-  static const documentSucessfullyRetriveAll = "PedidoDAO: DocumentSnapshot successfully retrive all!";
-  static const documentSucessfullyRetriveAllCities = "PedidoDAO: DocumentSnapshot successfully retrive all cities!";
-  static const documentSucessfullyRetriveAllCurrentUser = "PedidoDAO: DocumentSnapshot successfully retrive all current user!";
+  static const documentSucessfullyRetriveAll =
+      "PedidoDAO: DocumentSnapshot successfully retrive all!";
+  static const documentSucessfullyRetriveAllCities =
+      "PedidoDAO: DocumentSnapshot successfully retrive all cities!";
+  static const documentSucessfullyRetriveAllCurrentUser =
+      "PedidoDAO: DocumentSnapshot successfully retrive all current user!";
   static const documentSucessfullyDelete =
       "PedidoDAO: DocumentSnapshot successfully delete!";
 
   static const documentErrorCreate = "PedidoDAO: Error crete document!";
   static const documentErrorUpdate = "PedidoDAO: Error update document!";
   static const documentErrorRetrive = "PedidoDAO: Error retrive document!";
-  static const documentErrorRetriveAll = "PedidoDAO: Error retrive all document!";
-  static const documentErrorRetriveAllCities = "PedidoDAO: Error retrive all document cities!";
-  static const documentErrorRetriveAllCurrentUser = "PedidoDAO: Error retrive all document current user!";
+  static const documentErrorRetriveAll =
+      "PedidoDAO: Error retrive all document!";
+  static const documentErrorRetriveAllCities =
+      "PedidoDAO: Error retrive all document cities!";
+  static const documentErrorRetriveAllCurrentUser =
+      "PedidoDAO: Error retrive all document current user!";
   static const documentErrorDelete = "PedidoDAO: Error delete document!";
 
   static const documentIsNotExists = "PedidoDAO: não há pedidos do usuário!";
-  static const documentIsNotExistsInActualyCity = "PedidoDAO: não há pedidos na cidade atual!";
+  static const documentIsNotExistsInActualyCity =
+      "PedidoDAO: não há pedidos na cidade atual!";
 
   @override
   Future<void> criar(Pedido object) async {
     try {
+      final numeradorDePedido = NumeradorDePedido();
       await FirebaseFirestore.instance
           .collection(collectionPath)
-          .doc(object.numero)
-          .set(toMap(object));
+          .doc(numeradorDePedido.converterEmMd5(object.numero!))
+          .set(object.toMap());
       print(documentSucessfullyCreate);
     } catch (erro) {
       print("$documentErrorCreate--> ${erro.toString()}");
@@ -52,7 +66,7 @@ class PedidoDAO
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .doc(object.numero)
-          .update(toMap(object));
+          .update(object.toMap());
       print(documentSucessfullyUpdate);
     } catch (erro) {
       print("$documentErrorUpdate--> ${erro.toString()}");
@@ -68,7 +82,9 @@ class PedidoDAO
           .collection(collectionPath)
           .get()
           .then((res) {
-        res.docs.map((e) => pedidos.add(fromMap(e.data())));
+        res.docs.map((e) {
+          pedidos.add(Pedido.fromMap(e.data()));
+        });
       });
       print(documentSucessfullyRetriveAll);
     } catch (erro) {
@@ -92,26 +108,35 @@ class PedidoDAO
   }
 */
 
-  Future<List<Pedido>> buscarPedidosDoUsuario({int limite = 10}) async {
+  Future<List<Pedido>> buscarPedidosDoUsuario({required Usuario usuario,int limite = 10}) async {
     List<Pedido> pedidos = [];
+
+  //  DocumentReference documentReferenceUsuarioDonoDoPedido =
+ //       FirebaseFirestore.instance.doc(
+   //         '${UsuarioDAO.collectionPath}/${nomeDoDocumentoDoUsuarioCorrente()}');
 
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
           .where("usuarioDonoDoPedido",
-              isEqualTo: nomeDoDocumentoDoUsuarioCorrente())
+              isEqualTo: usuario.toMap())
           .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
           .limit(limite)
           .get()
           .then((res) async {
-            if(res.docs.isNotEmpty){
-              final data = res as Map<String, dynamic>;
+        if (res.docs.isNotEmpty) {
+          final Map<String, dynamic> data = {};
 
-              pedidos = fromListMaps(data);
-            }else{
-              print(documentIsNotExists);
-            }
+          for (DocumentSnapshot documentSnapshot in res.docs) {
+            data.addAll(documentSnapshot.data() as Map<String, dynamic>);
 
+            pedidos.add(Pedido.fromMap(data));
+          }
+
+
+        } else {
+          print(documentIsNotExists);
+        }
       });
       print(documentSucessfullyRetriveAllCurrentUser);
     } catch (erro) {
@@ -122,7 +147,7 @@ class PedidoDAO
   }
 
   Future<List<Pedido>> buscarPedidosPorCidade(String cidade,
-      {int limite = 20}) async {
+      { int limite = 20}) async {
     List<Pedido> pedidos = [];
 
     try {
@@ -134,15 +159,18 @@ class PedidoDAO
           .limit(limite)
           .get()
           .then((res) async {
+        if (res.docs.isNotEmpty) {
+          final data = res as Map<String, dynamic>;
 
-            if(res.docs.isNotEmpty){
-              final data = res as Map<String, dynamic>;
+          for (DocumentSnapshot documentSnapshot in res.docs) {
+            data.addAll(documentSnapshot.data() as Map<String, dynamic>);
 
-              pedidos = fromListMaps(data);
-            }else{
-              print(documentIsNotExistsInActualyCity);
-            }
+            pedidos.add(Pedido.fromMap(data));
+          }
 
+        } else {
+          print(documentIsNotExistsInActualyCity);
+        }
       });
       print(documentSucessfullyRetriveAllCities);
     } catch (erro) {
@@ -164,10 +192,14 @@ class PedidoDAO
       print("$documentErrorDelete ${erro.toString()}");
     }
   }
-
+/*
   @override
-  Map<String, dynamic> toMap(Pedido object) {
-    return {
+  Map<String, dynamic> toMap(Pedido object) {/*
+    DocumentReference documentReferenceUsuarioDonoDoPedido =
+        FirebaseFirestore.instance.doc(
+            '${UsuarioDAO.collectionPath}/${object.usuarioDonoDoPedido!.celular}');
+
+    final map = {
       if (object.numero != null) "numero": object.numero,
       if (object.valor != null) "valor": object.valor,
       if (object.pedidoEstaDisponivelParaEntrega != null)
@@ -177,29 +209,51 @@ class PedidoDAO
         "pedidoFoiEntregue": object.pedidoFoiEntregue,
       if (object.pedidoFoiPago != null) "pedidoFoiPago": object.pedidoFoiPago,
       if (object.dataHoraDeCriacaoDoPedido != null)
-        "pedidoFoiPago": object.dataHoraDeCriacaoDoPedido,
+        "dataHoraDeCriacaoDoPedido": Timestamp.fromMillisecondsSinceEpoch(
+            object.dataHoraDeCriacaoDoPedido!.millisecondsSinceEpoch),
       if (object.transporte != null) "transporte": object.transporte,
-      if (object.itensDoPedido != null) "itensDoPedido": object.itensDoPedido,
+      if (object.itensDoPedido != null)
+        "itensDoPedido": toMapItemDoPedido(object.itensDoPedido!),
       if (object.transportadorDoPedido != null)
         "transportadorDoPedido": object.transportadorDoPedido,
       if (object.usuarioDonoDoPedido != null)
-        "usuarioDonoDoPedido": object.usuarioDonoDoPedido,
+        "usuarioDonoDoPedido": documentReferenceUsuarioDonoDoPedido,
       if (object.volume != null) "volume": object.volume,
       if (object.peso != null) "peso": object.peso,
     };
+    return null;
   }
+
+  Map<dynamic, dynamic> toMapItemDoPedido(List<ItemDoPedido> itensDoPedido) {
+    final map = {};
+
+    for (ItemDoPedido itemDoPedido in itensDoPedido) {
+
+      map.addAll(itemDoPedido.toMap());
+    }
+
+    return map;
+  }
+
+
 
   @override
   Pedido fromMap(Map<String, dynamic> map) {
+
+    Timestamp timestamp = map["dataHoraDeCriacaoDoPedido"];
+    DateTime dateTime = timestamp.toDate();
+
+    map["itensDoPedido"];
+
     return Pedido(
       numero: map["numero"],
       valor: map["valor"],
       pedidoEstaDisponivelParaEntrega: map["pedidoEstaDisponivelParaEntrega"],
       pedidoFoiEntregue: map["pedidoFoiEntregue"],
       pedidoFoiPago: map["pedidoFoiPago"],
-      dataHoraDeCriacaoDoPedido: map["dataHoraDeCriacaoDoPedido"],
+      dataHoraDeCriacaoDoPedido: dateTime,
       transporte: map["transporte"],
-      itensDoPedido: map["itensDoPedido"],
+      itensDoPedido: ,
       transportadorDoPedido: map["transportadorDoPedido"],
       usuarioDonoDoPedido: map["usuarioDonoDoPedido"],
       volume: map["volume"],
@@ -207,12 +261,41 @@ class PedidoDAO
     );
   }
 
+  fromMapItensDoPedido(Map<String, dynamic> map){
+    List<ItemDoPedido> itensDoPedido = [];
+
+
+
+    ItemDoPedido itemDoPedido = ItemDoPedido(
+      ordem: map['ordem'],
+      coleta: map['coleta'],
+      entrega: map['entrega'],
+    );
+
+    itensDoPedido.add(itemDoPedido);
+
+    return itensDoPedido;
+  }*/
+
   List<Pedido> fromListMaps(Map<String, dynamic> map) {
     List<Pedido> listPedidos = [];
 
-    for (var item in map.values) {
-      listPedidos.add(fromMap(item));
-    }
+    listPedidos = [fromMap(map)];
+
+    //  map.entries.forEach((element) {
+
+    //   final data = {element.key: element.value};
+
+    //   listPedidos.add(fromMap(data));
+
+    // });
+
+    //for (var item in map.values) {
+    //for (Map<String,dynamic> _map in map.) {
+
+    //   listPedidos.add(fromMap(_map));
+    //  }
     return listPedidos;
-  }
+  }*/
+
 }

@@ -56,6 +56,7 @@ dependencies:
   cpf_cnpj_validator: ^2.0.0
 
   country_phone_code_picker: ^0.0.41
+  crypto: ^3.0.2
 
 dev_dependencies:
   flutter_test:

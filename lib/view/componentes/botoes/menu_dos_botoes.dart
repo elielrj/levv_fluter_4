@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:levv4/view/componentes/botoes/lista_de_status_dos_botoes.dart';
 
 import '../../../api/cor/colors_levv.dart';
 import '../../../api/imagem/image_levv.dart';
 
 class MenuDosBotoes extends StatefulWidget {
-  const MenuDosBotoes({Key? key, required this.listaDeStatusDosBotoes}) : super(key: key);
+  MenuDosBotoes({Key? key}) : super(key: key);
 
-  final List<bool> listaDeStatusDosBotoes;
+  final listaDeStatusDosBotoes = ListaDeStatusDosBotoes();
 
   @override
   State<MenuDosBotoes> createState() => _MenuDosBotoesState();
 }
 
 class _MenuDosBotoesState extends State<MenuDosBotoes> {
-
   final List<String> listaDeNomeDosIcones = [
     ImageLevv.ICON_ACTIVE,
     ImageLevv.ICON_FINISHED,
@@ -25,6 +25,12 @@ class _MenuDosBotoesState extends State<MenuDosBotoes> {
     "Finalizados",
     "Pendentes"
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    widget.listaDeStatusDosBotoes.addListener(() => setState(() {}));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,23 +47,29 @@ class _MenuDosBotoesState extends State<MenuDosBotoes> {
                   style: ButtonStyle(
                       padding: MaterialStateProperty.all<EdgeInsets>(
                           const EdgeInsets.all(20)),
-                      backgroundColor: MaterialStateProperty.all(
-                          widget.listaDeStatusDosBotoes[index]
-                              ? ColorsLevv
-                              .FUNDO_500_BUTTON_NOT_SELECTED
-                              : ColorsLevv
-                              .FUNDO_200_BUTTON_SELECTED)),
+                      backgroundColor: MaterialStateProperty.all(widget
+                              .listaDeStatusDosBotoes
+                              .listaDeStatusDosBotoes[index]
+                          ? ColorsLevv.FUNDO_500_BUTTON_NOT_SELECTED
+                          : ColorsLevv.FUNDO_200_BUTTON_SELECTED)),
                   onPressed: () {
                     setState(() {
                       for (int vetor = 0;
-                      vetor < widget.listaDeStatusDosBotoes.length;
-                      vetor++) {
-                        widget.listaDeStatusDosBotoes[index] = true;
+                          vetor <
+                              widget.listaDeStatusDosBotoes
+                                  .listaDeStatusDosBotoes.length;
+                          vetor++) {
+                        widget.listaDeStatusDosBotoes
+                            .listaDeStatusDosBotoes[index] = true;
                         if (vetor != index) {
-                          widget.listaDeStatusDosBotoes[vetor] = false;
+                          widget.listaDeStatusDosBotoes
+                              .listaDeStatusDosBotoes[vetor] = false;
                         }
                       }
                     });
+
+                    widget.listaDeStatusDosBotoes
+                        .notifyListeners();
                   },
                   child: Row(
                     children: [
@@ -72,8 +84,6 @@ class _MenuDosBotoesState extends State<MenuDosBotoes> {
                       ),
                     ],
                   )),
-
-
           ],
         ));
   }

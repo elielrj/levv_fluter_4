@@ -180,12 +180,10 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
       //verificar telefone
       if (valido) {
         await _controller.verifyPhoneNumber();
-
-        /// Navegar p/ Tela Home c/ verificação de usuário no banco de Dados
-        await _verificarSeExisteUsuarioNoBancoENavegarParaTelaHome();
       }
 
-
+      /// Navegar p/ Tela Home c/ verificação de usuário no banco de Dados
+      await _verificarSeExisteUsuarioNoBancoENavegarParaTelaHome();
     } catch (erro) {
       AlertDialog(
         title: const Text("Não foi possível confirmar o código",

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:levv4/api/cor/colors_levv.dart';
+import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
@@ -11,17 +13,18 @@ import 'package:levv4/view/localizar/localizar/localizar.dart';
 import 'package:levv4/view/localizar/marcadores.dart';
 
 class MapaDoItemDoPedido extends StatefulWidget with Marcadores {
-  MapaDoItemDoPedido({
-    Key? key,
-    required this.itemDoPedido,
-    required this.labelText,
-    required this.itemDaRotaDoPedidoController, required this.pedido,
-  }) : super(key: key);
+  MapaDoItemDoPedido(
+      {Key? key,
+      required this.itemDoPedido,
+      required this.labelText,
+      required this.itemDaRotaDoPedidoController,
+      required this.criadorDePedido})
+      : super(key: key);
 
   final ItemDoPedido itemDoPedido;
   final String labelText;
   final ItemDaRotaDoPedidoController itemDaRotaDoPedidoController;
-  final Pedido pedido;
+  final CriadorDePedido criadorDePedido;
 
   @override
   State<MapaDoItemDoPedido> createState() => _MapaDoItemDoPedidoState();
@@ -37,6 +40,12 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
 
   _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.itemDaRotaDoPedidoController.addListener(() => setState(() {}));
   }
 
   @override
@@ -95,18 +104,41 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
     ));
   }
 
-  void _selecionarlocalNoMapa() {
+  void _selecionarlocalNoMapa() async {
     {
       if (widget.marcadores.isNotEmpty) {
         try {
+          final localizar = Localizar();
+
+          Endereco? endereco = await localizar
+              .converterLatLngEmEndereco(widget.marcadores.first.position);
+
           if (widget.labelText == TextLevv.ENDERECO_ENTREGA) {
-            _enderecoDeEntrega();
+            setState(() {
+              widget.itemDoPedido.entrega = endereco;
+
+              widget.itemDaRotaDoPedidoController.textEditingController.text =
+                  widget.itemDoPedido.entrega.toString();
+            });
+
+            widget.itemDaRotaDoPedidoController.fecharMapa();
+
+            print("Teste MAPA--> ${widget.itemDoPedido.entrega.toString()}");
           } else {
-            _enderecoDeColeta();
+            setState(() {
+              widget.itemDoPedido.coleta = endereco;
+
+              widget.itemDaRotaDoPedidoController.textEditingController.text =
+                  widget.itemDoPedido.coleta.toString();
+            });
+
+            widget.itemDaRotaDoPedidoController.fecharMapa();
+
+            print("Teste MAPA--> ${widget.itemDoPedido.coleta.toString()}");
           }
 
           //widget.pedido.notifyListeners();
-
+          widget.criadorDePedido.calcularValorDoPedido();
         } catch (erro) {
           print("erro:-> ${erro.toString()}");
         }
@@ -114,38 +146,6 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
         _exibirMensagemDeErro();
       }
     }
-  }
-
-  Future<void> _enderecoDeEntrega() async {
-    widget.itemDoPedido.entrega = await _buscarObejetoEndereco();
-
-    setState(() {
-      widget.itemDaRotaDoPedidoController.textEditingController.text =
-          widget.itemDoPedido.entrega.toString();
-    });
-
-    widget.itemDaRotaDoPedidoController.fecharMapa();
-
-    print("Teste MAPA--> ${widget.itemDoPedido.entrega.toString()}");
-  }
-
-  Future<void> _enderecoDeColeta() async {
-    widget.itemDoPedido.coleta = await _buscarObejetoEndereco();
-
-    setState(() {
-      widget.itemDaRotaDoPedidoController.textEditingController.text =
-          widget.itemDoPedido.coleta.toString();
-    });
-
-    widget.itemDaRotaDoPedidoController.fecharMapa();
-
-    print("Teste MAPA--> ${widget.itemDoPedido.coleta.toString()}");
-  }
-
-  Future<Endereco?> _buscarObejetoEndereco() async {
-    final localizar = Localizar();
-    return await localizar
-        .converterLatLngEmEndereco(widget.marcadores.first.position);
   }
 
   _exibirMensagemDeErro() {

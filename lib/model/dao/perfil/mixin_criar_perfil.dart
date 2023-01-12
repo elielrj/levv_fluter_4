@@ -7,7 +7,7 @@ import '../../bo/acompanhar/acompanhar.dart';
 import '../../bo/administrar/administrar.dart';
 import '../../bo/entregar/entregar.dart';
 import '../../bo/enviar/enviar.dart';
-
+/*
 mixin CriarPerfil {
   Future<void> createPerfil(var object) async {
     if (object is Entregar) {
@@ -25,3 +25,5 @@ mixin CriarPerfil {
     }
   }
 }
+
+ */

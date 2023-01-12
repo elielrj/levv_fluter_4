@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/enviar/enviar.dart';
 import 'package:levv4/view/acompanhar/tela_acompanhar.dart';
@@ -26,7 +25,7 @@ class _TelaHomeState extends State<TelaHome> {
   @override
   void initState() {
     super.initState();
-    widget.usuario;
+    widget.usuario.addListener(() => setState(() {}));
   }
 
   @override
