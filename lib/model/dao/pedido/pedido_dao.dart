@@ -151,7 +151,7 @@ class PedidoDAO
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
-          .where("cidade", isEqualTo: cidade)
+          .where("municipioDoPedido", isEqualTo: cidade)
           .where("usuarioDonoDoPedido", isNotEqualTo: usuario.toMap())
           .orderBy("usuarioDonoDoPedido")
           .orderBy("dataHoraDeCriacaoDoPedido", descending: true)

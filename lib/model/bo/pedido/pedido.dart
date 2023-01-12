@@ -18,6 +18,7 @@ class Pedido extends ChangeNotifier implements InterfaceMap {
   int? transporte;
   int? volume;
   int? peso;
+  String? municipioDoPedido;
 
   Pedido(
       {this.numero,
@@ -31,7 +32,8 @@ class Pedido extends ChangeNotifier implements InterfaceMap {
       this.usuarioDonoDoPedido,
       this.transporte,
       this.volume,
-      this.peso}) {
+      this.peso,
+      this.municipioDoPedido}) {
     itensDoPedido ??= [ItemDoPedido(ordem: 1)];
     peso ??= 0;
     volume ??= 0;
@@ -103,6 +105,7 @@ class Pedido extends ChangeNotifier implements InterfaceMap {
       volume: map['volume'],
       peso: map['peso'],
       usuarioDonoDoPedido: Usuario.fromMap(map['usuarioDonoDoPedido']),
+      municipioDoPedido: map['municipioDoPedido'],
     );
   }
 
@@ -135,6 +138,7 @@ class Pedido extends ChangeNotifier implements InterfaceMap {
         'usuarioDonoDoPedido': usuarioDonoDoPedido!.toMap(),
       if (volume != null) 'volume': volume,
       if (peso != null) 'peso': peso,
+      if (municipioDoPedido != null) 'municipioDoPedido': municipioDoPedido,
     });
   }
 }

@@ -10,6 +10,7 @@ import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import 'package:levv4/view/enviar/rota_do_pedido.dart';
+import 'package:levv4/view/localizar/localizar/localizar.dart';
 
 class CriadorDePedido extends ChangeNotifier {
 
@@ -55,6 +56,17 @@ class CriadorDePedido extends ChangeNotifier {
     _pedido.pedidoEstaDisponivelParaEntrega = true;
     _pedido.dataHoraDeCriacaoDoPedido = DateTime.now();
     _pedido.usuarioDonoDoPedido = usuario;
+
+
+    final localizar = Localizar();
+    Endereco? endereco = await localizar.converterPositionEmEndereco(await localizar.determinarPosicao());
+    if(endereco != null){
+      _pedido.municipioDoPedido = endereco.cidade;
+      print("Municipio do pedido obtido com sucesso: ${_pedido.municipioDoPedido}");
+    }  else{
+      _pedido.municipioDoPedido = _pedido.itensDoPedido![0].coleta!.cidade;
+      print("Municipio do pedido não obtido com sucesso: ${_pedido.municipioDoPedido}");
+    }
 
 
 
