@@ -157,9 +157,30 @@ class PedidoDAO
           .orderBy("usuarioDonoDoPedido")
           .orderBy("dataHoraDeCriacaoDoPedido", descending: true)
           .limit(limite)
-          .get()
+          .snapshots()
+          .listen((event) {
+            print("Pedido: ");
+
+            pedidos.clear();
+
+            if (event.docs.isNotEmpty) {
+
+              final Map<String, dynamic> data = {};
+
+              for (DocumentSnapshot documentSnapshot in event.docs) {
+                data.addAll(documentSnapshot.data() as Map<String, dynamic>);
+
+                pedidos.add(Pedido.fromMap(data));
+              }
+            } else {
+              print(documentIsNotExistsInActualyCity);
+            }
+
+      });
+      /*
           .then((res) async {
         if (res.docs.isNotEmpty) {
+
           final Map<String, dynamic> data = {};
 
           for (DocumentSnapshot documentSnapshot in res.docs) {
@@ -171,6 +192,7 @@ class PedidoDAO
           print(documentIsNotExistsInActualyCity);
         }
       });
+          */
       print(documentSucessfullyRetriveAllCities);
     } catch (erro) {
       print("$documentErrorRetriveAllCities--> ${erro.toString()}");
