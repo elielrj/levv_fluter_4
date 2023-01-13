@@ -52,25 +52,7 @@ class _MenuDosBotoesState extends State<MenuDosBotoes> {
                               .listaDeStatusDosBotoes[index]
                           ? ColorsLevv.FUNDO_500_BUTTON_NOT_SELECTED
                           : ColorsLevv.FUNDO_200_BUTTON_SELECTED)),
-                  onPressed: () {
-                    setState(() {
-                      for (int vetor = 0;
-                          vetor <
-                              widget.listaDeStatusDosBotoes
-                                  .listaDeStatusDosBotoes.length;
-                          vetor++) {
-                        widget.listaDeStatusDosBotoes
-                            .listaDeStatusDosBotoes[index] = true;
-                        if (vetor != index) {
-                          widget.listaDeStatusDosBotoes
-                              .listaDeStatusDosBotoes[vetor] = false;
-                        }
-                      }
-                    });
-
-                    widget.listaDeStatusDosBotoes
-                        .notifyListeners();
-                  },
+                  onPressed: () => widget.listaDeStatusDosBotoes.selecionarListaDePedidos(index),
                   child: Row(
                     children: [
                       Image.asset(

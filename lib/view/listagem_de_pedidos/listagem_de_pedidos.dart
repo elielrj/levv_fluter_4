@@ -42,25 +42,25 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
         children: [
           widget.pedidos.isNotEmpty
               ? Card(
-                  margin: const EdgeInsets.all(4),
-                  elevation: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      if (widget.menuDosBotoes.listaDeStatusDosBotoes
-                          .listaDeStatusDosBotoes[0])
-                        _listarPedidos(_listarPedidosAtivos()),
-                      if (widget.menuDosBotoes.listaDeStatusDosBotoes
-                          .listaDeStatusDosBotoes[1])
-                        _listarPedidos(_listarPedidosFinalizados()),
-                      if (widget.menuDosBotoes.listaDeStatusDosBotoes
-                          .listaDeStatusDosBotoes[2])
-                        _listarPedidos(_listarPedidosPendentes()),
-                    ],
-                  ),
-                )
+            margin: const EdgeInsets.all(4),
+            elevation: 2,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                if (widget.menuDosBotoes.listaDeStatusDosBotoes
+                    .listaDeStatusDosBotoes[0])
+                  _listarPedidos(_listarPedidosAtivos()),
+                if (widget.menuDosBotoes.listaDeStatusDosBotoes
+                    .listaDeStatusDosBotoes[1])
+                  _listarPedidos(_listarPedidosFinalizados()),
+                if (widget.menuDosBotoes.listaDeStatusDosBotoes
+                    .listaDeStatusDosBotoes[2])
+                  _listarPedidos(_listarPedidosPendentes()),
+              ],
+            ),
+          )
               : _listaVazia()
         ],
       ),

@@ -144,6 +144,7 @@ class PedidoDAO
     return pedidos;
   }
 
+  @override
   Future<List<Pedido>> buscarPedidosPorCidade(String cidade,
       {required Usuario usuario, int limite = 20}) async {
     List<Pedido> pedidos = [];

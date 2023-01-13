@@ -32,14 +32,12 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
   @override
   void initState() {
     super.initState();
-    widget.menuDosBotoes.listaDeStatusDosBotoes
-        .addListener(() => setState(() {}));
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.all(0),
       child: _linhaDetalheDeUmPedido(pedido: widget.pedido),
     );
   }
@@ -68,17 +66,50 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            "Número do Pedido\n${numeradorDePedido.converterEmMd5(pedido.numero!)}",
-            textAlign: TextAlign.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Número do Pedido",
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                numeradorDePedido.converterEmMd5(pedido.numero!),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 10),
+              )
+            ],
           ),
-          Text(
-            "${TextLevv.DISTANCIA}\n${pedido.calcularDistancia().toString().replaceAll(".", ",")} Km",
-            textAlign: TextAlign.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                TextLevv.DISTANCIA,
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                "${pedido.calcularDistancia().toString().replaceAll(".", ",")} Km",
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 10),
+              )
+            ],
           ),
-          Text(
-            "Valor\nR\$ ${pedido.valor!.toStringAsFixed(2).toString().replaceAll('.', ',')}",
-            textAlign: TextAlign.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "Valor",
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                "R\$ ${pedido.valor!.toStringAsFixed(2).toString().replaceAll('.', ',')}",
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 10),
+              )
+            ],
           ),
         ],
       );
@@ -88,9 +119,21 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Text(
-            "${TextLevv.COLETA}\n${pedido.itensDoPedido![0].coleta.toString()}",
-            textAlign: TextAlign.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                TextLevv.COLETA,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                pedido.itensDoPedido![0].coleta.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 10),
+              ),
+            ],
           ),
         ],
       );
@@ -100,9 +143,23 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Text(
-              "${TextLevv.ENTREGA}\n${pedido.itensDoPedido![pedido.itensDoPedido!.length - 1].entrega}",
-              textAlign: TextAlign.center),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                TextLevv.ENTREGA,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                pedido.itensDoPedido![pedido.itensDoPedido!.length - 1].entrega
+                    .toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 10),
+              ),
+            ],
+          ),
         ],
       );
 
@@ -114,6 +171,7 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
             child: const Text(
               TextLevv.ACOMPANHAR,
               textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
             ),
             onPressed: () {
               Navigator.push(
@@ -131,10 +189,14 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextButton(
-            child: const Text(TextLevv.VISUALIZAR),
+            child: const Text(
+              TextLevv.VISUALIZAR,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
+            ),
             onPressed: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Mapa()));
+                  context, MaterialPageRoute(builder: (context) => const Mapa()));
             },
           ),
         ],
@@ -145,7 +207,11 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           TextButton(
-            child: const Text(TextLevv.EDIT),
+            child: const Text(
+              TextLevv.EDIT,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 10),
+            ),
             onPressed: () async {
               final pedidoDAO = PedidoDAO();
 

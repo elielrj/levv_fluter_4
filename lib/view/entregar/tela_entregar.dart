@@ -34,38 +34,43 @@ class _TelaEntregarState extends State<TelaEntregar> {
         appBar: AppBar(
           title: const Text("Entregar um produto"),
         ),
-        body: Container(
-            padding: const EdgeInsets.all(8),
-            child: Column(children: [
-              menuDosBotoes,
-              FutureBuilder<List<Pedido>>(
-                  future: _buscarListaDePedidosNaCidadeAtualDoEntregador(),
-                  builder: (context, snapshot) {
-                    List<Pedido> lista = [];
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.none:
-                        break;
-                      case ConnectionState.waiting:
-                        break;
-                      case ConnectionState.active:
-                        break;
-                      case ConnectionState.done:
-                        if (snapshot.hasError) {
-                          print("Erro ao carregar os dados.");
-                        } else {
-                          lista = snapshot.data!;
-                          print("sucess ao carregar dados!");
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Column(children: [
+                  menuDosBotoes,
+                  FutureBuilder<List<Pedido>>(
+                      future: _buscarListaDePedidosNaCidadeAtualDoEntregador(),
+                      builder: (context, snapshot) {
+                        List<Pedido> lista = [];
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.none:
+                            break;
+                          case ConnectionState.waiting:
+                            break;
+                          case ConnectionState.active:
+                            break;
+                          case ConnectionState.done:
+                            if (snapshot.hasError) {
+                              print("Erro ao carregar os dados.");
+                            } else {
+                              lista = snapshot.data!;
+                              print("sucess ao carregar dados!");
+                            }
+                            break;
                         }
-                        break;
-                    }
-                    //lista de pedidos
-                    return ListagemDePedidos(
-                      menuDosBotoes: menuDosBotoes,
-                      usuario: widget.usuario,
-                      pedidos: lista,
-                    );
-                  }),
-            ])));
+                        //lista de pedidos
+                        return ListagemDePedidos(
+                          menuDosBotoes: menuDosBotoes,
+                          usuario: widget.usuario,
+                          pedidos: lista,
+                        );
+                      }),
+                ])),
+          ),
+        ));
   }
 
   Future<List<Pedido>> _buscarListaDePedidosNaCidadeAtualDoEntregador() async {
@@ -78,7 +83,8 @@ class _TelaEntregarState extends State<TelaEntregar> {
 
       if (endereco != null) {
         final pedidoDAO = PedidoDAO();
-        pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco.cidade!, usuario: widget.usuario);
+        pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco.cidade!,
+            usuario: widget.usuario);
       } else {
         print("Erro ao buscar endereço!");
         showDialog(

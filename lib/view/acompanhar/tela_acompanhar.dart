@@ -24,6 +24,7 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
   void initState() {
     super.initState();
     widget.usuario.addListener(() => setState(() {}));
+
   }
 
   @override
