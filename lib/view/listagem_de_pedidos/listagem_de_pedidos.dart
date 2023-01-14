@@ -27,12 +27,16 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
     super.initState();
     widget.usuario.addListener(() => setState(() {}));
     widget.menuDosBotoes.listaDeStatusDosBotoes
-        .addListener(() => setState(() {}));
-    widget.pedidos;
+        .addListener(() => setState(() {
+          widget.pedidos;
+    }));
+
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       color: ColorsLevv.FUNDO_200_BUTTON_SELECTED,
       padding: const EdgeInsets.all(2),

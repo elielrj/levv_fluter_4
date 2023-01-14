@@ -21,10 +21,14 @@ class TelaEntregar extends StatefulWidget {
 class _TelaEntregarState extends State<TelaEntregar> {
   final MenuDosBotoes menuDosBotoes = MenuDosBotoes();
 
+  Endereco? endereco;
+
   @override
   void initState() {
     super.initState();
+
     widget.usuario.addListener(() => setState(() {}));
+
   }
 
   @override
@@ -76,15 +80,22 @@ class _TelaEntregarState extends State<TelaEntregar> {
   Future<List<Pedido>> _buscarListaDePedidosNaCidadeAtualDoEntregador() async {
     List<Pedido> pedidos = [];
     try {
-      final localizar = Localizar();
-      Position? position = await localizar.determinarPosicao();
-      Endereco? endereco =
-          await localizar.converterPositionEmEndereco(position);
+
+      endereco?? await _buscarLocalizacaoAtual();
 
       if (endereco != null) {
         final pedidoDAO = PedidoDAO();
-        pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco.cidade!,
+
+        pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco!.cidade!,
             usuario: widget.usuario);
+
+
+
+
+
+
+
+
       } else {
         print("Erro ao buscar endereço!");
         showDialog(
@@ -125,5 +136,17 @@ class _TelaEntregarState extends State<TelaEntregar> {
           });
     }
     return pedidos;
+  }
+
+  Future<void> _buscarLocalizacaoAtual() async {
+    try{
+      final localizar = Localizar();
+      Position? position = await localizar.determinarPosicao();
+      endereco =
+          await localizar.converterPositionEmEndereco(position);
+      print("Busca de endereço com sucesso: ${endereco!.cidade}");
+    }catch(erro){
+      print("Busca de endereço sem sucesso!");
+    }
   }
 }

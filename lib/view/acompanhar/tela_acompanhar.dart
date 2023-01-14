@@ -34,40 +34,45 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
         appBar: AppBar(
           title: const Text("Acompanhar um produto"),
         ),
-        body: Container(
-            padding: const EdgeInsets.all(8),
-            child: Column(children: [
-              //botões
-              menuDosBotoes,
-              FutureBuilder<List<Pedido>>(
-                future: _buscarListaDePedidoDoUsuario(),
-                builder: (context, snapshot) {
-                  List<Pedido> lista = [];
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                      break;
-                    case ConnectionState.waiting:
-                      break;
-                    case ConnectionState.active:
-                      break;
-                    case ConnectionState.done:
-                      if (snapshot.hasError) {
-                        print("Erro ao carregar os dados.");
-                      } else {
-                        lista = snapshot.data!;
-                        print("sucess ao carregar dados!");
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Column(children: [
+                  //botões
+                  menuDosBotoes,
+                  FutureBuilder<List<Pedido>>(
+                    future: _buscarListaDePedidoDoUsuario(),
+                    builder: (context, snapshot) {
+                      List<Pedido> lista = [];
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                          break;
+                        case ConnectionState.waiting:
+                          break;
+                        case ConnectionState.active:
+                          break;
+                        case ConnectionState.done:
+                          if (snapshot.hasError) {
+                            print("Erro ao carregar os dados.");
+                          } else {
+                            lista = snapshot.data!;
+                            print("sucess ao carregar dados!");
+                          }
+                          break;
                       }
-                      break;
-                  }
-                  //lista de pedidos
-                  return ListagemDePedidos(
-                    menuDosBotoes: menuDosBotoes,
-                    usuario: widget.usuario,
-                    pedidos: lista,
-                  );
-                },
-              )
-            ])));
+                      //lista de pedidos
+                      return ListagemDePedidos(
+                        menuDosBotoes: menuDosBotoes,
+                        usuario: widget.usuario,
+                        pedidos: lista,
+                      );
+                    },
+                  )
+                ])),
+          ),
+        ));
   }
 
   Future<List<Pedido>> _buscarListaDePedidoDoUsuario() async {
