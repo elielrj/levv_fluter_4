@@ -126,7 +126,7 @@ class PedidoDAO
           .then((res) async {
         if (res.docs.isNotEmpty) {
           final Map<String, dynamic> data = {};
-
+          print("Pedido: buscarPedidosPorCidade...");
           for (DocumentSnapshot documentSnapshot in res.docs) {
             data.addAll(documentSnapshot.data() as Map<String, dynamic>);
 
@@ -159,7 +159,7 @@ class PedidoDAO
           .limit(limite)
           .snapshots()
           .listen((event) {
-            print("Pedido: ");
+            print("Pedido: buscarPedidosPorCidade...");
 
             pedidos.clear();
 
@@ -172,6 +172,7 @@ class PedidoDAO
 
                 pedidos.add(Pedido.fromMap(data));
               }
+
             } else {
               print(documentIsNotExistsInActualyCity);
             }
