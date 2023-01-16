@@ -22,7 +22,7 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
   void initState() {
     super.initState();
     widget.usuario.addListener(() => setState(() {
-          widget.usuario.listaDePedidos;
+         // widget.usuario.listaDePedidos;
         }));
     widget.menuBotoesController.addListener(() => setState(() {}));
   }
@@ -52,6 +52,7 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
+            /*
             widget.menuBotoesController.listaDeStatusDosBotoes[0] == true
                 ? _listarPedidos(_listarPedidosAtivos())
                 : widget.menuBotoesController.listaDeStatusDosBotoes[1] == true
@@ -59,7 +60,13 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
                     : widget.menuBotoesController.listaDeStatusDosBotoes[2] ==
                             true
                         ? _listarPedidos(_listarPedidosPendentes())
-                        : Container(width: 0)
+                        : Container(width: 0)*/
+            if(widget.menuBotoesController.listaDeStatusDosBotoes[0])
+              _listarPedidos(_listarPedidosAtivos()),
+            if(widget.menuBotoesController.listaDeStatusDosBotoes[1])
+              _listarPedidos(_listarPedidosFinalizados()),
+            if(widget.menuBotoesController.listaDeStatusDosBotoes[2])
+              _listarPedidos(_listarPedidosPendentes()),
           ],
         ),
       );

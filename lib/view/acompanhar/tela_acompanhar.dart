@@ -10,7 +10,7 @@ import '../listagem_de_pedidos/listagem_de_pedidos.dart';
 import '../componentes/menu_dos_botoes/menu_dos_botoes.dart';
 
 class TelaAcompanhar extends StatefulWidget {
-  TelaAcompanhar({Key? key, required this.usuario}) : super(key: key);
+ const TelaAcompanhar({Key? key, required this.usuario}) : super(key: key);
 
   final Usuario usuario;
 
@@ -56,8 +56,12 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
                           if (snapshot.hasError) {
                             print("Erro ao carregar os dados.");
                           } else {
-                            widget.usuario.listaDePedidos = snapshot.data!;
-                            print("sucess ao carregar dados!");
+                            if(widget.usuario.listaDePedidos == null){
+                              widget.usuario.listaDePedidos = snapshot.data!;
+                            }else{
+                              widget.usuario.listaDePedidos!.addAll(snapshot.data!);
+                            }
+                            print("sucess ao carregar dados! ${snapshot.data!.length.toString()}");
                           }
                           break;
                       }
