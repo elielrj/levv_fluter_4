@@ -3,7 +3,7 @@ import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import 'package:levv4/api/texto/text_levv.dart';
-import 'package:levv4/view/componentes/botoes/menu_dos_botoes.dart';
+import 'package:levv4/view/componentes/menu_dos_botoes/menu_dos_botoes.dart';
 import 'package:levv4/view/localizar/mapa.dart';
 import 'package:levv4/view/localizar/tela_mapa.dart';
 
@@ -13,12 +13,12 @@ class ItemComDetalhesDoPedido extends StatefulWidget {
   const ItemComDetalhesDoPedido(
       {Key? key,
       required this.pedido,
-      required this.menuDosBotoes,
+      required this.listaDeStatusDosBotoes,
       required this.usuario})
       : super(key: key);
 
   final Pedido pedido;
-  final MenuDosBotoes menuDosBotoes;
+  final List<bool> listaDeStatusDosBotoes;
   final Usuario usuario;
 
   @override
@@ -50,14 +50,11 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
           Card(elevation: 4, child: _resumoDoPedido(pedido: pedido)),
           Card(elevation: 4, child: _localDeColetaDoPedido(pedido: pedido)),
           Card(elevation: 4, child: _localDeEntregaDoPedido(pedido: pedido)),
-          if (widget
-              .menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[0])
+          if (widget.listaDeStatusDosBotoes[0])
             Card(elevation: 4, child: _botaoAcompanhar(pedido: pedido)),
-          if (widget
-              .menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[1])
+          if (widget.listaDeStatusDosBotoes[1])
             Card(elevation: 4, child: _botaoFinalizados(pedido: pedido)),
-          if (widget
-              .menuDosBotoes.listaDeStatusDosBotoes.listaDeStatusDosBotoes[2])
+          if (widget.listaDeStatusDosBotoes[2])
             Card(elevation: 4, child: _botaoPendentes(pedido: pedido)),
         ],
       );
@@ -195,8 +192,8 @@ class _ItemComDetalhesDoPedidoState extends State<ItemComDetalhesDoPedido> {
               style: TextStyle(fontSize: 10),
             ),
             onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Mapa()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Mapa()));
             },
           ),
         ],

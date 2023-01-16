@@ -3,14 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/imagem/image_levv.dart';
 import 'package:levv4/api/texto/text_levv.dart';
-import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
-import 'package:levv4/model/bo/endereco/endereco.dart';
-import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
-import 'package:levv4/view/enviar/item_da_rota_do_pedido.dart';
-import 'package:levv4/view/enviar/mapa_do_item_do_pedido.dart';
-import 'package:levv4/view/enviar/meio_de_transporte_do_pedido.dart';
-import 'package:levv4/view/enviar/peso_do_pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/api/cor/colors_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
@@ -50,7 +42,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
     return Scaffold(
       backgroundColor: ColorsLevv.FUNDO_400,
       appBar: AppBar(
-        title: const Text(TextLevv.ENVIAR_UM_PRODUTO),
+        title: const Text(TextLevv.ENVIAR_UM_PEDIDO),
       ),
       body: Container(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 8),

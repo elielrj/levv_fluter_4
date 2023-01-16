@@ -41,7 +41,7 @@ class TextLevv {
   static const ENTREGA = "Entrega";
   static const ENVIAR_CODIGO_SMS = "Enviar Código SMS";
   static const ERRO_CODIGO_SMS = "Código SMS inválido!";
-  static const ENVIAR_UM_PRODUTO = "Enviar um produto";
+  static const ENVIAR_UM_PEDIDO = "Enviar um pedido";
   static const ERRO = "Erro";
   static const ERRO_BUSCAR_USUARIO =
       "Erro ao buscar o seu usuário! Entre em contato com o SAC!";

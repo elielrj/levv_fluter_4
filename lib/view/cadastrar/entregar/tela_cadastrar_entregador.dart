@@ -9,21 +9,10 @@ import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
-import 'package:levv4/view/cadastrar/botoes/botao_cadastrar_tela_enviar.dart';
-import 'package:levv4/view/cadastrar/botoes/botao_limpar_tela_enviar.dart';
-import 'package:levv4/view/cadastrar/botoes/botoes_cadastrar_limpar_do_perfil_entregar.dart';
-
 import 'package:levv4/view/cadastrar/endereco/tela_cadastrar_endereco.dart';
 import 'package:levv4/view/cadastrar/meio_de_transporte/tela_cadastrar_meio_de_transporte.dart';
 import 'package:levv4/view/cadastrar/nivel_1/cadastro_nivel_1.dart';
-import 'package:levv4/view/componentes/botoes/botao_cadastrar.dart';
-import 'package:levv4/view/componentes/botoes/botao_limpar.dart';
-import 'package:levv4/view/componentes/documento_de_identificacao/documento_de_identificacao.dart';
-import 'package:levv4/view/componentes/text_field/text_field_customized_for_cpf.dart';
-import 'package:levv4/view/componentes/text_field/text_field_customized_for_date.dart';
 import 'package:levv4/view/entregar/tela_entregar.dart';
-import 'package:levv4/view/componentes/text_field/text_field_customized_for_name.dart';
-import 'package:levv4/controller/cadastrar/entregar/tela_cadastrar_entregar_controller.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/api/cor/colors_levv.dart';
 
