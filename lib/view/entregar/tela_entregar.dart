@@ -62,8 +62,13 @@ class _TelaEntregarState extends State<TelaEntregar> {
                             } else {
                               if(widget.usuario.listaDePedidos == null){
                                 widget.usuario.listaDePedidos = snapshot.data!;
+
+
                               }else{
-                                widget.usuario.listaDePedidos!.addAll(snapshot.data!);
+                                if(snapshot.data != null){
+                                  widget.usuario.listaDePedidos = snapshot.data!;
+                                }
+                                //widget.usuario.listaDePedidos!.addAll(snapshot.data!);
                               }
 
                               print("sucess ao carregar dados! ${snapshot.data!.length.toString()}");

@@ -161,7 +161,7 @@ class PedidoDAO
           .listen((event) {
             print("Pedido: buscarPedidosPorCidade...");
 
-           // pedidos.clear();
+           //pedidos.clear();
 
             if (event.docs.isNotEmpty) {
 
