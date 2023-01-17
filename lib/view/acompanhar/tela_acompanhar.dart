@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:levv4/controller/menu_botoes_controller/menu_botoes_controller.dart';
+import 'package:levv4/controller/acompanhar/tela_acompanhar_controller.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import '../../model/bo/usuario/usuario.dart';
@@ -19,13 +19,15 @@ class TelaAcompanhar extends StatefulWidget {
 }
 
 class _TelaAcompanharState extends State<TelaAcompanhar> {
-  final MenuBotoesController menuDosBotoesController = MenuBotoesController();
+  final TelaAcompanharController _controller = TelaAcompanharController();
 
   @override
   void initState() {
     super.initState();
+    widget.usuario.listaDePedidos?.clear();
     widget.usuario.addListener(() => setState(() {}));
-    menuDosBotoesController.addListener(() => setState(() {}));
+    _controller.menuDosBotoesController.addListener(() => setState(() {}));
+    _controller.addListener(() => setState(() {}));
   }
 
   @override
@@ -41,7 +43,9 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
             child: Container(
                 padding: const EdgeInsets.all(8),
                 child: Column(children: [
-                  MenuDosBotoes(menuBotoesController: menuDosBotoesController),
+                  MenuDosBotoes(
+                      menuBotoesController:
+                          _controller.menuDosBotoesController),
                   FutureBuilder<List<Pedido>>(
                     future: _buscarListaDePedidoDoUsuario(),
                     builder: (context, snapshot) {
@@ -56,14 +60,17 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
                           if (snapshot.hasError) {
                             print("Erro ao carregar os dados.");
                           } else {
-                            widget.usuario.listaDePedidos = snapshot.data!;
+                            _controller.adicionarPedidos(
+                                listaDePedidos: snapshot.data!,
+                                usuario: widget.usuario);
                             print(
                                 "sucess ao carregar dados! ${snapshot.data!.length.toString()}");
                           }
                           break;
                       }
                       return ListagemDePedidos(
-                        menuBotoesController: menuDosBotoesController,
+                        menuBotoesController:
+                            _controller.menuDosBotoesController,
                         usuario: widget.usuario,
                       );
                     },

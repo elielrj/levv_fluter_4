@@ -23,6 +23,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
   @override
   void initState() {
     super.initState();
+    widget.usuario.listaDePedidos?.clear();
     _controller.addListener(() => setState(() {}));
   }
 
@@ -39,7 +40,6 @@ class _TelaEntregarState extends State<TelaEntregar> {
             child: Container(
                 padding: const EdgeInsets.all(8),
                 child: Column(children: [
-                  //menuDosBotoes,
                   MenuDosBotoes(
                       menuBotoesController:
                           _controller.menuDosBotoesController),
@@ -57,13 +57,12 @@ class _TelaEntregarState extends State<TelaEntregar> {
                             if (snapshot.hasError) {
                               print("Erro ao carregar os dados.");
                             } else {
-                              //widget.usuario.listaDePedidos = snapshot.data!;
                               _controller.adicionarPedidos(
                                   listaDePedidos: snapshot.data!,
                                   usuario: widget.usuario);
 
                               print(
-                                  "sucess ao carregar dados! ${snapshot.data!.length.toString()}");
+                                  "sucess ao carregar dados! ${snapshot.data!.length}");
                             }
                             break;
                         }
