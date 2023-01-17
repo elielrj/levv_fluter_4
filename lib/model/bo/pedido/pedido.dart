@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/bo/map/interface_map.dart';
-import 'item_do_pedido/item_do_pedido.dart';
+import 'item_do_pedido.dart';
 
 class Pedido extends ChangeNotifier implements InterfaceMap {
   String? numero;
@@ -141,4 +141,6 @@ class Pedido extends ChangeNotifier implements InterfaceMap {
       if (municipioDoPedido != null) 'municipioDoPedido': municipioDoPedido,
     });
   }
+
+
 }

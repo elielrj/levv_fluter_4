@@ -5,7 +5,7 @@ import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/enviar/enviar.dart';
-import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
-import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
 import 'package:levv4/view/enviar/item_da_rota_do_pedido.dart';
 
 class RotaDoPedido extends StatefulWidget {

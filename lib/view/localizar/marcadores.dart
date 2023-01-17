@@ -1,6 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../model/bo/pedido/item_do_pedido/item_do_pedido.dart';
+import '../../model/bo/pedido/item_do_pedido.dart';
 
 mixin Marcadores {
   Set<Marker> marcadores = {};

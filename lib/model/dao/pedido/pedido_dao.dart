@@ -3,7 +3,7 @@ import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuar
 import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
-import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
@@ -11,7 +11,7 @@ import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 import 'package:flutter/material.dart';
 import 'i_crud_pedido_dao.dart';
 
-class PedidoDAO extends ChangeNotifier
+class PedidoDAO
     with NomeDoDocumentoDoUsuarioCorrente
     implements ICrudPedidoDAO<Pedido> {
   final collectionPath = "pedidos";
@@ -162,7 +162,7 @@ class PedidoDAO extends ChangeNotifier
           .listen((event) {
             print("Pedido: buscarPedidosPorCidade...");
 
-           //pedidos.clear();
+           pedidos.clear();
 
             if (event.docs.isNotEmpty) {
 
@@ -173,7 +173,7 @@ class PedidoDAO extends ChangeNotifier
 
                 pedidos.add(Pedido.fromMap(data));
               }
-              notifyListeners();
+
             } else {
               print(documentIsNotExistsInActualyCity);
             }

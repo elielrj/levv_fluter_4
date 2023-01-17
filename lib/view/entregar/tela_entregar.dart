@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:levv4/controller/menu_botoes_controller/menu_botoes_controller.dart';
+import 'package:levv4/controller/entregar/tela_entregar_controller.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
-import 'package:levv4/view/localizar/localizar/localizar.dart';
-import '../../model/bo/endereco/endereco.dart';
+
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
 import '../../api/cor/colors_levv.dart';
@@ -20,15 +18,12 @@ class TelaEntregar extends StatefulWidget {
 }
 
 class _TelaEntregarState extends State<TelaEntregar> {
-  final MenuBotoesController menuDosBotoesController = MenuBotoesController();
-
-  Endereco? endereco;
+  final TelaEntregarController _controller = TelaEntregarController();
 
   @override
   void initState() {
     super.initState();
-   // widget.usuario.addListener(() => setState(() {}));
-    //menuDosBotoesController.addListener(() => setState(() {}));
+    _controller.addListener(() => setState(() {}));
   }
 
   @override
@@ -45,7 +40,9 @@ class _TelaEntregarState extends State<TelaEntregar> {
                 padding: const EdgeInsets.all(8),
                 child: Column(children: [
                   //menuDosBotoes,
-                  MenuDosBotoes(menuBotoesController: menuDosBotoesController),
+                  MenuDosBotoes(
+                      menuBotoesController:
+                          _controller.menuDosBotoesController),
                   FutureBuilder<List<Pedido>>(
                       future: _buscarListaDePedidosNaCidadeAtualDoEntregador(),
                       builder: (context, snapshot) {
@@ -60,7 +57,10 @@ class _TelaEntregarState extends State<TelaEntregar> {
                             if (snapshot.hasError) {
                               print("Erro ao carregar os dados.");
                             } else {
-                              widget.usuario.listaDePedidos = snapshot.data!;
+                              //widget.usuario.listaDePedidos = snapshot.data!;
+                              _controller.adicionarPedidos(
+                                  listaDePedidos: snapshot.data!,
+                                  usuario: widget.usuario);
 
                               print(
                                   "sucess ao carregar dados! ${snapshot.data!.length.toString()}");
@@ -69,7 +69,8 @@ class _TelaEntregarState extends State<TelaEntregar> {
                         }
 
                         return ListagemDePedidos(
-                          menuBotoesController: menuDosBotoesController,
+                          menuBotoesController:
+                              _controller.menuDosBotoesController,
                           usuario: widget.usuario,
                         );
                       }),
@@ -81,12 +82,13 @@ class _TelaEntregarState extends State<TelaEntregar> {
   Future<List<Pedido>> _buscarListaDePedidosNaCidadeAtualDoEntregador() async {
     List<Pedido> pedidos = [];
     try {
-      endereco ?? await _buscarLocalizacaoAtual();
+      _controller.endereco ?? await _controller.enderecoAtual();
 
-      if (endereco != null) {
+      if (_controller.endereco != null) {
         final pedidoDAO = PedidoDAO();
 
-        pedidos = await pedidoDAO.buscarPedidosPorCidade(endereco!.cidade!,
+        pedidos = await pedidoDAO.buscarPedidosPorCidade(
+            _controller.endereco!.cidade!,
             usuario: widget.usuario);
       } else {
         print("Erro ao buscar endereço!");
@@ -128,16 +130,5 @@ class _TelaEntregarState extends State<TelaEntregar> {
           });
     }
     return pedidos;
-  }
-
-  Future<void> _buscarLocalizacaoAtual() async {
-    try {
-      final localizar = Localizar();
-      Position? position = await localizar.determinarPosicao();
-      endereco = await localizar.converterPositionEmEndereco(position);
-      print("Busca de endereço com sucesso: ${endereco!.cidade}");
-    } catch (erro) {
-      print("Busca de endereço sem sucesso!");
-    }
   }
 }

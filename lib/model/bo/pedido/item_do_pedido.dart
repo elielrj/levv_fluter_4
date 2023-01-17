@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../../endereco/endereco.dart';
+import '../endereco/endereco.dart';
 
 class ItemDoPedido extends ChangeNotifier {
   int? ordem;

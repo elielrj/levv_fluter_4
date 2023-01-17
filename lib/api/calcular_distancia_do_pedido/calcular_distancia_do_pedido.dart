@@ -3,7 +3,7 @@
 import 'package:geolocator/geolocator.dart';
 
 
-import 'package:levv4/model/bo/pedido/item_do_pedido/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
 
 class CalcularDistaciaDoPedido {
   static double calcularDistancia({required ItemDoPedido itemDoPedido})  {

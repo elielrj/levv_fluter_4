@@ -43,4 +43,50 @@ class Usuario extends ChangeNotifier implements InterfaceMap {
       listaDePedidos: null,
     );
   }
+
+  List<Pedido> listarPedidosAtivos() {
+    List<Pedido> ativos = [];
+
+    if (listaDePedidos != null) {
+      for (Pedido pedido in listaDePedidos!) {
+        if (!pedido.pedidoFoiEntregue! &&
+            !pedido.pedidoFoiPago! &&
+            !pedido.pedidoEstaDisponivelParaEntrega!) {
+          ativos.add(pedido);
+        }
+      }
+    }
+    return ativos;
+  }
+
+  List<Pedido> listarPedidosFinalizados() {
+    List<Pedido> finalizados = [];
+    if (listaDePedidos != null) {
+      for (Pedido pedido in listaDePedidos!) {
+        if (pedido.pedidoFoiEntregue! &&
+            pedido.pedidoFoiPago! &&
+            !pedido.pedidoEstaDisponivelParaEntrega!) {
+          finalizados.add(pedido);
+        }
+      }
+    }
+
+    return finalizados;
+  }
+
+  List<Pedido> listarPedidosPendentes() {
+    List<Pedido> pendentes = [];
+
+    if (listaDePedidos != null) {
+      for (Pedido pedido in listaDePedidos!) {
+        if (!pedido.pedidoFoiEntregue! &&
+            !pedido.pedidoFoiPago! &&
+            pedido.pedidoEstaDisponivelParaEntrega!) {
+          pendentes.add(pedido);
+        }
+      }
+    }
+
+    return pendentes;
+  }
 }
