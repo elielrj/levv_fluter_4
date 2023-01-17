@@ -27,8 +27,8 @@ class _TelaEntregarState extends State<TelaEntregar> {
   @override
   void initState() {
     super.initState();
-    widget.usuario.addListener(() => setState(() {}));
-    menuDosBotoesController.addListener(() => setState(() {}));
+   // widget.usuario.addListener(() => setState(() {}));
+    //menuDosBotoesController.addListener(() => setState(() {}));
   }
 
   @override

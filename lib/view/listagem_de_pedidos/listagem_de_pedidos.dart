@@ -21,9 +21,9 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
   @override
   void initState() {
     super.initState();
-    widget.usuario.addListener(() => setState(() {
-         // widget.usuario.listaDePedidos;
-        }));
+   // widget.usuario.addListener(() => setState(() {
+        //  widget.usuario.listaDePedidos;
+     //   }));
     widget.menuBotoesController.addListener(() => setState(() {}));
   }
 
@@ -77,6 +77,7 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+
         pedidos.isEmpty
             ? widget.menuBotoesController.listaDeStatusDosBotoes[0] == true
                 ? _listaVazia(itemDoMenuSelecionado: "Ativos ")

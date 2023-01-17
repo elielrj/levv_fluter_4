@@ -8,10 +8,10 @@ import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
-
+import 'package:flutter/material.dart';
 import 'i_crud_pedido_dao.dart';
 
-class PedidoDAO
+class PedidoDAO extends ChangeNotifier
     with NomeDoDocumentoDoUsuarioCorrente
     implements ICrudPedidoDAO<Pedido> {
   final collectionPath = "pedidos";
@@ -132,6 +132,7 @@ class PedidoDAO
 
             pedidos.add(Pedido.fromMap(data));
           }
+
         } else {
           print(documentIsNotExists);
         }
@@ -172,7 +173,7 @@ class PedidoDAO
 
                 pedidos.add(Pedido.fromMap(data));
               }
-
+              notifyListeners();
             } else {
               print(documentIsNotExistsInActualyCity);
             }
