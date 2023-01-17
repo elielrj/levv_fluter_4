@@ -56,14 +56,7 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
                           if (snapshot.hasError) {
                             print("Erro ao carregar os dados.");
                           } else {
-                            if (widget.usuario.listaDePedidos == null) {
-                              widget.usuario.listaDePedidos = snapshot.data!;
-                            } else {
-                              if (snapshot.data != null) {
-                                widget.usuario.listaDePedidos!
-                                    .addAll(snapshot.data!);
-                              }
-                            }
+                            widget.usuario.listaDePedidos = snapshot.data!;
                             print(
                                 "sucess ao carregar dados! ${snapshot.data!.length.toString()}");
                           }
