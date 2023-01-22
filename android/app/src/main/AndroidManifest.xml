@@ -39,7 +39,7 @@
             android:value="2" />
 
        <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value= "AIzaSyDzAqHYmqA_2Kn-Opr4ODNzOT96GDsVEUA"/>
+           android:value= "AIzaSyBjiRh7vuqP56Tork1p-enHGuEtqfKUQXo"/>
         <!--
         itautec
         <meta-data android:name="com.google.android.geo.API_KEY"
@@ -47,6 +47,11 @@
         dell
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value= "AIzaSyDzAqHYmqA_2Kn-Opr4ODNzOT96GDsVEUA"/>
+
+           torpedo
+
+           <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value= "AIzaSyBjiRh7vuqP56Tork1p-enHGuEtqfKUQXo"/>
            -->
 
     </application>
