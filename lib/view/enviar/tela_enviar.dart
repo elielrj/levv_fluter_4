@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:levv4/api/criador_de_pedido.dart';
 import 'package:levv4/api/imagem/image_levv.dart';
 import 'package:levv4/api/texto/text_levv.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/api/cor/colors_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
-import 'package:levv4/view/localizar/localizar/localizar.dart';
 import '../componentes/logo/widget_logo_levv.dart';
 import 'rota_do_pedido.dart';
-import 'volume_do_pedido.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 import 'package:levv4/model/bo/meio_de_transporte/carro.dart';

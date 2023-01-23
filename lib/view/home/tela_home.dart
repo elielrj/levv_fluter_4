@@ -35,7 +35,7 @@ class _TelaHomeState extends State<TelaHome> {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text(TextLevv.NOME_DO_APP + ": "),
+            const Text("${TextLevv.NOME_DO_APP}: "),
             const SizedBox(
               width: 10,
             ),
