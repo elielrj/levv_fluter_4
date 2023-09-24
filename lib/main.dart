@@ -5,11 +5,15 @@ import 'package:levv4/view/splash/tela_splash.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MaterialApp(
-    home: TelaSplash(),
-    debugShowCheckedModeBanner: false,
-  ));
+
+  runApp(
+    const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: TelaSplash(),
+    ),
+  );
 }
