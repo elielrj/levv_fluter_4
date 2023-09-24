@@ -35,28 +35,28 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
-  firebase_core: ^1.20.0
-  firebase_auth: ^3.3.18
-  cloud_firestore: ^3.4.3
-  firebase_storage: ^10.3.4
+  firebase_core: ^1.24.0
+  firebase_auth: ^3.11.2
+  cloud_firestore: ^3.5.1
+  firebase_storage: ^10.3.11
 
-  image_picker: ^0.8.5+3
+  image_picker: ^1.0.4
 
-  freezed: ^2.1.0+1
+  freezed: ^2.4.2
   dartz: ^0.10.1
 
   intl: ^0.17.0
 
-  mask_text_input_formatter: ^2.4.0
+  mask_text_input_formatter: ^2.5.0
 
-  google_maps_flutter: ^2.2.0
-  geolocator: ^8.2.0 #^7.0.0 #^5.1.1+1 to Udemy
-  geocoding: ^2.0.0
-  flutter_google_places_sdk: ^0.3.2+2
+  google_maps_flutter: ^2.5.0
+  geolocator: ^10.1.0 #^7.0.0 #^5.1.1+1 to Udemy
+  geocoding: ^2.1.0
+  flutter_google_places_sdk: ^0.3.2+9
   cpf_cnpj_validator: ^2.0.0
 
-  country_phone_code_picker: ^0.0.41
-  crypto: ^3.0.2
+  country_phone_code_picker: ^0.0.43
+  crypto: ^3.0.3
 
 dev_dependencies:
   flutter_test:
