@@ -57,3 +57,6 @@ app.*.map.json
 /android/local.properties
 
 
+#Astah
+*.asta.lock
+
