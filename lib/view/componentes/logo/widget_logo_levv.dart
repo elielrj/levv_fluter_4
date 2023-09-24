@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../api/imagem/image_levv.dart';
+import '../../../biblioteca/imagem/image_levv.dart';
 
 Widget WidgetLogoLevv({double width = 90, double bottom = 0}) {
   return Padding(

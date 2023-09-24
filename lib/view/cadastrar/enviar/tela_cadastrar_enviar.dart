@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:levv4/api/imagem/image_levv.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/imagem/image_levv.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/controller/cadastrar/nivel_1/cadastro_nivel_1_controller.dart';
 import 'package:levv4/model/bo/enviar/enviar.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
@@ -10,7 +10,7 @@ import 'package:levv4/view/cadastrar/botoes/botao_cadastrar_tela_enviar.dart';
 import 'package:levv4/view/cadastrar/botoes/botao_limpar_tela_enviar.dart';
 import 'package:levv4/view/cadastrar/nivel_1/cadastro_nivel_1.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
-import '../../../api/cor/colors_levv.dart';
+import '../../../biblioteca/cor/colors_levv.dart';
 
 class TelaCadastrarEnviar extends StatefulWidget {
   const TelaCadastrarEnviar({Key? key, required this.usuario})
@@ -68,7 +68,7 @@ class _TelaCadastrarEnviarState extends State<TelaCadastrarEnviar> {
           ),
         ),
       ),
-      backgroundColor: ColorsLevv.FUNDO_400,
+      backgroundColor: FUNDO_400,
     );
   }
 

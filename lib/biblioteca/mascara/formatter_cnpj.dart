@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/validador_cnpj_cpf/validador_cnpj_cpf.dart';
+import 'package:levv4/biblioteca/validador_cnpj_cpf/validador_cnpj_cpf.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'formatter.dart';

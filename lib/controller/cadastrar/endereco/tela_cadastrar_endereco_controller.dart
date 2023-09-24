@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
-import 'package:levv4/api/mascara/formatter_cep.dart';
-import 'package:levv4/api/mascara/mask.dart';
+import 'package:levv4/biblioteca/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/biblioteca/mascara/formatter_cep.dart';
+import 'package:levv4/biblioteca/mascara/mask.dart';
 import 'package:levv4/view/localizar/localizar/localizar.dart';
 
 class TelaCadastrarEnderecoController with NomeDoDocumentoDoUsuarioCorrente {

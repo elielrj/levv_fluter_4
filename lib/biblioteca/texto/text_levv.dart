@@ -1,4 +1,4 @@
-import 'package:levv4/api/texto/text_banco_de_dados.dart';
+import 'package:levv4/biblioteca/texto/text_banco_de_dados.dart';
 
 class TextLevv {
 

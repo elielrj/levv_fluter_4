@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 import 'package:levv4/view/home/tela_home.dart';
-import '../../api/cor/colors_levv.dart';
-import '../../api/texto/text_levv.dart';
+import '../../biblioteca/cor/colors_levv.dart';
+import '../../biblioteca/texto/text_levv.dart';
 import '../cadastrar/acompanhar/tela_cadastrar_acompanhador.dart';
 import '../componentes/logo/widget_logo_levv.dart';
 
@@ -26,7 +26,7 @@ class _TelaSplashState extends State<TelaSplash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsLevv.FUNDO_400,
+      backgroundColor: FUNDO_400,
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -42,7 +42,7 @@ class _TelaSplashState extends State<TelaSplash> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 40,
-                      color: ColorsLevv.TEXTO),
+                      color: TEXTO),
                 ),
               ),
               const CircularProgressIndicator(

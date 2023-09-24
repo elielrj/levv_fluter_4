@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 
-import 'package:levv4/api/validador_cnpj_cpf/validador_cnpj_cpf.dart';
+import 'package:levv4/biblioteca/validador_cnpj_cpf/validador_cnpj_cpf.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
-import '../../../api/mascara/formatter_cpf.dart';
-import '../../../api/mascara/formatter_date.dart';
-import '../../../api/mascara/mask.dart';
+import '../../../biblioteca/mascara/formatter_cpf.dart';
+import '../../../biblioteca/mascara/formatter_date.dart';
+import '../../../biblioteca/mascara/mask.dart';
 import '../../../model/bo/arquivo/arquivo.dart';
 
 class CadastroNivel1Controller {

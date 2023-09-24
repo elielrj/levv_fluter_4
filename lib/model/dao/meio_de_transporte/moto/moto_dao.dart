@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
-import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
-import 'package:levv4/api/texto/text_banco_de_dados.dart';
+import 'package:levv4/biblioteca/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/biblioteca/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/biblioteca/texto/text_banco_de_dados.dart';
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/bo/meio_de_transporte/motorizado.dart';
 import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
 import 'package:levv4/model/dao/meio_de_transporte/motorizado/i_crud_motorizado_dao.dart';
-import '../../../../api/firebase_autenticacao/autenticacao.dart';
+import '../../../../biblioteca/firebase_autenticacao/autenticacao.dart';
 import '../../../bo/meio_de_transporte/moto.dart';
 import '../i_crud_meio_de_transporte_dao.dart';
 

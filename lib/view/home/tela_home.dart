@@ -8,9 +8,9 @@ import 'package:levv4/view/entregar/tela_entregar.dart';
 import 'package:levv4/view/enviar/tela_enviar.dart';
 
 import '../../model/bo/usuario/usuario.dart';
-import '../../api/cor/colors_levv.dart';
-import '../../api/imagem/image_levv.dart';
-import '../../api/texto/text_levv.dart';
+import '../../biblioteca/cor/colors_levv.dart';
+import '../../biblioteca/imagem/image_levv.dart';
+import '../../biblioteca/texto/text_levv.dart';
 
 class TelaHome extends StatefulWidget {
   const TelaHome({Key? key, required this.usuario}) : super(key: key);
@@ -31,7 +31,7 @@ class _TelaHomeState extends State<TelaHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsLevv.FUNDO_400,
+      backgroundColor: FUNDO_400,
       appBar: AppBar(
         title: Row(
           children: [

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/view/localizar/marcadores.dart';
 import 'package:levv4/view/localizar/poligonos.dart';
 import 'package:levv4/view/localizar/polylines.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/cor/colors_levv.dart';
-import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
+import 'package:levv4/biblioteca/cor/colors_levv.dart';
+import 'package:levv4/biblioteca/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/controller/menu_botoes_controller/menu_botoes_controller.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/view/localizar/mapa.dart';
 import 'package:levv4/view/localizar/tela_mapa.dart';
 
@@ -34,7 +34,7 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: ColorsLevv.FUNDO_200_BUTTON_SELECTED,
+      color: FUNDO_200_BUTTON_SELECTED,
       padding: const EdgeInsets.all(2),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -110,8 +110,7 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
                               SizedBox(
                                   height: 8,
                                   child: Container(
-                                    color: ColorsLevv
-                                        .FUNDO_200_BUTTON_SELECTED,
+                                    color: FUNDO_200_BUTTON_SELECTED,
                                   ))
                             ],
                           )

@@ -4,7 +4,7 @@ import 'package:levv4/model/bo/pedido/pedido.dart';
 
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
-import '../../api/cor/colors_levv.dart';
+import '../../biblioteca/cor/colors_levv.dart';
 import '../listagem_de_pedidos/listagem_de_pedidos.dart';
 import '../componentes/menu_dos_botoes/menu_dos_botoes.dart';
 
@@ -30,7 +30,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorsLevv.FUNDO_400,
+        backgroundColor: FUNDO_400,
         appBar: AppBar(
           title: const Text("Entregar um pedido"),
         ),

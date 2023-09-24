@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:levv4/api/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
-import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
+import 'package:levv4/biblioteca/firebase_autenticacao/mixin_nome_do_documento_do_usuario_corrente.dart';
+import 'package:levv4/biblioteca/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
-import 'package:levv4/api/firebase_banco_de_dados/bando_de_dados.dart';
+import 'package:levv4/biblioteca/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
 import 'package:flutter/material.dart';

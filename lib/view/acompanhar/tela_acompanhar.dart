@@ -5,7 +5,7 @@ import 'package:levv4/controller/acompanhar/tela_acompanhar_controller.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import '../../model/bo/usuario/usuario.dart';
-import '../../api/cor/colors_levv.dart';
+import '../../biblioteca/cor/colors_levv.dart';
 import '../listagem_de_pedidos/listagem_de_pedidos.dart';
 import '../componentes/menu_dos_botoes/menu_dos_botoes.dart';
 
@@ -33,7 +33,7 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: ColorsLevv.FUNDO_400,
+        backgroundColor: FUNDO_400,
         appBar: AppBar(
           title: const Text("Acompanhar um produto"),
         ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/model/bo/arquivo/arquivo.dart';
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/bike.dart';

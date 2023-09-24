@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/mascara/mask.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/mascara/mask.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 
 Widget TextFieldCustomizedForCpf(
         Mask controller) =>

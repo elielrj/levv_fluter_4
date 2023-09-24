@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:levv4/api/imagem/image_levv.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/imagem/image_levv.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/controller/cadastrar/endereco/tela_cadastrar_endereco_controller.dart';
 import 'package:levv4/controller/cadastrar/meio_de_transporte/tela_cadastrar_meio_de_transporte_controller.dart';
 import 'package:levv4/controller/cadastrar/nivel_1/cadastro_nivel_1_controller.dart';
@@ -14,7 +14,7 @@ import 'package:levv4/view/cadastrar/meio_de_transporte/tela_cadastrar_meio_de_t
 import 'package:levv4/view/cadastrar/nivel_1/cadastro_nivel_1.dart';
 import 'package:levv4/view/entregar/tela_entregar.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
-import 'package:levv4/api/cor/colors_levv.dart';
+import 'package:levv4/biblioteca/cor/colors_levv.dart';
 
 class TelaCadastrarEntregador extends StatefulWidget {
   const TelaCadastrarEntregador({Key? key, required this.usuario})
@@ -102,7 +102,7 @@ class _TelaCadastrarEntregadorState extends State<TelaCadastrarEntregador> {
           ),
         ),
       ),
-      backgroundColor: ColorsLevv.FUNDO_400,
+      backgroundColor: FUNDO_400,
     );
   }
 

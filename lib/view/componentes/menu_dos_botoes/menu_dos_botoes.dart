@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/controller/menu_botoes_controller/menu_botoes_controller.dart';
-import '../../../api/cor/colors_levv.dart';
-import '../../../api/imagem/image_levv.dart';
+import '../../../biblioteca/cor/colors_levv.dart';
+import '../../../biblioteca/imagem/image_levv.dart';
 
 class MenuDosBotoes extends StatefulWidget {
   const MenuDosBotoes({Key? key, required this.menuBotoesController})
@@ -32,8 +32,8 @@ class _MenuDosBotoesState extends State<MenuDosBotoes> {
                       backgroundColor: MaterialStateProperty.all(widget
                               .menuBotoesController
                               .listaDeStatusDosBotoes[index]
-                          ? ColorsLevv.FUNDO_500_BUTTON_NOT_SELECTED
-                          : ColorsLevv.FUNDO_200_BUTTON_SELECTED)),
+                          ? FUNDO_500_BUTTON_NOT_SELECTED
+                          : FUNDO_200_BUTTON_SELECTED)),
                   onPressed: () => widget.menuBotoesController
                       .selecionarListaDePedidos(index),
                   child: Row(

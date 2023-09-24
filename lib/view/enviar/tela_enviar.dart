@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/criador_de_pedido.dart';
-import 'package:levv4/api/imagem/image_levv.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/criador_de_pedido.dart';
+import 'package:levv4/biblioteca/imagem/image_levv.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
-import 'package:levv4/api/cor/colors_levv.dart';
+import 'package:levv4/biblioteca/cor/colors_levv.dart';
 import 'package:levv4/view/home/tela_home.dart';
 import '../componentes/logo/widget_logo_levv.dart';
 import 'rota_do_pedido.dart';
@@ -37,7 +37,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsLevv.FUNDO_400,
+      backgroundColor: FUNDO_400,
       appBar: AppBar(
         title: const Text(TextLevv.ENVIAR_UM_PEDIDO),
       ),

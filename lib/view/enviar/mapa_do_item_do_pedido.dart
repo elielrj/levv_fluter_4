@@ -2,9 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:levv4/api/cor/colors_levv.dart';
-import 'package:levv4/api/criador_de_pedido.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/cor/colors_levv.dart';
+import 'package:levv4/biblioteca/criador_de_pedido.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
@@ -77,7 +77,7 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
               padding: const EdgeInsets.all(16),
               shadowColor: Colors.black,
               elevation: 3,
-              backgroundColor: ColorsLevv.FUNDO_500_BUTTON_NOT_SELECTED),
+              backgroundColor: FUNDO_500_BUTTON_NOT_SELECTED),
           onPressed: () => _selecionarlocalNoMapa(),
           child: const Text(TextLevv.BOTAO_SELECIONAR_LOCAL,
               style: TextStyle(color: Colors.black, fontSize: 12)),

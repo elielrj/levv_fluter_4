@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/texto/text_levv.dart';
+import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/controller/cadastrar/endereco/tela_cadastrar_endereco_controller.dart';
 import 'package:levv4/view/componentes/text_field/text_field_customized_for_cep.dart';
 import 'package:levv4/view/componentes/text_field/text_field_customized_for_name.dart';

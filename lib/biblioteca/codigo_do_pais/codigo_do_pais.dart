@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:country_phone_code_picker/country_phone_code_picker.dart';
-import 'package:levv4/api/cor/colors_levv.dart';
+import 'package:levv4/biblioteca/cor/colors_levv.dart';
 
 ///https://pub.dev/packages/country_phone_code_picker
 
@@ -9,7 +9,7 @@ class CodigoDoPais {
   final CountryPhoneCodePicker _codigoDoPais =
       CountryPhoneCodePicker.withDefaultSelectedCountry(
     height: 60,
-    searchSheetBackground: ColorsLevv.FUNDO_400,
+    searchSheetBackground: FUNDO_400,
     backgroundColor: Colors.transparent,
     defaultCountryCode:
         Country(name: 'Brasil', countryCode: 'BR', phoneCode: '+55'),

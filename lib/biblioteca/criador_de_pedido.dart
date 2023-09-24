@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/mascara/formatter_valor_em_real.dart';
-import 'package:levv4/api/mascara/mask.dart';
-import 'package:levv4/api/numerador_de_pedido/numerador_de_pedido.dart';
+import 'package:levv4/biblioteca/mascara/formatter_valor_em_real.dart';
+import 'package:levv4/biblioteca/mascara/mask.dart';
+import 'package:levv4/biblioteca/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/enviar/enviar.dart';

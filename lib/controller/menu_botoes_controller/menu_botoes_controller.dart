@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/imagem/image_levv.dart';
+import 'package:levv4/biblioteca/imagem/image_levv.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 

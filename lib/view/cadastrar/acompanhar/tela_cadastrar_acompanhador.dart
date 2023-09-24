@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:levv4/api/codigo_do_pais/codigo_do_pais.dart';
-import 'package:levv4/api/criador_de_usuario.dart';
-import 'package:levv4/api/mascara/formatter_phone.dart';
-import 'package:levv4/api/mascara/formatter_sms.dart';
-import 'package:levv4/api/mascara/mask.dart';
+import 'package:levv4/biblioteca/codigo_do_pais/codigo_do_pais.dart';
+import 'package:levv4/biblioteca/criador_de_usuario.dart';
+import 'package:levv4/biblioteca/mascara/formatter_phone.dart';
+import 'package:levv4/biblioteca/mascara/formatter_sms.dart';
+import 'package:levv4/biblioteca/mascara/mask.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 
-import '../../../api/imagem/image_levv.dart';
-import '../../../api/texto/text_levv.dart';
+import '../../../biblioteca/imagem/image_levv.dart';
+import '../../../biblioteca/texto/text_levv.dart';
 
-import '../../../api/cor/colors_levv.dart';
+import '../../../biblioteca/cor/colors_levv.dart';
 import '../../componentes/counter_text/mixin_counter_text.dart';
 import '../../componentes/logo/widget_logo_levv.dart';
 import '../../home/tela_home.dart';
@@ -42,7 +42,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorsLevv.FUNDO_400,
+      backgroundColor: FUNDO_400,
       body: Center(
         child: SingleChildScrollView(
           child: Container(

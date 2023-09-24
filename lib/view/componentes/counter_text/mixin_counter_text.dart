@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../api/mascara/mask.dart';
-import '../../../api/texto/text_levv.dart';
+import '../../../biblioteca/mascara/mask.dart';
+import '../../../biblioteca/texto/text_levv.dart';
 
 mixin CounterText {
   String counterText(Mask mask) {
