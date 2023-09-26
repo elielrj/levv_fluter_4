@@ -52,7 +52,7 @@ dependencies:
   google_maps_flutter: ^2.4.1
   geolocator: ^10.1.0 #^7.0.0 #^5.1.1+1 to Udemy
   geocoding: ^2.1.0
-  flutter_google_places_sdk: ^0.3.2+9
+  #flutter_google_places_sdk: ^0.3.2+9
   cpf_cnpj_validator: ^2.0.0
 
   #country_phone_code_picker: ^0.0.43
