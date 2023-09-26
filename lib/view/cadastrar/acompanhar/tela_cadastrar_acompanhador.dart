@@ -23,7 +23,7 @@ class TelaCadastrarAcompanhador extends StatefulWidget with CounterText {
 }
 
 class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
-  final codigoDoPais = CodigoDoPais();
+  //final codigoDoPais = CodigoDoPais();
   final telefone = Mask(formatter: FormatterPhone());
   final sms = Mask(formatter: FormatterSms());
   final criadorDeUsuario = CriadorDeUsuario();
@@ -62,7 +62,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ///Cód País
-                        Expanded(child: codigoDoPais.codigoDoPais),
+                        //Expanded(child: codigoDoPais),
                         const SizedBox(width: 8),
                         SizedBox(
                           width: 280,
@@ -255,7 +255,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   Future<void> _criarUsuarioAtomaticamente() async {
     try {
       await criadorDeUsuario.verifyPhoneNumber(
-          codigoDoPais.codigoDoPais.defaultCountryCode.phoneCode +
+         // codigoDoPais.countryController.selectedCountryPhoneCode +
               telefone.formatter
                   .getMaskTextInputFormatter()
                   .getUnmaskedText()
@@ -274,7 +274,7 @@ class _TelaCadastrarAcompanhadorState extends State<TelaCadastrarAcompanhador> {
   Future<void> _criarUsuarioComCodigoSMS() async {
     try {
       await criadorDeUsuario.criarUsuarioAcompanharPedido(
-          codigoDoPais.codigoDoPais.defaultCountryCode.phoneCode +
+          //codigoDoPais.countryController.selectedCountryPhoneCode +
               telefone.formatter
                   .getMaskTextInputFormatter()
                   .getUnmaskedText()
