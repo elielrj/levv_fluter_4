@@ -1,6 +1,7 @@
 import 'package:levv4/model/bo/arquivo/arquivo.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 
+@deprecated
 class Carro extends Moto {
   static const VALUE = 3;
 

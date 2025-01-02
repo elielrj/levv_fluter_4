@@ -1,5 +1,6 @@
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 
+@deprecated
 class APe implements MeioDeTransporte {
   static const VALUE = 0;
   String nome;

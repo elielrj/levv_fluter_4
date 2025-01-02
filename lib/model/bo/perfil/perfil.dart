@@ -1,5 +1,5 @@
 
-
+@deprecated
 abstract class Perfil {
   String exibirPerfil();
 

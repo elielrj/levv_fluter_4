@@ -1,5 +1,5 @@
 import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
-
+@deprecated
 class Administrar extends Acompanhar {
   Administrar({
     String perfil = "Administrar"

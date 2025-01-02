@@ -9,7 +9,7 @@ import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/meio_de_transporte/motorizado.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
-
+@deprecated
 class Entregar extends Enviar {
   List<Pedido>? pedidosTransportados;
   MeioDeTransporte? meioDeTransporte;

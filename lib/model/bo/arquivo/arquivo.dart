@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
-
+@deprecated
 class Arquivo {
 
   String? descricao;

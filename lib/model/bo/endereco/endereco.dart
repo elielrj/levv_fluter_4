@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/model/bo/map/interface_map.dart';
-
+@deprecated
 class Endereco implements InterfaceMap {
   static const MARCO_ZERO = GeoPoint(0.0, 0.0);
   String? logradouro;

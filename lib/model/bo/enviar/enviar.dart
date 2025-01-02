@@ -3,6 +3,7 @@ import 'package:levv4/model/bo/arquivo/arquivo.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/pessoa/pessoa.dart';
 
+@deprecated
 class Enviar extends Pessoa {
   Arquivo? documentoDeIdentificacao;
 

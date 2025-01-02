@@ -1,5 +1,5 @@
 import 'package:levv4/model/bo/perfil/perfil.dart';
-
+@deprecated
 class Acompanhar implements Perfil {
   String perfil;
 

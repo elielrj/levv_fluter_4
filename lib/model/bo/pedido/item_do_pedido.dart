@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 import '../endereco/endereco.dart';
 
+@deprecated
 class ItemDoPedido extends ChangeNotifier {
   int? ordem;
   Endereco? coleta;

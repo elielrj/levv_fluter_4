@@ -7,7 +7,7 @@ import 'package:levv4/model/bo/enviar/enviar.dart';
 import 'package:levv4/model/bo/map/interface_map.dart';
 import 'package:levv4/model/bo/pedido/pedido.dart';
 import 'package:levv4/model/bo/perfil/perfil.dart';
-
+@deprecated
 class Usuario extends ChangeNotifier implements InterfaceMap {
   String? celular;
 

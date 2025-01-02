@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:levv4/model/bo/acompanhar/acompanhar.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 
+@deprecated
 abstract class Pessoa extends Acompanhar {
   String? nome;
   String? sobrenome;

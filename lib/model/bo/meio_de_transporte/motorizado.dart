@@ -6,6 +6,7 @@ import 'package:levv4/model/dao/arquivo/arquivo_dao.dart';
 import '../arquivo/arquivo.dart';
 import 'a_pe.dart';
 
+@deprecated
 abstract class Motorizado extends Bike{
   String? modelo;
   String? marca;

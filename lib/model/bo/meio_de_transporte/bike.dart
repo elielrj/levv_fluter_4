@@ -1,6 +1,7 @@
 import 'package:levv4/model/bo/meio_de_transporte/a_pe.dart';
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 
+@deprecated
 class Bike extends APe {
   static const VALUE = 1;
 

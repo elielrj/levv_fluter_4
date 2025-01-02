@@ -3,6 +3,7 @@ import 'package:levv4/model/bo/meio_de_transporte/bike.dart';
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/bo/meio_de_transporte/motorizado.dart';
 
+@deprecated
 class Moto extends Motorizado {
   static const int VALUE = 2;
 

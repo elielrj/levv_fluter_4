@@ -5,6 +5,7 @@ import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/bo/map/interface_map.dart';
 import 'item_do_pedido.dart';
 
+@deprecated
 class Pedido extends ChangeNotifier implements InterfaceMap {
   String? numero;
   double? valor;
