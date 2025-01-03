@@ -3,8 +3,8 @@ import 'package:levv4/biblioteca/firebase_autenticacao/mixin_nome_do_documento_d
 import 'package:levv4/biblioteca/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
-import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 import 'package:levv4/biblioteca/firebase_banco_de_dados/bando_de_dados.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/usuario/usuario_dao.dart';
@@ -13,7 +13,7 @@ import 'i_crud_pedido_dao.dart';
 
 class PedidoDAO
     with NomeDoDocumentoDoUsuarioCorrente
-    implements ICrudPedidoDAO<Pedido> {
+    implements ICrudPedidoDAO<PedidoOld> {
   final collectionPath = "pedidos";
 
   static const documentSucessfullyCreate =
@@ -47,7 +47,7 @@ class PedidoDAO
       "PedidoDAO: não há pedidos na cidade atual!";
 
   @override
-  Future<void> criar(Pedido object) async {
+  Future<void> criar(PedidoOld object) async {
     try {
       final numeradorDePedido = NumeradorDePedido();
       await FirebaseFirestore.instance
@@ -61,7 +61,7 @@ class PedidoDAO
   }
 
   @override
-  Future<void> atualizar(Pedido object) async {
+  Future<void> atualizar(PedidoOld object) async {
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)
@@ -74,8 +74,8 @@ class PedidoDAO
   }
 
   @override
-  Future<List<Pedido>> buscarTodos() async {
-    List<Pedido> pedidos = [];
+  Future<List<PedidoOld>> buscarTodos() async {
+    List<PedidoOld> pedidos = [];
 
     try {
       await FirebaseFirestore.instance
@@ -83,7 +83,7 @@ class PedidoDAO
           .get()
           .then((res) {
         res.docs.map((e) {
-          pedidos.add(Pedido.fromMap(e.data()));
+          pedidos.add(PedidoOld.fromMap(e.data()));
         });
       });
       print(documentSucessfullyRetriveAll);
@@ -108,9 +108,9 @@ class PedidoDAO
   }
 */
 
-  Future<List<Pedido>> buscarPedidosDoUsuario(
+  Future<List<PedidoOld>> buscarPedidosDoUsuario(
       {required Usuario usuario, int limite = 10}) async {
-    List<Pedido> pedidos = [];
+    List<PedidoOld> pedidos = [];
 
     //  DocumentReference documentReferenceUsuarioDonoDoPedido =
     //       FirebaseFirestore.instance.doc(
@@ -130,7 +130,7 @@ class PedidoDAO
           for (DocumentSnapshot documentSnapshot in res.docs) {
             data.addAll(documentSnapshot.data() as Map<String, dynamic>);
 
-            pedidos.add(Pedido.fromMap(data));
+            pedidos.add(PedidoOld.fromMap(data));
           }
 
         } else {
@@ -146,9 +146,9 @@ class PedidoDAO
   }
 
   @override
-  Future<List<Pedido>> buscarPedidosPorCidade(String cidade,
+  Future<List<PedidoOld>> buscarPedidosPorCidade(String cidade,
       {required Usuario usuario, int limite = 20}) async {
-    List<Pedido> pedidos = [];
+    List<PedidoOld> pedidos = [];
 
     try {
       await FirebaseFirestore.instance
@@ -171,7 +171,7 @@ class PedidoDAO
               for (DocumentSnapshot documentSnapshot in event.docs) {
                 data.addAll(documentSnapshot.data() as Map<String, dynamic>);
 
-                pedidos.add(Pedido.fromMap(data));
+                pedidos.add(PedidoOld.fromMap(data));
               }
 
             } else {
@@ -204,7 +204,7 @@ class PedidoDAO
   }
 
   @override
-  Future<void> deletar(Pedido object) async {
+  Future<void> deletar(PedidoOld object) async {
     try {
       await FirebaseFirestore.instance
           .collection(collectionPath)

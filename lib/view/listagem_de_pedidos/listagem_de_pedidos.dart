@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:levv4/biblioteca/cor/colors_levv.dart';
 import 'package:levv4/biblioteca/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/controller/menu_botoes_controller/menu_botoes_controller.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import 'package:levv4/biblioteca/texto/text_levv.dart';
@@ -96,7 +96,7 @@ class _ListagemDePedidosState extends State<ListagemDePedidos> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        for (Pedido pedido in widget
+                        for (PedidoOld pedido in widget
                             .menuBotoesController
                             .pedidosSelecionados(widget.usuario))
                           Column(
@@ -134,7 +134,7 @@ class _ItemComDetalhesDoPedido extends StatefulWidget {
     required this.usuario})
       : super(key: key);
 
-  final Pedido pedido;
+  final PedidoOld pedido;
   final MenuBotoesController menuBotoesController;
   final Usuario usuario;
 

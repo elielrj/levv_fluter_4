@@ -5,8 +5,8 @@ import 'package:levv4/biblioteca/numerador_de_pedido/numerador_de_pedido.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/enviar/enviar.dart';
-import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import 'package:levv4/view/enviar/rota_do_pedido.dart';
@@ -18,7 +18,7 @@ class CriadorDePedido extends ChangeNotifier {
 
   final Mask controllerValorPedido = Mask(formatter: FormatterValorEmReal());
 
-  final Pedido _pedido = Pedido();
+  final PedidoOld _pedido = PedidoOld();
 
 
 
@@ -62,10 +62,10 @@ class CriadorDePedido extends ChangeNotifier {
     Endereco? endereco = await localizar.converterPositionEmEndereco(await localizar.determinarPosicao());
     if(endereco != null){
       _pedido.municipioDoPedido = endereco.cidade;
-      print("Municipio do pedido obtido com sucesso: ${_pedido.municipioDoPedido}");
+      print("Municipio do pedido_old obtido com sucesso: ${_pedido.municipioDoPedido}");
     }  else{
       _pedido.municipioDoPedido = _pedido.itensDoPedido![0].coleta!.cidade;
-      print("Municipio do pedido não obtido com sucesso: ${_pedido.municipioDoPedido}");
+      print("Municipio do pedido_old não obtido com sucesso: ${_pedido.municipioDoPedido}");
     }
 
 

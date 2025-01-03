@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:levv4/biblioteca/criador_de_pedido.dart';
 import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
-import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido_old/item_do_pedido.dart';
 import 'package:levv4/view/enviar/item_da_rota_do_pedido.dart';
 
 class RotaDoPedido extends StatefulWidget {
@@ -48,7 +48,7 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
 
   Widget _item(int index) =>
 
-      /// item do pedido
+      /// item do pedido_old
       Padding(
         padding: const EdgeInsets.only(top: 4.0, bottom: 4),
         child: Column(
@@ -154,11 +154,11 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Erro ao adicionar item do pedido"),
+            title: const Text("Erro ao adicionar item do pedido_old"),
             titlePadding: const EdgeInsets.all(20),
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
             content: const Text(
-                "Não é possível adicionar mais de 10 itens no pedido"),
+                "Não é possível adicionar mais de 10 itens no pedido_old"),
             actions: [
               TextButton(
                   onPressed: () => Navigator.pop(context),
@@ -173,7 +173,7 @@ class _RotaDoPedidoState extends State<RotaDoPedido> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: const Text("Erro ao excluir item do pedido"),
+            title: const Text("Erro ao excluir item do pedido_old"),
             titlePadding: const EdgeInsets.all(20),
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
             content: const Text("Não é possível excluir o último item!\n"

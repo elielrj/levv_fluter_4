@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:levv4/model/bo/endereco/endereco.dart';
 
-import '../endereco/endereco.dart';
 
 @deprecated
 class ItemDoPedido extends ChangeNotifier {

@@ -248,7 +248,7 @@ class _TelaHomeState extends State<TelaHome> {
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
             content: Text(
                 "O seu perfil é ${widget.usuario.perfil!.exibirPerfil()}!\n"
-                "Para poder enviar um pedido, é necessário que você "
+                "Para poder enviar um pedido_old, é necessário que você "
                 "esteja cadastrado como nosso cliente.\n"
                 "Deseja se cadastrar?"),
             actions: [
@@ -280,7 +280,7 @@ class _TelaHomeState extends State<TelaHome> {
             titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
             content: Text(
                 "O seu perfil é ${widget.usuario.perfil!.exibirPerfil()}!\n"
-                "Para poder entregar um pedido, é necessário que você "
+                "Para poder entregar um pedido_old, é necessário que você "
                 "esteja cadastrado como nosso colaborador.\n"
                 "Deseja se cadastrar?"),
             actions: [

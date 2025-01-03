@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import '../../model/bo/endereco/endereco.dart';
@@ -23,7 +23,7 @@ class TelaEntregarController extends ChangeNotifier{
       print("Busca de endereço sem sucesso!");
     }
   }
-  void adicionarPedidos({required List<Pedido> listaDePedidos, required Usuario usuario}){
+  void adicionarPedidos({required List<PedidoOld> listaDePedidos, required Usuario usuario}){
 
     usuario.listaDePedidos = listaDePedidos;
 

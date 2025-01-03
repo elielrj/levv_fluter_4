@@ -232,7 +232,7 @@ class _TelaEnviarState extends State<TelaEnviar> {
   ///4 Rota
   ///
 
-  /// Valor do pedido
+  /// Valor do pedido_old
   ///
   Widget _valorDoPedido() => Column(
         mainAxisAlignment: MainAxisAlignment.center,

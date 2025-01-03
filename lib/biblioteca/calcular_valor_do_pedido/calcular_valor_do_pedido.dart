@@ -1,16 +1,16 @@
 
 import 'package:levv4/biblioteca/calcular_distancia_do_pedido/calcular_distancia_do_pedido.dart';
 
-import '../../model/bo/pedido/item_do_pedido.dart';
-import '../../model/bo/pedido/pedido.dart';
+import '../../model/bo/pedido_old/item_do_pedido.dart';
+import '../../model/bo/pedido_old/pedido_old.dart';
 
 class CalcularValorDoPedido {
-  Pedido pedido;
+  PedidoOld pedido;
 
   CalcularValorDoPedido(this.pedido);
 
   double calcular() {
-    ///1 - Calcula valor total da distância do pedido
+    ///1 - Calcula valor total da distância do pedido_old
     ///
     double distancia = 0.0;
     for (ItemDoPedido item in pedido.itensDoPedido!) {

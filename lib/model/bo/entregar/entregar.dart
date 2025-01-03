@@ -8,10 +8,10 @@ import 'package:levv4/model/bo/meio_de_transporte/carro.dart';
 import 'package:levv4/model/bo/meio_de_transporte/meio_de_transporte.dart';
 import 'package:levv4/model/bo/meio_de_transporte/moto.dart';
 import 'package:levv4/model/bo/meio_de_transporte/motorizado.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 @deprecated
 class Entregar extends Enviar {
-  List<Pedido>? pedidosTransportados;
+  List<PedidoOld>? pedidosTransportados;
   MeioDeTransporte? meioDeTransporte;
 
   Entregar({
@@ -63,12 +63,12 @@ class Entregar extends Enviar {
   }
 
   factory Entregar.fromMap(Map<String, dynamic> map) {
-    List<Pedido> pedidos = [];
+    List<PedidoOld> pedidos = [];
 
-    Map<dynamic, dynamic> pedidoMap = map['pedido'] ??= {};
+    Map<dynamic, dynamic> pedidoMap = map['pedido_old'] ??= {};
     if (pedidoMap.isNotEmpty) {
       pedidoMap.values.forEach((element) {
-        pedidos.add(Pedido.fromMap(element));
+        pedidos.add(PedidoOld.fromMap(element));
       });
     }
 

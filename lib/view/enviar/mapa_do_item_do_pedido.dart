@@ -7,8 +7,8 @@ import 'package:levv4/biblioteca/criador_de_pedido.dart';
 import 'package:levv4/biblioteca/texto/text_levv.dart';
 import 'package:levv4/controller/enviar/item_da_rota_do_pedido_controller.dart';
 import 'package:levv4/model/bo/endereco/endereco.dart';
-import 'package:levv4/model/bo/pedido/item_do_pedido.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/item_do_pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 import 'package:levv4/view/localizar/localizar/localizar.dart';
 import 'package:levv4/view/localizar/marcadores.dart';
 
@@ -137,7 +137,7 @@ class _MapaDoItemDoPedidoState extends State<MapaDoItemDoPedido> {
             print("Teste MAPA--> ${widget.itemDoPedido.coleta.toString()}");
           }
 
-          //widget.pedido.notifyListeners();
+          //widget.pedido_old.notifyListeners();
           widget.criadorDePedido.calcularValorDoPedido();
         } catch (erro) {
           print("erro:-> ${erro.toString()}");

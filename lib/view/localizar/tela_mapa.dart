@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 
-import '../../model/bo/pedido/pedido.dart';
+import '../../model/bo/pedido_old/pedido_old.dart';
 import 'mapa.dart';
 
 class TelaMapa extends StatefulWidget {
   const TelaMapa({Key? key, required this.pedido, required this.usuario})
       : super(key: key);
 
-  final Pedido pedido;
+  final PedidoOld pedido;
   final Usuario usuario;
 
   @override
@@ -20,7 +20,7 @@ class _TelaMapaState extends State<TelaMapa> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Acompanhar Locaização de pedido"),
+        title: const Text("Acompanhar Locaização de pedido_old"),
       ),
       body: Stack(alignment: Alignment.center, children: [
         Container(

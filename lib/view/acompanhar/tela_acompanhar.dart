@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:levv4/controller/acompanhar/tela_acompanhar_controller.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 import 'package:levv4/model/dao/pedido/pedido_dao.dart';
 import '../../model/bo/usuario/usuario.dart';
 import '../../biblioteca/cor/colors_levv.dart';
@@ -46,7 +46,7 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
                   MenuDosBotoes(
                       menuBotoesController:
                           _controller.menuDosBotoesController),
-                  FutureBuilder<List<Pedido>>(
+                  FutureBuilder<List<PedidoOld>>(
                     future: _buscarListaDePedidoDoUsuario(),
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
@@ -80,14 +80,14 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
         ));
   }
 
-  Future<List<Pedido>> _buscarListaDePedidoDoUsuario() async {
-    List<Pedido> pedidos = [];
+  Future<List<PedidoOld>> _buscarListaDePedidoDoUsuario() async {
+    List<PedidoOld> pedidos = [];
     try {
       final pedidoDAO = PedidoDAO();
       pedidos = await pedidoDAO.buscarPedidosDoUsuario(usuario: widget.usuario);
     } catch (erro) {
       _erro(erro.toString());
-      print("Erro ao buscar pedido para listar--> ${erro.toString()}");
+      print("Erro ao buscar pedido_old para listar--> ${erro.toString()}");
     }
     return pedidos;
   }
@@ -100,7 +100,7 @@ class _TelaAcompanharState extends State<TelaAcompanhar> {
           titlePadding: const EdgeInsets.all(20),
           titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
           content: const Text(
-              'Não foi possível buscar seus pedido!\nTente novamente!'),
+              'Não foi possível buscar seus pedido_old!\nTente novamente!'),
           actions: [
             TextButton(
                 onPressed: () => Navigator.pop(context),

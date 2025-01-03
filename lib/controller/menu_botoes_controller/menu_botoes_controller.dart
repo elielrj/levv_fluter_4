@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/biblioteca/imagem/image_levv.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 import 'package:levv4/model/bo/usuario/usuario.dart';
 
 class MenuBotoesController extends ChangeNotifier {
@@ -38,7 +38,7 @@ class MenuBotoesController extends ChangeNotifier {
     }
   }
 
-  List<Pedido> pedidosSelecionados(Usuario usuario) {
+  List<PedidoOld> pedidosSelecionados(Usuario usuario) {
     if (botaoSelecionado() == 0) {
       return usuario.listarPedidosAtivos();
     } else if (botaoSelecionado() == 1) {

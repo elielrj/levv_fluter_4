@@ -19,7 +19,7 @@ class FormatterValorEmReal  implements Formatter {
 
   @override
   String getHint() {
-    return "Total do pedido";
+    return "Total do pedido_old";
   }
 
   @override

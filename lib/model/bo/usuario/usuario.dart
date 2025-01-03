@@ -5,14 +5,14 @@ import 'package:levv4/model/bo/administrar/administrar.dart';
 import 'package:levv4/model/bo/entregar/entregar.dart';
 import 'package:levv4/model/bo/enviar/enviar.dart';
 import 'package:levv4/model/bo/map/interface_map.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 import 'package:levv4/model/bo/perfil/perfil.dart';
 @deprecated
 class Usuario extends ChangeNotifier implements InterfaceMap {
   String? celular;
 
   Perfil? perfil;
-  List<Pedido>? listaDePedidos;
+  List<PedidoOld>? listaDePedidos;
 
   Usuario({this.celular, this.perfil, this.listaDePedidos});
 
@@ -44,11 +44,11 @@ class Usuario extends ChangeNotifier implements InterfaceMap {
     );
   }
 
-  List<Pedido> listarPedidosAtivos() {
-    List<Pedido> ativos = [];
+  List<PedidoOld> listarPedidosAtivos() {
+    List<PedidoOld> ativos = [];
 
     if (listaDePedidos != null) {
-      for (Pedido pedido in listaDePedidos!) {
+      for (PedidoOld pedido in listaDePedidos!) {
         if (!pedido.pedidoFoiEntregue! &&
             !pedido.pedidoFoiPago! &&
             !pedido.pedidoEstaDisponivelParaEntrega!) {
@@ -59,10 +59,10 @@ class Usuario extends ChangeNotifier implements InterfaceMap {
     return ativos;
   }
 
-  List<Pedido> listarPedidosFinalizados() {
-    List<Pedido> finalizados = [];
+  List<PedidoOld> listarPedidosFinalizados() {
+    List<PedidoOld> finalizados = [];
     if (listaDePedidos != null) {
-      for (Pedido pedido in listaDePedidos!) {
+      for (PedidoOld pedido in listaDePedidos!) {
         if (pedido.pedidoFoiEntregue! &&
             pedido.pedidoFoiPago! &&
             !pedido.pedidoEstaDisponivelParaEntrega!) {
@@ -74,11 +74,11 @@ class Usuario extends ChangeNotifier implements InterfaceMap {
     return finalizados;
   }
 
-  List<Pedido> listarPedidosPendentes() {
-    List<Pedido> pendentes = [];
+  List<PedidoOld> listarPedidosPendentes() {
+    List<PedidoOld> pendentes = [];
 
     if (listaDePedidos != null) {
-      for (Pedido pedido in listaDePedidos!) {
+      for (PedidoOld pedido in listaDePedidos!) {
         if (!pedido.pedidoFoiEntregue! &&
             !pedido.pedidoFoiPago! &&
             pedido.pedidoEstaDisponivelParaEntrega!) {

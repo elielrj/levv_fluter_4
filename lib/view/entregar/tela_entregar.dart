@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:levv4/controller/entregar/tela_entregar_controller.dart';
-import 'package:levv4/model/bo/pedido/pedido.dart';
+import 'package:levv4/model/bo/pedido_old/pedido_old.dart';
 
 import '../../model/bo/usuario/usuario.dart';
 import '../../model/dao/pedido/pedido_dao.dart';
@@ -32,7 +32,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
     return Scaffold(
         backgroundColor: FUNDO_400,
         appBar: AppBar(
-          title: const Text("Entregar um pedido"),
+          title: const Text("Entregar um pedido_old"),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -43,7 +43,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
                   MenuDosBotoes(
                       menuBotoesController:
                           _controller.menuDosBotoesController),
-                  FutureBuilder<List<Pedido>>(
+                  FutureBuilder<List<PedidoOld>>(
                       future: _buscarListaDePedidosNaCidadeAtualDoEntregador(),
                       builder: (context, snapshot) {
                         switch (snapshot.connectionState) {
@@ -78,8 +78,8 @@ class _TelaEntregarState extends State<TelaEntregar> {
         ));
   }
 
-  Future<List<Pedido>> _buscarListaDePedidosNaCidadeAtualDoEntregador() async {
-    List<Pedido> pedidos = [];
+  Future<List<PedidoOld>> _buscarListaDePedidosNaCidadeAtualDoEntregador() async {
+    List<PedidoOld> pedidos = [];
     try {
       _controller.endereco ?? await _controller.enderecoAtual();
 
@@ -110,7 +110,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
             });
       }
     } catch (erro) {
-      print("Erro ao buscar pedido para listar--> ${erro.toString()}");
+      print("Erro ao buscar pedido_old para listar--> ${erro.toString()}");
       showDialog(
           context: context,
           builder: (context) {
@@ -119,7 +119,7 @@ class _TelaEntregarState extends State<TelaEntregar> {
               titlePadding: const EdgeInsets.all(20),
               titleTextStyle: const TextStyle(fontSize: 20, color: Colors.red),
               content: const Text(
-                  'Não foi possível buscar seus pedido!\nTente novamente!'),
+                  'Não foi possível buscar seus pedido_old!\nTente novamente!'),
               actions: [
                 TextButton(
                     onPressed: () => Navigator.pop(context),
