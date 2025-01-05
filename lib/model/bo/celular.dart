@@ -1,16 +1,15 @@
-import 'package:levv4/model/bo/entrega.dart';
-import 'pedido/pedido_de_entrega.dart';
+import 'pedido/pedido.dart';
 
 class Celular {
   String _numero;
   String _ddd;
-  List<PedidoDeEntrega> _pedidos;
-  List<Entrega> _entregas;
+  List<Pedido> _listaDePedidos;
+  Pedido _entrega;
 
   Celular(
     this._numero,
     this._ddd,
-    this._pedidos,
-    this._entregas,
+    this._listaDePedidos,
+    this._entrega,
   );
 }
