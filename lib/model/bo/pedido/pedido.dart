@@ -1,6 +1,6 @@
 import 'endereco/endereco.dart';
 
-class PedidoDeEntrega {
+class Pedido {
   String _numero;
   double _valor;
   bool _isDisponivel;
@@ -10,7 +10,7 @@ class PedidoDeEntrega {
   Endereco _coleta;
   Endereco _entrega;
 
-  PedidoDeEntrega(
+  Pedido(
     this._numero,
     this._valor,
     this._isDisponivel,
